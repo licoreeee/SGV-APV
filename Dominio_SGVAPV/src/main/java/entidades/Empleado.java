@@ -12,13 +12,13 @@ import javax.persistence.Table;
  * @author Dell
  */
 @Entity
-@Table(name = "encargados")
-public class Encargado extends Vendedor implements Serializable {
+@Table(name = "empleados")
+public class Empleado extends Vendedor implements Serializable {
 
-    public Encargado() {
+    public Empleado() {
     }
 
-    public Encargado(String nombre, String nombreUsuario, String contrasenia) {
+    public Empleado(String nombre, String nombreUsuario, String contrasenia) {
         super(nombre, nombreUsuario, contrasenia);
     }
     
