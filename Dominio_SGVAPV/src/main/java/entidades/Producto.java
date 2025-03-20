@@ -27,16 +27,16 @@ public class Producto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    protected Long id;
     
     @Column(name = "precio", nullable = false)
-    private Float precio;
+    protected Float precio;
     
     @OneToMany(mappedBy = "producto")
-    private List<ProductoVenta> productosVenta;
+    protected List<ProductoVenta> productosVenta;
     
     @OneToOne(mappedBy = "producto", cascade = CascadeType.REMOVE)
-    private StockProducto stock;
+    protected StockProducto stock;
 
     public Producto() {
     }

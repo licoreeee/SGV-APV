@@ -24,16 +24,16 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "codigo")
-    private Long codigo;
+    protected Long codigo;
 
     @Column(name = "nombre", nullable = false, length = 30)
-    private String nombre;
+    protected String nombre;
     
     @Column(name = "nombreUsuario", nullable = false, length = 30, unique = true)
-    private String nombreUsuario;
+    protected String nombreUsuario;
     
     @Column(name = "contrasenia", nullable = false, length = 30)
-    private String contrasenia;
+    protected String contrasenia;
 
     public Usuario() {
     }

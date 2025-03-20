@@ -41,11 +41,7 @@ public class Venta implements Serializable {
     @JoinColumn(name = "vendedor_codigo", nullable = false)
     private Vendedor vendedor;
     
-    @ElementCollection
-    @CollectionTable(
-        name = "productosVenta",
-        joinColumns = @JoinColumn(name = "venta_codigo")
-    )
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.PERSIST)
     private List<ProductoVenta> productos;
     
     @ManyToMany(mappedBy = "ventas")

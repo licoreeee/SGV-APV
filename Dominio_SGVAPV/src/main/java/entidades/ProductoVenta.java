@@ -9,19 +9,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Dell
  */
-@Embeddable
+@Entity
+@Table(name = "productoVenta")
 public class ProductoVenta implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "codigo")
+    private Long codigo;
 
     @Column(name = "precio", nullable = false)
     private Float precio;
     
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
+    
+    @ManyToOne
+    @JoinColumn(name = "venta_codigo", nullable = false)
+    private Venta venta;
     
     @ManyToOne
     @JoinColumn(name = "producto_codigo", nullable = false)
