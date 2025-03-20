@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -21,9 +24,14 @@ public class ReporteVentas implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long codigoReporte;
+    private Long codigo;
 
-    @Column(name = "ventas", nullable = false)
+    @ManyToMany
+    @JoinTable(
+        name = "reporteVentas_ventas",
+        joinColumns = @JoinColumn(name = "reporteVentas_codigo"),
+        inverseJoinColumns = @JoinColumn(name = "venta_codigo")
+    )
     private List<Venta> ventas;
     
     @Column(name = "total", nullable = false)
@@ -53,12 +61,12 @@ public class ReporteVentas implements Serializable {
         this.encargado = encargado;
     }
 
-    public Long getCodigoReporte() {
-        return codigoReporte;
+    public Long getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoReporte(Long codigoReporte) {
-        this.codigoReporte = codigoReporte;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public List<Venta> getVentas() {
@@ -111,14 +119,14 @@ public class ReporteVentas implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.codigoReporte);
-        hash = 17 * hash + Objects.hashCode(this.ventas);
-        hash = 17 * hash + Objects.hashCode(this.total);
-        hash = 17 * hash + Objects.hashCode(this.fechaHoraInicio);
-        hash = 17 * hash + Objects.hashCode(this.fechaHoraFin);
-        hash = 17 * hash + Objects.hashCode(this.fechaHoraGeneracion);
-        hash = 17 * hash + Objects.hashCode(this.encargado);
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.codigo);
+        hash = 97 * hash + Objects.hashCode(this.ventas);
+        hash = 97 * hash + Objects.hashCode(this.total);
+        hash = 97 * hash + Objects.hashCode(this.fechaHoraInicio);
+        hash = 97 * hash + Objects.hashCode(this.fechaHoraFin);
+        hash = 97 * hash + Objects.hashCode(this.fechaHoraGeneracion);
+        hash = 97 * hash + Objects.hashCode(this.encargado);
         return hash;
     }
 
@@ -134,7 +142,7 @@ public class ReporteVentas implements Serializable {
             return false;
         }
         final ReporteVentas other = (ReporteVentas) obj;
-        if (!Objects.equals(this.codigoReporte, other.codigoReporte)) {
+        if (!Objects.equals(this.codigo, other.codigo)) {
             return false;
         }
         if (!Objects.equals(this.ventas, other.ventas)) {
@@ -157,7 +165,7 @@ public class ReporteVentas implements Serializable {
 
     @Override
     public String toString() {
-        return "ReporteVentas{" + "codigoReporte=" + codigoReporte + ", ventas=" + ventas + ", total=" + total + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFin=" + fechaHoraFin + ", fechaHoraGeneracion=" + fechaHoraGeneracion + ", encargado=" + encargado + '}';
+        return "ReporteVentas{" + "codigo=" + codigo + ", ventas=" + ventas + ", total=" + total + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFin=" + fechaHoraFin + ", fechaHoraGeneracion=" + fechaHoraGeneracion + ", encargado=" + encargado + '}';
     }
     
 }

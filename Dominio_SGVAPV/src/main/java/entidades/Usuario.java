@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
@@ -16,12 +18,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "usuarios")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "codigoUsuario")
-    private Long codigoUsuario;
+    @Column(name = "codigo")
+    private Long codigo;
 
     @Column(name = "nombre", nullable = false, length = 30)
     private String nombre;
@@ -41,12 +44,12 @@ public class Usuario implements Serializable {
         this.contrasenia = contrasenia;
     }
 
-    public Long getCodigoUsuario() {
-        return codigoUsuario;
+    public Long getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoUsuario(Long codigoUsuario) {
-        this.codigoUsuario = codigoUsuario;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public String getNombre() {
@@ -76,10 +79,10 @@ public class Usuario implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 31 * hash + Objects.hashCode(this.codigoUsuario);
-        hash = 31 * hash + Objects.hashCode(this.nombre);
-        hash = 31 * hash + Objects.hashCode(this.nombreUsuario);
-        hash = 31 * hash + Objects.hashCode(this.contrasenia);
+        hash = 97 * hash + Objects.hashCode(this.codigo);
+        hash = 97 * hash + Objects.hashCode(this.nombre);
+        hash = 97 * hash + Objects.hashCode(this.nombreUsuario);
+        hash = 97 * hash + Objects.hashCode(this.contrasenia);
         return hash;
     }
 
@@ -95,12 +98,21 @@ public class Usuario implements Serializable {
             return false;
         }
         final Usuario other = (Usuario) obj;
-        return true;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombreUsuario, other.nombreUsuario)) {
+            return false;
+        }
+        if (!Objects.equals(this.contrasenia, other.contrasenia)) {
+            return false;
+        }
+        return Objects.equals(this.codigo, other.codigo);
     }
 
     @Override
     public String toString() {
-        return "Usuario{" + "codigoUsuario=" + codigoUsuario + ", nombre=" + nombre + ", nombreUsuario=" + nombreUsuario + ", contrasenia=" + contrasenia + '}';
+        return "Usuario{" + "codigo=" + codigo + ", nombre=" + nombre + ", nombreUsuario=" + nombreUsuario + ", contrasenia=" + contrasenia + '}';
     }
     
 }

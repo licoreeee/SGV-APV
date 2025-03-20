@@ -1,12 +1,18 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -15,15 +21,22 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "productos")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Producto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idProducto")
-    private Long idProducto;
+    @Column(name = "id")
+    private Long id;
     
     @Column(name = "precio", nullable = false)
     private Float precio;
+    
+    @OneToMany(mappedBy = "producto")
+    private List<ProductoVenta> productosVenta;
+    
+    @OneToOne(mappedBy = "producto", cascade = CascadeType.REMOVE)
+    private StockProducto stock;
 
     public Producto() {
     }
@@ -32,12 +45,12 @@ public class Producto implements Serializable {
         this.precio = precio;
     }
 
-    public Long getIdProducto() {
-        return idProducto;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdProducto(Long idProducto) {
-        this.idProducto = idProducto;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Float getPrecio() {
@@ -50,9 +63,9 @@ public class Producto implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 41 * hash + Objects.hashCode(this.idProducto);
-        hash = 41 * hash + Objects.hashCode(this.precio);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.precio);
         return hash;
     }
 
@@ -68,7 +81,7 @@ public class Producto implements Serializable {
             return false;
         }
         final Producto other = (Producto) obj;
-        if (!Objects.equals(this.idProducto, other.idProducto)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return Objects.equals(this.precio, other.precio);
@@ -76,7 +89,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "Producto{" + "idProducto=" + idProducto + ", precio=" + precio + '}';
+        return "Producto{" + "id=" + id + ", precio=" + precio + '}';
     }
     
 }

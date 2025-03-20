@@ -2,12 +2,20 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,14 +28,28 @@ public class Venta implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "codigoVenta")
-    private Long codigoVenta;
+    @Column(name = "codigo")
+    private Long codigo;
 
     @Column(name = "total", nullable = false)
     private Float total;
     
     @Column(name = "fechaHora", nullable = false)
     private Calendar fechaHora;
+    
+    @ManyToOne
+    @JoinColumn(name = "vendedor_codigo", nullable = false)
+    private Vendedor vendedor;
+    
+    @ElementCollection
+    @CollectionTable(
+        name = "productosVenta",
+        joinColumns = @JoinColumn(name = "venta_codigo")
+    )
+    private List<ProductoVenta> productos;
+    
+    @ManyToMany(mappedBy = "ventas")
+    private List<ReporteVentas> reportesVentas;
 
     public Venta() {
     }
@@ -37,12 +59,12 @@ public class Venta implements Serializable {
         this.fechaHora = fechaHora;
     }
 
-    public Long getCodigoVenta() {
-        return codigoVenta;
+    public Long getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoVenta(Long codigoVenta) {
-        this.codigoVenta = codigoVenta;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public Float getTotal() {
@@ -63,10 +85,10 @@ public class Venta implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.codigoVenta);
-        hash = 79 * hash + Objects.hashCode(this.total);
-        hash = 79 * hash + Objects.hashCode(this.fechaHora);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.codigo);
+        hash = 67 * hash + Objects.hashCode(this.total);
+        hash = 67 * hash + Objects.hashCode(this.fechaHora);
         return hash;
     }
 
@@ -82,7 +104,7 @@ public class Venta implements Serializable {
             return false;
         }
         final Venta other = (Venta) obj;
-        if (!Objects.equals(this.codigoVenta, other.codigoVenta)) {
+        if (!Objects.equals(this.codigo, other.codigo)) {
             return false;
         }
         if (!Objects.equals(this.total, other.total)) {
@@ -93,7 +115,7 @@ public class Venta implements Serializable {
 
     @Override
     public String toString() {
-        return "Venta{" + "codigoVenta=" + codigoVenta + ", total=" + total + ", fechaHora=" + fechaHora + '}';
+        return "Venta{" + "codigo=" + codigo + ", total=" + total + ", fechaHora=" + fechaHora + '}';
     }
     
 }

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,14 +21,16 @@ public class StockProducto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long codigoStock;
+    private Long codigo;
 
-    @Column(name = "producto", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "producto_codigo", nullable = false)
     private Producto producto;
+
     
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
-
+    
     public StockProducto() {
     }
 
@@ -35,16 +39,12 @@ public class StockProducto implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Long getCodigoStock() {
-        return codigoStock;
+    public Long getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoStock(Long codigoStock) {
-        this.codigoStock = codigoStock;
-    }
-
-    public Producto getProducto() {
-        return producto;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public void setProducto(Producto producto) {
@@ -62,7 +62,7 @@ public class StockProducto implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.codigoStock);
+        hash = 29 * hash + Objects.hashCode(this.codigo);
         hash = 29 * hash + Objects.hashCode(this.producto);
         hash = 29 * hash + Objects.hashCode(this.cantidad);
         return hash;
@@ -80,7 +80,7 @@ public class StockProducto implements Serializable {
             return false;
         }
         final StockProducto other = (StockProducto) obj;
-        if (!Objects.equals(this.codigoStock, other.codigoStock)) {
+        if (!Objects.equals(this.codigo, other.codigo)) {
             return false;
         }
         if (!Objects.equals(this.producto, other.producto)) {
@@ -91,7 +91,7 @@ public class StockProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "StockProducto{" + "codigoStock=" + codigoStock + ", producto=" + producto + ", cantidad=" + cantidad + '}';
+        return "StockProducto{" + "codigo=" + codigo + ", producto=" + producto + ", cantidad=" + cantidad + '}';
     }
     
 }

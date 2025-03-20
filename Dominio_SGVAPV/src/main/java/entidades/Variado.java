@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -14,9 +15,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "variados")
+@PrimaryKeyJoinColumn(name = "producto_codigo")
 public class Variado extends Producto implements Serializable {
 
-    @Column(name = "codigo", nullable = false, length = 30)
+    @Column(name = "codigo", nullable = false, length = 30, unique = true)
     private String codigo;
     
     @Column(name = "nombre", nullable = false, length = 30)

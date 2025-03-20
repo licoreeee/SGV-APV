@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -15,12 +18,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "llenados")
+@PrimaryKeyJoinColumn(name = "producto_codigo")
 public class Llenado extends Producto implements Serializable {
 
     @Column(name = "litros", nullable = false)
     private Integer litros;
     
-    @Column(name = "contenedor", nullable = true)
+    @ManyToOne
+    @JoinColumn(name = "contenedor_codigo", nullable = true)
     private Contenedor contenedor;
 
     public Llenado() {
