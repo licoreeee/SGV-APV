@@ -63,6 +63,4 @@ public class Venta {
         this.vendedor = vendedor;
     }
     
-    
-    
 }
