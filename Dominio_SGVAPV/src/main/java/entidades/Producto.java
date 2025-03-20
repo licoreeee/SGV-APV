@@ -22,13 +22,13 @@ public class Producto implements Serializable {
     @Column(name = "idProducto")
     private Long idProducto;
     
-    @Column(name = "precio", nullable = false, length = 30)
-    private float precio;
+    @Column(name = "precio", nullable = false)
+    private Float precio;
 
     public Producto() {
     }
 
-    public Producto(float precio) {
+    public Producto(Float precio) {
         this.precio = precio;
     }
 
@@ -40,19 +40,19 @@ public class Producto implements Serializable {
         this.idProducto = idProducto;
     }
 
-    public float getPrecio() {
+    public Float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(Float precio) {
         this.precio = precio;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this.idProducto);
-        hash = 17 * hash + Float.floatToIntBits(this.precio);
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.idProducto);
+        hash = 41 * hash + Objects.hashCode(this.precio);
         return hash;
     }
 
@@ -68,10 +68,10 @@ public class Producto implements Serializable {
             return false;
         }
         final Producto other = (Producto) obj;
-        if (Float.floatToIntBits(this.precio) != Float.floatToIntBits(other.precio)) {
+        if (!Objects.equals(this.idProducto, other.idProducto)) {
             return false;
         }
-        return Objects.equals(this.idProducto, other.idProducto);
+        return Objects.equals(this.precio, other.precio);
     }
 
     @Override

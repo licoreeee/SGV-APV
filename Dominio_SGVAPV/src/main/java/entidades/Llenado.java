@@ -17,28 +17,26 @@ import javax.persistence.Table;
 @Table(name = "llenados")
 public class Llenado extends Producto implements Serializable {
 
-    @Column(name = "litros", nullable = false, length = 30)
-    private int litros;
+    @Column(name = "litros", nullable = false)
+    private Integer litros;
     
-    @Column(name = "contenedor", nullable = true, length = 30)
+    @Column(name = "contenedor", nullable = true)
     private Contenedor contenedor;
 
-    public Llenado(int litros, Contenedor contenedor) {
-        this.litros = litros;
-        this.contenedor = contenedor;
+    public Llenado() {
     }
 
-    public Llenado(int litros, Contenedor contenedor, float precio) {
+    public Llenado(Integer litros, Contenedor contenedor, float precio) {
         super(precio);
         this.litros = litros;
         this.contenedor = contenedor;
     }
 
-    public int getLitros() {
+    public Integer getLitros() {
         return litros;
     }
 
-    public void setLitros(int litros) {
+    public void setLitros(Integer litros) {
         this.litros = litros;
     }
 
@@ -52,9 +50,9 @@ public class Llenado extends Producto implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 67 * hash + this.litros;
-        hash = 67 * hash + Objects.hashCode(this.contenedor);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.litros);
+        hash = 37 * hash + Objects.hashCode(this.contenedor);
         return hash;
     }
 
@@ -70,7 +68,7 @@ public class Llenado extends Producto implements Serializable {
             return false;
         }
         final Llenado other = (Llenado) obj;
-        if (this.litros != other.litros) {
+        if (!Objects.equals(this.litros, other.litros)) {
             return false;
         }
         return Objects.equals(this.contenedor, other.contenedor);

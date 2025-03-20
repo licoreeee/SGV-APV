@@ -23,16 +23,16 @@ public class Venta implements Serializable {
     @Column(name = "codigoVenta")
     private Long codigoVenta;
 
-    @Column(name = "total", nullable = false, length = 30)
-    private float total;
+    @Column(name = "total", nullable = false)
+    private Float total;
     
-    @Column(name = "fechaHora", nullable = false, length = 30)
+    @Column(name = "fechaHora", nullable = false)
     private Calendar fechaHora;
 
     public Venta() {
     }
 
-    public Venta(float total, Calendar fechaHora) {
+    public Venta(Float total, Calendar fechaHora) {
         this.total = total;
         this.fechaHora = fechaHora;
     }
@@ -45,11 +45,11 @@ public class Venta implements Serializable {
         this.codigoVenta = codigoVenta;
     }
 
-    public float getTotal() {
+    public Float getTotal() {
         return total;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(Float total) {
         this.total = total;
     }
 
@@ -64,6 +64,9 @@ public class Venta implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.codigoVenta);
+        hash = 79 * hash + Objects.hashCode(this.total);
+        hash = 79 * hash + Objects.hashCode(this.fechaHora);
         return hash;
     }
 
@@ -79,10 +82,10 @@ public class Venta implements Serializable {
             return false;
         }
         final Venta other = (Venta) obj;
-        if (Float.floatToIntBits(this.total) != Float.floatToIntBits(other.total)) {
+        if (!Objects.equals(this.codigoVenta, other.codigoVenta)) {
             return false;
         }
-        if (!Objects.equals(this.codigoVenta, other.codigoVenta)) {
+        if (!Objects.equals(this.total, other.total)) {
             return false;
         }
         return Objects.equals(this.fechaHora, other.fechaHora);

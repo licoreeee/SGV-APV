@@ -26,7 +26,7 @@ public class Usuario implements Serializable {
     @Column(name = "nombre", nullable = false, length = 30)
     private String nombre;
     
-    @Column(name = "nombreUsuario", nullable = false, length = 30)
+    @Column(name = "nombreUsuario", nullable = false, length = 30, unique = true)
     private String nombreUsuario;
     
     @Column(name = "contrasenia", nullable = false, length = 30)

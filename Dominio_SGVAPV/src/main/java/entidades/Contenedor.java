@@ -16,7 +16,7 @@ public class Contenedor extends Producto implements Serializable {
     public Contenedor() {
     }
 
-    public Contenedor(float precio) {
+    public Contenedor(Float precio) {
         super(precio);
     }
     
