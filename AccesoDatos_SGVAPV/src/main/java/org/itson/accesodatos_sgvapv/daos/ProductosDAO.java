@@ -35,6 +35,7 @@ public class ProductosDAO implements IProductosDAO {
      */
     public ProductosDAO(IConexion conexion) {
         this.conexion = conexion;
+        this.conexion.crearConexion();
     }
 
     /**

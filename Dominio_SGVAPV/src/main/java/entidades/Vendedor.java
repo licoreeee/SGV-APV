@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "usuario_codigo")
 public class Vendedor extends Usuario implements Serializable {
     
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "usuario")
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "vendedor")
     private List<Venta> ventas;
 
     public Vendedor() {

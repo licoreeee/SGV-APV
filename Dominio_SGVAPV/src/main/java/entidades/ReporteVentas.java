@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -28,25 +29,26 @@ public class ReporteVentas implements Serializable {
 
     @ManyToMany
     @JoinTable(
-        name = "reporteVentas_ventas",
-        joinColumns = @JoinColumn(name = "reporteVentas_codigo"),
-        inverseJoinColumns = @JoinColumn(name = "venta_codigo")
+            name = "reporteVentas_ventas",
+            joinColumns = @JoinColumn(name = "reporteVentas_codigo"),
+            inverseJoinColumns = @JoinColumn(name = "venta_codigo")
     )
     private List<Venta> ventas;
-    
+
     @Column(name = "total", nullable = false)
     private Float total;
-    
+
     @Column(name = "fechaHoraInicio", nullable = false)
     private Calendar fechaHoraInicio;
-    
+
     @Column(name = "fechaHoraFin", nullable = false)
     private Calendar fechaHoraFin;
-    
+
     @Column(name = "fechaHoraGeneracion", nullable = false)
     private Calendar fechaHoraGeneracion;
-    
-    @Column(name = "encargado", nullable = false)
+
+    @ManyToOne
+    @JoinColumn(name = "encargado", nullable = false)
     private Encargado encargado;
 
     public ReporteVentas() {
@@ -167,5 +169,5 @@ public class ReporteVentas implements Serializable {
     public String toString() {
         return "ReporteVentas{" + "codigo=" + codigo + ", ventas=" + ventas + ", total=" + total + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFin=" + fechaHoraFin + ", fechaHoraGeneracion=" + fechaHoraGeneracion + ", encargado=" + encargado + '}';
     }
-    
+
 }
