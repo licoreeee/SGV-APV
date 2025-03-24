@@ -5,7 +5,6 @@ package org.itson.subsistemainventario_sgvapv;
 
 import dtos.ProductoDTO;
 import java.util.List;
-import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 import org.itson.subsistemainventario_sgvapv.excepciones.SubsistemaInventarioException;
 
 /**
@@ -26,7 +25,7 @@ public interface ISubsistemaInventarioFacade {
      * Permite agregar un producto nuevo a la base de datos.
      *
      * @param producto El producto nuevo a agregar
-     * @throws PersistenciaException Cuando ocurre un error al agregar un
+     * @throws SubsistemaInventarioException Cuando ocurre un error al agregar un
      * producto
      */
     public void agregarProducto(ProductoDTO producto) throws SubsistemaInventarioException;
@@ -37,7 +36,7 @@ public interface ISubsistemaInventarioFacade {
      *
      * @param producto El producto del cual se obtendrán los datos para realizar
      * la actualización
-     * @throws PersistenciaException Cuando ocurre un error al actualizar el
+     * @throws SubsistemaInventarioException Cuando ocurre un error al actualizar el
      * producto
      */
     public void actualizarProducto(ProductoDTO producto) throws SubsistemaInventarioException;
@@ -46,7 +45,7 @@ public interface ISubsistemaInventarioFacade {
      * Permite eliminar un producto de la base de datos.
      *
      * @param codigo El código del producto que se desea eliminar
-     * @throws PersistenciaException Cuando ocurre un error al eliminar el
+     * @throws SubsistemaInventarioException Cuando ocurre un error al eliminar el
      * producto
      */
     public void eliminarProducto(String codigo) throws SubsistemaInventarioException;
@@ -68,4 +67,30 @@ public interface ISubsistemaInventarioFacade {
      * @return Una lista de productos
      */
     public List<ProductoDTO> obtenerProductosPorNombre(String nombre);
+    
+    /**
+     * Permite obtener el stock de un producto.
+     *
+     * @param producto El producto del cual se desea obtener el stock
+     * @return El stock
+     */
+    public Integer obtenerStockProducto(ProductoDTO producto);
+
+    /**
+     * Permite aumentar el stock de un producto.
+     *
+     * @param producto El producto al que se le desea aumentar el stock
+     * @param cantidad La cantidad de stock a aumentar
+     * @throws SubsistemaInventarioException Si ocurre un error al modificar el stock
+     */
+    public void aumentarStock(ProductoDTO producto, int cantidad) throws SubsistemaInventarioException;
+
+    /**
+     * Permite disminuir el stock de un producto.
+     *
+     * @param producto El producto al que se le desea disminuir el stock
+     * @param cantidad La cantidad de stock a disminuir
+     * @throws SubsistemaInventarioException Si ocurre un error al modificar el stock
+     */
+    public void disminuirStock(ProductoDTO producto, int cantidad) throws SubsistemaInventarioException;
 }

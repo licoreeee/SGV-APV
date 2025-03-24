@@ -16,11 +16,6 @@ public class LlenadoDTO extends ProductoDTO {
         this.litros = litros;
     }
 
-    public LlenadoDTO(String codigo, String nombre, Float precio, Integer cantidad, Integer litros) {
-        super(codigo, nombre, precio, cantidad);
-        this.litros = litros;
-    }
-
     public Integer getLitros() {
         return litros;
     }
@@ -32,7 +27,6 @@ public class LlenadoDTO extends ProductoDTO {
         sb.append("codigo=").append(codigo);
         sb.append(", nombre=").append(nombre);
         sb.append(", precio=").append(precio);
-        sb.append(", cantidad=").append(cantidad);
         sb.append(", litros=").append(litros);
         sb.append('}');
         return sb.toString();

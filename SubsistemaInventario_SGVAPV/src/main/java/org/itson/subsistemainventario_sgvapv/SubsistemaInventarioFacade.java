@@ -15,38 +15,83 @@ public class SubsistemaInventarioFacade implements ISubsistemaInventarioFacade {
 
     private SubsistemaInventarioControl control;
 
+    /**
+     * Constructor.
+     */
     public SubsistemaInventarioFacade() {
         this.control = new SubsistemaInventarioControl();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProductoDTO obtenerProducto(String codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return control.obtenerProducto(codigo);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void agregarProducto(ProductoDTO producto) throws SubsistemaInventarioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        control.agregarProducto(producto);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void actualizarProducto(ProductoDTO producto) throws SubsistemaInventarioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        control.actualizarProducto(producto);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void eliminarProducto(String codigo) throws SubsistemaInventarioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        control.eliminarProducto(codigo);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ProductoDTO> obtenerProductosPorTipo(List<String> tipos) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return control.obtenerProductosPorTipo(tipos);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ProductoDTO> obtenerProductosPorNombre(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return control.obtenerProductosPorNombre(nombre);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer obtenerStockProducto(ProductoDTO producto) {
+        return control.obtenerStockProducto(producto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void aumentarStock(ProductoDTO producto, int cantidad) throws SubsistemaInventarioException {
+        control.aumentarStock(producto, cantidad);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void disminuirStock(ProductoDTO producto, int cantidad) throws SubsistemaInventarioException {
+        control.disminuirStock(producto, cantidad);
+    }
+
 }

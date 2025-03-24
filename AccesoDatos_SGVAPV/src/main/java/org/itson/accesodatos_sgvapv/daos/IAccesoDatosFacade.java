@@ -163,8 +163,7 @@ public interface IAccesoDatosFacade {
      * @param producto El producto al que se le desea aumentar el stock
      * @param cantidad La cantidad de stock a aumentar
      * @throws PersistenciaException Si ocurre un error al modificar el stock
-     */
-    public void aumentarStock(Producto producto, int cantidad) throws PersistenciaException;
+     */public void aumentarStock(Producto producto, int cantidad) throws PersistenciaException;
 
     /**
      * Permite disminuir el stock de un producto.
