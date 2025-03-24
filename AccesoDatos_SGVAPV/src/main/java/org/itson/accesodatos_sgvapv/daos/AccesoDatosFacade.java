@@ -22,6 +22,7 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
     private IProductosDAO productosDAO;
     private IUsuariosDAO usuariosDAO;
     private IVentasDAO ventasDAO;
+    private IStockProductosDAO stockProductosDAO;
 
     /**
      * Constructor.
@@ -31,6 +32,7 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
         productosDAO = new ProductosDAO(conexion);
         usuariosDAO = new UsuariosDAO(conexion);
         ventasDAO = new VentasDAO(conexion);
+        stockProductosDAO = new StockProductosDAO(conexion);
     }
 
     /**
@@ -143,6 +145,30 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
     @Override
     public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException {
         return ventasDAO.obtenerVentasPeriodo(fechaInicio, fechaFin);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer obtenerStockProducto(Producto producto) {
+        return stockProductosDAO.obtenerStockProducto(producto);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void aumentarStock(Producto producto, int cantidad) throws PersistenciaException {
+        stockProductosDAO.aumentarStock(producto, cantidad);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void disminuirStock(Producto producto, int cantidad) throws PersistenciaException {
+        stockProductosDAO.disminuirStock(producto, cantidad);
     }
 
 }

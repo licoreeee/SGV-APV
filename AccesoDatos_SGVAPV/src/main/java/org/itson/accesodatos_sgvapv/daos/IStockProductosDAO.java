@@ -15,6 +15,14 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 interface IStockProductosDAO {
 
     /**
+     * Permite obtener el stock de un producto.
+     *
+     * @param producto El producto del cual se desea obtener el stock
+     * @return El stock
+     */
+    public Integer obtenerStockProducto(Producto producto);
+
+    /**
      * Permite aumentar el stock de un producto.
      *
      * @param producto El producto al que se le desea aumentar el stock

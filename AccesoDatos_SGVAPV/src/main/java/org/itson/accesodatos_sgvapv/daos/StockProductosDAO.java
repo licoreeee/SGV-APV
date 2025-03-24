@@ -4,10 +4,15 @@
 package org.itson.accesodatos_sgvapv.daos;
 
 import entidades.Producto;
+import entidades.StockProducto;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
@@ -29,6 +34,34 @@ class StockProductosDAO implements IStockProductosDAO {
      */
     public StockProductosDAO(IConexion conexion) {
         this.conexion = conexion;
+    }
+    
+    /**
+     * {@inheritDoc} 
+     */
+    @Override
+    public Integer obtenerStockProducto(Producto producto){
+        EntityManager em = conexion.crearConexion();
+        
+        try {
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<StockProducto> criteria = builder.createQuery(StockProducto.class);
+            Root<StockProducto> root = criteria.from(StockProducto.class);
+
+            criteria.select(root).where(
+                    builder.equal(root.get("id_producto"), producto.getId())
+            );
+
+            TypedQuery<StockProducto> query = em.createQuery(criteria);
+            StockProducto stockProducto = query.getSingleResult();
+            
+            return stockProducto.getCantidad();
+        } catch (Exception e) {
+            logger.log(Level.INFO, "No se encontró una cantidad para el producto: " + producto.getNombre());
+            return null;
+        } finally {
+            em.close();
+        }
     }
 
     /**

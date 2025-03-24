@@ -149,4 +149,30 @@ public interface IAccesoDatosFacade {
      */
     public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException;
 
+    /**
+     * Permite obtener el stock de un producto.
+     *
+     * @param producto El producto del cual se desea obtener el stock
+     * @return El stock
+     */
+    public Integer obtenerStockProducto(Producto producto);
+
+    /**
+     * Permite aumentar el stock de un producto.
+     *
+     * @param producto El producto al que se le desea aumentar el stock
+     * @param cantidad La cantidad de stock a aumentar
+     * @throws PersistenciaException Si ocurre un error al modificar el stock
+     */
+    public void aumentarStock(Producto producto, int cantidad) throws PersistenciaException;
+
+    /**
+     * Permite disminuir el stock de un producto.
+     *
+     * @param producto El producto al que se le desea disminuir el stock
+     * @param cantidad La cantidad de stock a disminuir
+     * @throws PersistenciaException Si ocurre un error al modificar el stock
+     */
+    public void disminuirStock(Producto producto, int cantidad) throws PersistenciaException;
+    
 }
