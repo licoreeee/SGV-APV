@@ -55,8 +55,6 @@ class UsuariosDAO implements IUsuariosDAO {
             TypedQuery<Usuario> querySelect = em.createQuery(jpqlSelect, Usuario.class);
             querySelect.setParameter("nombreUsuario", nombreUsuario);
             Usuario usuario = querySelect.getSingleResult();
-            // Cerramos el entity manager.
-            em.close();
 
             // Imprimimos un mensaje de que se obtuvo un usuario.
             logger.log(Level.INFO, "Se ha obtenido 1 usuario correctamente.");
