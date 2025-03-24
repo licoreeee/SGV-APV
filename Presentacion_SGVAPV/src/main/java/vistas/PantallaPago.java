@@ -166,9 +166,9 @@ public class PantallaPago extends javax.swing.JFrame {
                                 .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                                 .addComponent(txtPago)
                                 .addComponent(txtCambio)))))
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addContainerGap(192, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 124, Short.MAX_VALUE)
+                .addGap(0, 154, Short.MAX_VALUE)
                 .addComponent(btnCancelar)
                 .addGap(84, 84, 84)
                 .addComponent(btnTerminar)
@@ -200,7 +200,7 @@ public class PantallaPago extends javax.swing.JFrame {
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 640, 420));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
 
         pack();
         setLocationRelativeTo(null);
