@@ -17,6 +17,8 @@ public class PantallaPago extends javax.swing.JFrame {
         initComponents();
         setEnabled(true);
         this.setTitle("SGVAPV - Pago");
+        txtTotal.setEditable(false);
+        txtCambio.setEditable(false);
     }
 
     /**
@@ -36,11 +38,11 @@ public class PantallaPago extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnIngresar = new javax.swing.JButton();
         txtPago = new javax.swing.JTextField();
-        txtCambio = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         lblTipoVenta = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
+        txtCambio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(196, 216, 255));
@@ -100,8 +102,6 @@ public class PantallaPago extends javax.swing.JFrame {
 
         txtPago.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
-        txtCambio.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel3.setText("REGISTRAR VENTA");
 
@@ -112,6 +112,8 @@ public class PantallaPago extends javax.swing.JFrame {
         jLabel6.setText("CAMBIO");
 
         txtTotal.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+
+        txtCambio.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -138,9 +140,9 @@ public class PantallaPago extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCambio)
                                     .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
-                                    .addComponent(txtPago)))
+                                    .addComponent(txtPago)
+                                    .addComponent(txtCambio)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
                                 .addComponent(btnIngresar))))
@@ -166,8 +168,8 @@ public class PantallaPago extends javax.swing.JFrame {
                     .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(btnIngresar)
                 .addGap(33, 33, 33))
@@ -214,7 +216,7 @@ public class PantallaPago extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblTipoVenta;
-    private javax.swing.JPasswordField txtCambio;
+    private javax.swing.JTextField txtCambio;
     private javax.swing.JTextField txtPago;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables

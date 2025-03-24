@@ -17,6 +17,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         initComponents();
         setEnabled(true);
         this.setTitle("SGVAPV - Agregar Producto");
+        txtStock.setEditable(false);
     }
 
     /**
@@ -36,11 +37,11 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnIngresar = new javax.swing.JButton();
         txtStock = new javax.swing.JTextField();
-        txtCantidad = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         lblTipoVenta = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         cmbxProductos = new javax.swing.JComboBox<>();
+        txtCantidad = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(196, 216, 255));
@@ -100,8 +101,6 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
 
         txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
-        txtCantidad.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel3.setText("REGISTRAR VENTA");
 
@@ -112,6 +111,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         jLabel6.setText("CANTIDAD");
 
         cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+
+        txtCantidad.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -135,10 +136,10 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addGap(65, 65, 65)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                             .addComponent(btnIngresar)
                             .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
-                            .addComponent(cmbxProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cmbxProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(257, 257, 257)
                         .addComponent(lblTipoVenta)))
@@ -161,8 +162,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                     .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addComponent(btnIngresar)
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -210,7 +211,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblTipoVenta;
-    private javax.swing.JPasswordField txtCantidad;
+    private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
 }
