@@ -4,15 +4,10 @@
  */
 package pruebas;
 
-import entidades.Producto;
-import entidades.Variado;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.itson.accesodatos_sgvapv.conexion.Conexion;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_sgvapv.daos.IProductosDAO;
 import org.itson.accesodatos_sgvapv.daos.ProductosDAO;
-import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
 /**
  *
