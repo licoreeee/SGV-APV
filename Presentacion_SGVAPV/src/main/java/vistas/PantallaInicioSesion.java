@@ -1,6 +1,7 @@
 package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dtos.UsuarioDTO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -167,19 +168,19 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
         if (nombreUsuario != null && !nombreUsuario.isEmpty()
                 && contrasenia != null && !contrasenia.isEmpty()) {
             try {
-                if (inicioSesion.iniciarSesion(nombreUsuario, contrasenia)) {
-                    
+                UsuarioDTO usuario = inicioSesion.iniciarSesion(nombreUsuario, contrasenia);
+                if (usuario != null) {
                     this.dispose();
-                    PantallaMenu pantallaMenu = new PantallaMenu();
+                    PantallaMenu pantallaMenu = new PantallaMenu(usuario);
                 } else {
-                    JOptionPane.showConfirmDialog(this, "El usuario o la contraseña ingresados no son correctos.", 
+                    JOptionPane.showMessageDialog(this, "El usuario o la contraseña ingresados no son correctos.", 
                             "Información errónea", JOptionPane.ERROR_MESSAGE); 
                 }
             } catch (SubsistemaInicioSesionException ex) {
                 Logger.getLogger(PantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            JOptionPane.showConfirmDialog(this, "Ingrese la información solicitada.", 
+            JOptionPane.showMessageDialog(this, "Ingrese la información solicitada.", 
                     "Campos vacíos",  JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnIngresarActionPerformed

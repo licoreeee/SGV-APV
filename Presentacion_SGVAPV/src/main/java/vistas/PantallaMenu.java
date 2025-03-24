@@ -1,6 +1,7 @@
 package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dtos.UsuarioDTO;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -12,12 +13,17 @@ public class PantallaMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form PantallaInicioSesion
+     * @param usuario
      */
-    public PantallaMenu() {
+    public PantallaMenu(UsuarioDTO usuario) {
         initComponents();
         setEnabled(true);
         this.setVisible(true);
         this.setTitle("SGVAPV - Menú");
+        
+        String[] partesNombre = usuario.getNombre().split(" ");
+        
+        lblNombreUsuario.setText("¡Hola, " + partesNombre[0] + "!");
     }
 
     /**

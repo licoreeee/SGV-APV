@@ -3,6 +3,11 @@
  */
 package org.itson.subsistemainiciosesion_sgvapv;
 
+import dtos.EmpleadoDTO;
+import dtos.EncargadoDTO;
+import dtos.UsuarioDTO;
+import entidades.Empleado;
+import entidades.Encargado;
 import entidades.Usuario;
 import org.itson.accesodatos_sgvapv.daos.AccesoDatosFacade;
 import org.itson.accesodatos_sgvapv.daos.IAccesoDatosFacade;
@@ -29,19 +34,30 @@ class SubsistemaInicioSesionControl {
      *
      * @param nombreUsuario El nombre de usuario
      * @param contrasenia La contraseña del usuario
-     * @return true si se inició sesión correctamente, false en caso contrario
+     * @return El usuario que inició sesión
      * @throws SubsistemaInicioSesionException Si ocurrió un problema al iniciar
      * la sesión
      */
-    public boolean iniciarSesion(String nombreUsuario, String contrasenia) throws SubsistemaInicioSesionException {
+    public UsuarioDTO iniciarSesion(String nombreUsuario, String contrasenia) throws SubsistemaInicioSesionException {
         try {
             Usuario usuarioObtenido = accesoDatos.obtenerUsuario(nombreUsuario);
             
             if (usuarioObtenido == null) {
-                return false;
+                return null;
             }
             
-            return usuarioObtenido.getContrasenia().equals(contrasenia);
+            if (!usuarioObtenido.getContrasenia().equals(contrasenia)) {
+                return null;
+            }
+            
+            UsuarioDTO usuario = null;
+            if (usuarioObtenido instanceof Empleado) {
+                usuario = new EmpleadoDTO(usuarioObtenido.getNombre(), usuarioObtenido.getNombreUsuario(), usuarioObtenido.getContrasenia());
+            } else if (usuarioObtenido instanceof Encargado) {
+                usuario = new EncargadoDTO(usuarioObtenido.getNombre(), usuarioObtenido.getNombreUsuario(), usuarioObtenido.getContrasenia());
+            }
+            
+            return usuario;
         } catch (PersistenciaException ex) {
             throw new SubsistemaInicioSesionException(ex.getMessage());
         }

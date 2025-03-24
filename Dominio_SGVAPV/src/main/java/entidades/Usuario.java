@@ -19,19 +19,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "usuarios")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipo")
 public class Usuario implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "codigo")
-    protected Long codigo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
+    protected Long id;
 
     @Column(name = "nombre", nullable = false, length = 30)
     protected String nombre;
-    
+
     @Column(name = "nombreUsuario", nullable = false, length = 30, unique = true)
     protected String nombreUsuario;
-    
+
     @Column(name = "contrasenia", nullable = false, length = 30)
     protected String contrasenia;
 
@@ -44,12 +45,12 @@ public class Usuario implements Serializable {
         this.contrasenia = contrasenia;
     }
 
-    public Long getCodigo() {
-        return codigo;
+    public Long getId() {
+        return id;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -79,7 +80,7 @@ public class Usuario implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.codigo);
+        hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.nombre);
         hash = 97 * hash + Objects.hashCode(this.nombreUsuario);
         hash = 97 * hash + Objects.hashCode(this.contrasenia);
@@ -107,12 +108,18 @@ public class Usuario implements Serializable {
         if (!Objects.equals(this.contrasenia, other.contrasenia)) {
             return false;
         }
-        return Objects.equals(this.codigo, other.codigo);
+        return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        return "Usuario{" + "codigo=" + codigo + ", nombre=" + nombre + ", nombreUsuario=" + nombreUsuario + ", contrasenia=" + contrasenia + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Usuario{");
+        sb.append("nombre=").append(nombre);
+        sb.append(", nombreUsuario=").append(nombreUsuario);
+        sb.append(", contrasenia=").append(contrasenia);
+        sb.append('}');
+        return sb.toString();
     }
-    
+
 }

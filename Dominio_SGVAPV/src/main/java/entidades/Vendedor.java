@@ -3,12 +3,12 @@ package entidades;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -18,7 +18,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "vendedores")
-@PrimaryKeyJoinColumn(name = "usuario_codigo")
+@PrimaryKeyJoinColumn(name = "id_usuario")
+@DiscriminatorValue(value = "Vendedor")
 public class Vendedor extends Usuario implements Serializable {
     
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "vendedor")

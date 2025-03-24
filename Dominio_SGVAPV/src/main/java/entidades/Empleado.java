@@ -1,10 +1,8 @@
 package entidades;
 
 import java.io.Serializable;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -14,7 +12,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "empleados")
-@PrimaryKeyJoinColumn(name = "vendedor_codigo")
+@PrimaryKeyJoinColumn(name = "id_vendedor")
+@DiscriminatorValue(value = "Empleado")
 public class Empleado extends Vendedor implements Serializable {
 
     public Empleado() {

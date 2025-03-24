@@ -3,6 +3,7 @@
  */
 package org.itson.subsistemainiciosesion_sgvapv;
 
+import dtos.UsuarioDTO;
 import org.itson.subsistemainiciosesion_sgvapv.excepciones.SubsistemaInicioSesionException;
 
 /**
@@ -24,7 +25,7 @@ public class SubsistemaInicioSesionFacade implements ISubsistemaInicioSesionFaca
      * {@inheritDoc}
      */
     @Override
-    public boolean iniciarSesion(String nombreUsuario, String contrasenia) throws SubsistemaInicioSesionException {
+    public UsuarioDTO iniciarSesion(String nombreUsuario, String contrasenia) throws SubsistemaInicioSesionException {
         return control.iniciarSesion(nombreUsuario, contrasenia);
     }
 

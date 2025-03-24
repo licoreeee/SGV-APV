@@ -2,10 +2,8 @@ package entidades;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -16,7 +14,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "encargados")
-@PrimaryKeyJoinColumn(name = "vendedor_codigo")
+@PrimaryKeyJoinColumn(name = "id_vendedor")
+@DiscriminatorValue(value = "Encargado")
 public class Encargado extends Vendedor implements Serializable {
     
     @OneToMany(mappedBy = "encargado")

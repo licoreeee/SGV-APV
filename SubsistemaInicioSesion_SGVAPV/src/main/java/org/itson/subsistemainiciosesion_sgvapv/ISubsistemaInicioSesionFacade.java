@@ -3,6 +3,7 @@
  */
 package org.itson.subsistemainiciosesion_sgvapv;
 
+import dtos.UsuarioDTO;
 import org.itson.subsistemainiciosesion_sgvapv.excepciones.SubsistemaInicioSesionException;
 
 /**
@@ -16,10 +17,10 @@ public interface ISubsistemaInicioSesionFacade {
      *
      * @param nombreUsuario El nombre de usuario
      * @param contrasenia La contraseña del usuario
-     * @return true si se inició sesión correctamente, false en caso contrario
+     * @return El usuario que inició sesión
      * @throws SubsistemaInicioSesionException Si ocurrió un problema al iniciar
      * la sesión
      */
-    public boolean iniciarSesion(String nombreUsuario, String contrasenia) throws SubsistemaInicioSesionException;
+    public UsuarioDTO iniciarSesion(String nombreUsuario, String contrasenia) throws SubsistemaInicioSesionException;
 
 }
