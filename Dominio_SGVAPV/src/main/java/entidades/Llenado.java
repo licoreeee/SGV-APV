@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -18,21 +15,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "llenados")
-@PrimaryKeyJoinColumn(name = "producto_codigo")
+@PrimaryKeyJoinColumn(name = "id_producto")
 public class Llenado extends Producto implements Serializable {
 
     @Column(name = "litros", nullable = false)
     private Integer litros;
     
     @ManyToOne
-    @JoinColumn(name = "contenedor_codigo", nullable = true)
+    @JoinColumn(name = "id_contenedor", nullable = true)
     private Contenedor contenedor;
 
     public Llenado() {
     }
 
-    public Llenado(Integer litros, Contenedor contenedor, float precio) {
-        super(precio);
+    public Llenado(String codigo, String nombre, Integer litros, Contenedor contenedor, float precio) {
+        super(codigo, nombre, precio);
         this.litros = litros;
         this.contenedor = contenedor;
     }
@@ -81,7 +78,17 @@ public class Llenado extends Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "Llenado{" + "litros=" + litros + ", contenedor=" + contenedor + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Llenado{");
+        sb.append("codigo=").append(codigo);
+        sb.append(", nombre=").append(nombre);
+        sb.append(", precio=").append(precio);
+        sb.append(", litros=").append(litros);
+        sb.append(", contenedor=").append(contenedor);
+        sb.append('}');
+        return sb.toString();
     }
+
+    
     
 }

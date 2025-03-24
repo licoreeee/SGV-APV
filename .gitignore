@@ -1,2 +1,3 @@
 /Dominio_SGVAPV/target/
 /AccesoDatos_SGVAPV/target/
+Dominio_SGVAPV/src/main/resources/META-INF/persistence.xml
