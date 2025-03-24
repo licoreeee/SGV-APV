@@ -1,19 +1,33 @@
 package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dtos.ProductoDTO;
+import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import utilidades.FormatoDinero;
 
 /**
  *
  * @author Dell
  */
 public class PantallaVenta extends javax.swing.JFrame {
-    
+
     private String tipoVenta;
+    /**
+     * HOLA PAPU, SOY EL CREADOR DE ESTE CÓDIGO. AQUÍ SE ME HACE QUE FALTA
+     * AGREGAR UN VentaDTO (COMO EL QU YA ESTÁ AHÍ COMENTAREADO) Y CADA QUE SE
+     * AGREGUE O REMUEVA UN PRODUCTO DE LA VENTA, QUE SE VAYA ACTUALIZANDO, PARA
+     * ASÍ TAMBIÉN TENER ACTUALIZADO EL TOTAL DE LA VENTA. TRATÉ DE
+     * IMPLEMENTARLO PERO EL MERO HECHO DE TENER QUE HAER UN DTO ME QUITÓ TODAS
+     * LAS GANAS, DE QUE DELETE FROM pipucate WHERE ganas = 1;
+     */
+//    private VentaDTO venta;
+    private FormatoDinero fd = new FormatoDinero();
 
     /**
      * Creates new form PantallaInicioSesion
@@ -26,6 +40,63 @@ public class PantallaVenta extends javax.swing.JFrame {
         JTableHeader header = tblProductosVenta.getTableHeader();
         Font headerFont = new Font("Afacad", Font.BOLD, 23);
         header.setFont(headerFont);
+        // Mandamos a formatear la tabla y a cargar los datos.
+        formatearTabla();
+    }
+
+    /**
+     * Método para darle formato a la tabla.
+     */
+    private void formatearTabla() {
+        /**
+         * +-----------------------------------------+
+         * |                                         |
+         * |             CAMBIAR COLORES             |
+         * |                                         |
+         * +-----------------------------------------+
+         */
+        // Cambiamos el color del fondo.
+        tblProductosVenta.getTableHeader().setBackground(new Color(106, 27, 49));
+        // Cambiamos la fuente y el tamaño.
+        tblProductosVenta.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
+        // Cambiamos el color de la letra.
+        tblProductosVenta.getTableHeader().setForeground(new Color(188, 149, 92));
+    }
+
+    /**
+     * Método para llenar la tabla.
+     *
+     * @param producto Producto a agregar a la tabla.
+     */
+    public void cargarProducto(ProductoDTO producto) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblProductosVenta.getModel();
+
+        // Buscar si el producto ya está en la tabla
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+            String codigoNombre = (String) modeloTabla.getValueAt(i, 0); // Código y nombre del producto en la tabla
+
+            // Comparar con el producto que queremos agregar
+            if (codigoNombre.equals(producto.getCodigo() + " - " + producto.getNombre())) {
+                // Obtener la cantidad actual y sumarle la nueva cantidad
+                int cantidadActual = (int) modeloTabla.getValueAt(i, 1);
+                modeloTabla.setValueAt(cantidadActual + producto.getCantidad(), i, 1);
+                return; // Salir del método, ya que solo necesitamos actualizar la cantidad
+            }
+        }
+
+        // Si no existe en la tabla, agregar una nueva fila
+        Object[] fila = new Object[4];
+        fila[0] = producto.getCodigo() + " - " + producto.getNombre();
+        fila[1] = producto.getCantidad();
+        fila[2] = fd.formatear(producto.getPrecio());
+
+        modeloTabla.addRow(fila);
+
+        actualizarVenta(producto);
+    }
+
+    private void actualizarVenta(ProductoDTO producto) {
+        lblTotal.setText(tipoVenta);
     }
 
     /**
@@ -51,7 +122,6 @@ public class PantallaVenta extends javax.swing.JFrame {
         tblProductosVenta = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
-        lblTotal1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(196, 216, 255));
@@ -144,9 +214,6 @@ public class PantallaVenta extends javax.swing.JFrame {
         lblTotal.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblTotal.setText("0.0");
 
-        lblTotal1.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        lblTotal1.setText("$");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -156,8 +223,6 @@ public class PantallaVenta extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTotal1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTotal)
                 .addGap(16, 16, 16))
         );
@@ -168,8 +233,7 @@ public class PantallaVenta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(lblTotal)
-                    .addComponent(lblTotal1))
+                    .addComponent(lblTotal))
                 .addContainerGap())
         );
 
@@ -215,7 +279,7 @@ public class PantallaVenta extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 640, 420));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
 
         pack();
         setLocationRelativeTo(null);
@@ -226,7 +290,7 @@ public class PantallaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnTerminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminar1ActionPerformed
-        if(tblProductosVenta.getRowCount() != 0){
+        if (tblProductosVenta.getRowCount() != 0) {
             this.dispose();
             PantallaPago pantallaPago = new PantallaPago();
             pantallaPago.setTipoVenta(this.getTipoVenta());
@@ -236,20 +300,19 @@ public class PantallaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTerminar1ActionPerformed
 
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
-        this.dispose();
-        PantallaAgregarProducto pantallaAgregarProducto = new PantallaAgregarProducto();
+        PantallaAgregarProducto pantallaAgregarProducto = new PantallaAgregarProducto(this);
         pantallaAgregarProducto.setTipoVenta(this.getTipoVenta());
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
 
     public String getTipoVenta() {
         return tipoVenta;
     }
-    
+
     public void setTipoVenta(String tipoVenta) {
         this.tipoVenta = tipoVenta;
         lblTipoVenta.setText(tipoVenta);
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -275,7 +338,7 @@ public class PantallaVenta extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTipoVenta;
     private javax.swing.JLabel lblTotal;
-    private javax.swing.JLabel lblTotal1;
     private javax.swing.JTable tblProductosVenta;
     // End of variables declaration//GEN-END:variables
+
 }

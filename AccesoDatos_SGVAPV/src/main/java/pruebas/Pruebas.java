@@ -2,7 +2,9 @@ package pruebas;
 
 import entidades.Contenedor;
 import entidades.Llenado;
+import entidades.Producto;
 import entidades.Variado;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.itson.accesodatos_sgvapv.daos.AccesoDatosFacade;
@@ -16,18 +18,19 @@ public class Pruebas {
      */
     public static void main(String[] args) {
         IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
-        
-        Variado variado = new Variado("VAR-001", "Trapeador", 140f);
-        Contenedor contenedor = new Contenedor("CON-001", "Garrafón Nuevo 19L", 85f, 19);
-        Llenado llenado = new Llenado("LEN-001", "Llenado Garrafon", 19, contenedor, 14f);
-        
-        try {
-            accesoDatos.agregarProducto(variado);
-            accesoDatos.agregarProducto(contenedor);
-            accesoDatos.agregarProducto(llenado);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+//        Variado variado = new Variado("VAR-001", "Trapeador", 140f);
+//        Contenedor contenedor = new Contenedor("CON-001", "Garrafón Nuevo 19L", 85f, 19);
+//        Llenado llenado = new Llenado("LEN-001", "Llenado Garrafon", 19, contenedor, 14f);
+            List<Producto> lista = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class));
+//
+//        try {
+//            accesoDatos.agregarProducto(variado);
+//            accesoDatos.agregarProducto(contenedor);
+//            accesoDatos.agregarProducto(llenado);
+//        } catch (PersistenciaException ex) {
+//            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
 //        Producto productoObtenido = accesoDatos.obtenerProducto("VAR-001");
 //        Producto productoObtenido2 = accesoDatos.obtenerProducto("CON-001");
@@ -57,25 +60,21 @@ public class Pruebas {
 //        } catch (PersistenciaException ex) {
 //            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
 //        try {
 //            accesoDatos.eliminarProducto("VAR-001");
 //        } catch (PersistenciaException ex) {
 //            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
 //        try {
 //            accesoDatos.eliminarProducto("LEN-001");
 //        } catch (PersistenciaException ex) {
 //            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
 //        try {
 //            accesoDatos.eliminarProducto("CON-001");
 //        } catch (PersistenciaException ex) {
 //            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
 //        List<Producto> productos = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class, Contenedor.class));
 //        
 //        if (productos != null) {
@@ -83,7 +82,6 @@ public class Pruebas {
 //                System.out.println(producto);
 //            }
 //        }
-
     }
 
 }

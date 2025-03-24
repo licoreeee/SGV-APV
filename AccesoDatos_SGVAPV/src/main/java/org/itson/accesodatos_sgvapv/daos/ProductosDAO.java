@@ -183,8 +183,8 @@ class ProductosDAO implements IProductosDAO {
             List<Producto> productos = querySelect.getResultList();
             
             return productos;
-        } catch (Exception e) {
-            logger.log(Level.INFO, "No se encontraron productos de los tipos seleccionados.");
+        } catch (NoResultException e) {
+            logger.log(Level.INFO, "No se encontraron productos de los tipos seleccionados. " + e);
             return null;
         } finally {
             em.close();

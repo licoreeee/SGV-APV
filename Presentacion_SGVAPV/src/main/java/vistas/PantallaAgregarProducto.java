@@ -1,8 +1,13 @@
 package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dtos.ProductoDTO;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.itson.subsistemaventas_sgvapv.ISubsistemaVentasFacade;
+import org.itson.subsistemaventas_sgvapv.SubsistemaVentasFacade;
 
 /**
  *
@@ -11,17 +16,35 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class PantallaAgregarProducto extends javax.swing.JFrame {
     
     private String tipoVenta;
+    private ISubsistemaVentasFacade subsistemaVentasFacade = new SubsistemaVentasFacade();
+    private PantallaVenta pantallaVenta;
 
     /**
      * Creates new form PantallaInicioSesion
      */
-    public PantallaAgregarProducto() {
+    public PantallaAgregarProducto(PantallaVenta pantallaVenta) {
         initComponents();
         setEnabled(true);
+        cargarProductos();
         setVisible(true);
         this.setTitle("SGVAPV - Agregar Producto");
+        this.pantallaVenta = pantallaVenta;
         txtStock.setEditable(false);
-//        verificarTipoVenta();
+    }
+    
+    private void cargarProductos() {
+        // Creamos una lista de productos.
+        List<ProductoDTO> productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("VARIADO"));
+
+        // Creamos un modelo para combo box.
+        DefaultComboBoxModel<ProductoDTO> modelo = new DefaultComboBoxModel<>();
+        for (ProductoDTO producto : productos) {
+            // Agregamos cada producto al modelo.
+            modelo.addElement(producto);
+        }
+
+        // Asignamos el modelo al combo box.
+        cmbxProductos.setModel(modelo);
     }
 
     /**
@@ -107,7 +130,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
-        jLabel3.setText("REGISTRAR VENTA");
+        jLabel3.setText("BUSCAR PRODUCTO");
 
         lblTipoVenta.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         lblTipoVenta.setText("AGUA PURIFICADA");
@@ -116,6 +139,11 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         jLabel6.setText("CANTIDAD");
 
         cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        cmbxProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbxProductosActionPerformed(evt);
+            }
+        });
 
         txtCantidad.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
@@ -134,6 +162,9 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(391, 391, 391)
+                        .addComponent(btnAgregar))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(195, 195, 195)
                         .addComponent(jLabel3))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -142,8 +173,9 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                                 .addGap(92, 92, 92)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel6))
-                                .addGap(37, 37, 37))
+                                    .addComponent(jLabel6)
+                                    .addComponent(btnCancelar))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel5)
@@ -154,14 +186,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                             .addComponent(txtCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(231, 231, 231)
-                        .addComponent(lblTipoVenta))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addComponent(btnCancelar)
-                        .addGap(90, 90, 90)
-                        .addComponent(btnAgregar)
-                        .addGap(57, 57, 57)))
-                .addContainerGap(94, Short.MAX_VALUE))
+                        .addComponent(lblTipoVenta)))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,7 +208,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnCancelar))
@@ -196,7 +222,10 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        ProductoDTO producto = (ProductoDTO) cmbxProductos.getSelectedItem();
+        producto.setCantidad(Integer.valueOf(txtCantidad.getText()));
+        pantallaVenta.cargarProducto(producto);
+        this.dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -219,6 +248,12 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         lblTipoVenta.setText(tipoVenta);
     }
     
+    private void cmbxProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxProductosActionPerformed
+        ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
+        int stock = productoSeleccionado.getCantidad();
+        txtStock.setText(String.valueOf(stock));
+    }//GEN-LAST:event_cmbxProductosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -226,14 +261,14 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (UnsupportedLookAndFeelException e) {
-
+            
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox<String> cmbxProductos;
+    private javax.swing.JComboBox<ProductoDTO> cmbxProductos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
