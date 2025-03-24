@@ -3,10 +3,12 @@
  */
 package org.itson.accesodatos_sgvapv.daos;
 
+import entidades.Producto;
 import entidades.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import org.itson.accesodatos_sgvapv.conexion.Conexion;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
@@ -25,21 +27,23 @@ public class UsuariosDAO implements IUsuariosDAO {
     public UsuariosDAO(IConexion conexion) {
         this.conexion = conexion;
     }
-    
+
     /**
-     * Permite obtener un usuario en específico dado su código.
+     * Permite obtener un usuario en específico dado su nombre de usuario.
      *
-     * @param codigo Código del usuario a buscar.
+     * @param nombreUsuario Código del usuario a buscar.
      * @return El usuario que se haya encontrado, null en caso contrario.
      */
     @Override
-    public Usuario obtenerUsuario(Long codigo) {
+    public Usuario obtenerUsuario(String nombreUsuario) {
         // Creamos un entity manager.
         EntityManager em = conexion.crearConexion();
 
         // Mandamos a buscar el usuario.
-        Usuario usuario = em.find(Usuario.class, codigo);
-
+        String jpqlSelect = "SELECT p FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario";
+        TypedQuery<Usuario> querySelect = em.createQuery(jpqlSelect, Usuario.class);
+        querySelect.setParameter("nombreUsuario", nombreUsuario);
+        Usuario usuario = querySelect.getSingleResult();
         // Cerramos el entity manager.
         em.close();
 

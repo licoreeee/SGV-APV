@@ -15,12 +15,12 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 public interface IUsuariosDAO {
 
     /**
-     * Permite obtener un usuario en específico dado su código.
+     * Permite obtener un usuario en específico dado su nombre de usuario.
      *
-     * @param codigo Código del usuario a buscar.
+     * @param nombreUsuario Código del usuario a buscar.
      * @return El usuario que se haya encontrado, null en caso contrario.
      */
-    public Usuario obtenerUsuario(Long codigo);
+    public Usuario obtenerUsuario(String nombreUsuario);
 
     /**
      * Permite actualizar un usuario dado el nombre de usuario y una entidad con
