@@ -2,6 +2,8 @@ package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import dtos.ProductoDTO;
+import dtos.ProductoVentaDTO;
+import dtos.VendedorDTO;
 import dtos.VentaDTO;
 import java.awt.Color;
 import java.awt.Font;
@@ -19,16 +21,9 @@ import utilidades.FormatoDinero;
 public class PantallaVenta extends javax.swing.JFrame {
 
     private String tipoVenta;
-    /**
-     * HOLA PAPU, SOY EL CREADOR DE ESTE CÓDIGO. AQUÍ SE ME HACE QUE FALTA
-     * AGREGAR UN VentaDTO (COMO EL QU YA ESTÁ AHÍ COMENTAREADO) Y CADA QUE SE
-     * AGREGUE O REMUEVA UN PRODUCTO DE LA VENTA, QUE SE VAYA ACTUALIZANDO, PARA
-     * ASÍ TAMBIÉN TENER ACTUALIZADO EL TOTAL DE LA VENTA. TRATÉ DE
-     * IMPLEMENTARLO PERO EL MERO HECHO DE TENER QUE HAER UN DTO ME QUITÓ TODAS
-     * LAS GANAS, DE QUE DELETE FROM pipucate WHERE ganas = 1;
-     */
     private VentaDTO venta;
     private FormatoDinero fd = new FormatoDinero();
+    private VendedorDTO vendedor = new VendedorDTO("Diego Valenzuela", "pipucate", "123456");
 
     /**
      * Creates new form PantallaInicioSesion
@@ -43,6 +38,9 @@ public class PantallaVenta extends javax.swing.JFrame {
         header.setFont(headerFont);
         // Mandamos a formatear la tabla y a cargar los datos.
         formatearTabla();
+        lblTotal.setText("");
+        this.venta = new VentaDTO();
+        this.venta.setVendedor(vendedor);
     }
 
     /**
@@ -50,11 +48,8 @@ public class PantallaVenta extends javax.swing.JFrame {
      */
     private void formatearTabla() {
         /**
-         * +-----------------------------------------+
-         * |                                         |
-         * |             CAMBIAR COLORES             |
-         * |                                         |
-         * +-----------------------------------------+
+         * +-----------------------------------------+ | | | CAMBIAR COLORES | |
+         * | +-----------------------------------------+
          */
         // Cambiamos el color del fondo.
         tblProductosVenta.getTableHeader().setBackground(new Color(106, 27, 49));
@@ -67,9 +62,11 @@ public class PantallaVenta extends javax.swing.JFrame {
     /**
      * Método para llenar la tabla.
      *
-     * @param producto Producto a agregar a la tabla.
+     * @param productoVenta Producto a agregar a la tabla.
      */
-    public void cargarProducto(ProductoDTO producto) {
+    public void cargarProducto(ProductoVentaDTO productoVenta) {
+        ProductoDTO producto = productoVenta.getProducto();
+
         DefaultTableModel modeloTabla = (DefaultTableModel) tblProductosVenta.getModel();
 
         // Buscar si el producto ya está en la tabla
@@ -80,7 +77,7 @@ public class PantallaVenta extends javax.swing.JFrame {
             if (codigoNombre.equals(producto.getCodigo() + " - " + producto.getNombre())) {
                 // Obtener la cantidad actual y sumarle la nueva cantidad
                 int cantidadActual = (int) modeloTabla.getValueAt(i, 1);
-                modeloTabla.setValueAt(cantidadActual + producto.getCantidad(), i, 1);
+                modeloTabla.setValueAt(cantidadActual + productoVenta.getCantidad(), i, 1);
                 return; // Salir del método, ya que solo necesitamos actualizar la cantidad
             }
         }
@@ -88,16 +85,16 @@ public class PantallaVenta extends javax.swing.JFrame {
         // Si no existe en la tabla, agregar una nueva fila
         Object[] fila = new Object[4];
         fila[0] = producto.getCodigo() + " - " + producto.getNombre();
-        fila[1] = producto.getCantidad();
+        fila[1] = productoVenta.getCantidad();
         fila[2] = fd.formatear(producto.getPrecio());
 
         modeloTabla.addRow(fila);
 
-        actualizarVenta(producto);
+        actualizarVenta(productoVenta);
     }
 
-    private void actualizarVenta(ProductoDTO producto) {
-        lblTotal.setText(tipoVenta);
+    private void actualizarVenta(ProductoVentaDTO productoVenta) {
+        lblTotal.setText(fd.formatear(venta.getTotal()));
     }
 
     /**
@@ -207,6 +204,11 @@ public class PantallaVenta extends javax.swing.JFrame {
                 "PRODUCTO", "CANTIDAD", "PRECIO"
             }
         ));
+        tblProductosVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblProductosVentaKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProductosVenta);
 
         jLabel4.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
@@ -301,9 +303,31 @@ public class PantallaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTerminar1ActionPerformed
 
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
-        PantallaAgregarProducto pantallaAgregarProducto = new PantallaAgregarProducto(this);
+        PantallaAgregarProducto pantallaAgregarProducto = new PantallaAgregarProducto(this, venta);
         pantallaAgregarProducto.setTipoVenta(this.getTipoVenta());
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
+
+    private void tblProductosVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProductosVentaKeyPressed
+        int selectedRow = tblProductosVenta.getSelectedRow();
+        if (selectedRow != -1) { // Verifica que haya una fila seleccionada
+            int cantidad = (int) tblProductosVenta.getValueAt(selectedRow, 1);
+
+            String codigoNombre = (String) tblProductosVenta.getValueAt(selectedRow, 0);
+            String codigo;
+            if (evt.getKeyChar() == '+') { // Si presiona "+"
+                int index = codigoNombre.indexOf(" -");
+                if (index != -1) {
+                    codigo = codigoNombre.substring(0, index); // Extrae todo antes de " -"
+                }
+                
+                tblProductosVenta.setValueAt(cantidad + 1, selectedRow, 2);
+            } else if (evt.getKeyChar() == '-') { // Si presiona "-"
+                if (cantidad > 0) { // Evita valores negativos
+                    tblProductosVenta.setValueAt(cantidad - 1, selectedRow, 2);
+                }
+            }
+        }
+    }//GEN-LAST:event_tblProductosVentaKeyPressed
 
     public String getTipoVenta() {
         return tipoVenta;

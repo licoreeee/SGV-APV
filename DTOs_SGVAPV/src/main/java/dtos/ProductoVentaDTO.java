@@ -15,4 +15,30 @@ public class ProductoVentaDTO {
     private Integer cantidad;
     
     private ProductoDTO producto;
+
+    public Float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Float precio) {
+        this.precio = precio;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public ProductoDTO getProducto() {
+        return producto;
+    }
+
+    public void setProducto(ProductoDTO producto) {
+        this.producto = producto;
+    }
+    
+    
 }

@@ -10,6 +10,7 @@ vistas\PantallaAgregarLlenado$1.class
 vistas\PantallaAgregarProducto$3.class
 vistas\PantallaAgregarProducto$2.class
 vistas\PantallaMenu$1.class
+vistas\PantallaPago$5.class
 utilidades\FormatoDinero.class
 vistas\PantallaMenu$3.class
 vistas\PantallaAgregarProducto.class
@@ -17,9 +18,12 @@ vistas\PantallaPago$2.class
 vistas\PantallaInicioSesion.class
 vistas\PantallaVenta$3.class
 vistas\PantallaInicioSesion$2.class
+vistas\PantallaPago$4.class
 vistas\PantallaAgregarLlenado.class
 vistas\PantallaAgregarLlenado$2.class
 vistas\PantallaVenta.class
 vistas\PantallaVenta$1.class
+vistas\PantallaPago$3.class
+vistas\PantallaVenta$4.class
 vistas\PantallaAgregarProducto$1.class
 vistas\PantallaMenu$2.class

@@ -23,6 +23,10 @@ public class VentaDTO {
 
     private List<ProductoVentaDTO> productos;
 
+    public VentaDTO() {
+        productos = new ArrayList<>();
+    }
+
     public VentaDTO(Float total, VendedorDTO vendedor) {
         this.total = total;
         this.fechaHora = new GregorianCalendar();
@@ -44,6 +48,31 @@ public class VentaDTO {
 
     public void setProductos(List<ProductoVentaDTO> productos) {
         this.productos = productos;
+    }
+
+    public void agregarProducto(ProductoVentaDTO productoNuevo) {
+        for (ProductoVentaDTO productoVenta : productos) {
+            if (productoVenta.getProducto().getCodigo().equalsIgnoreCase(productoNuevo.getProducto().getCodigo())) {
+                productoVenta.setCantidad(productoVenta.getCantidad() + productoNuevo.getCantidad());
+                return;
+            }
+        }
+        this.productos.add(productoNuevo);
+    }
+
+    public VendedorDTO getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(VendedorDTO vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public void actualizarTotal() {
+        total = 0F;
+        for (ProductoVentaDTO producto : productos) {
+            total += producto.getCantidad() * producto.getPrecio();
+        }
     }
 
 }

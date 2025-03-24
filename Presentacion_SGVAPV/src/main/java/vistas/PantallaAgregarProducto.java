@@ -2,6 +2,9 @@ package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import dtos.ProductoDTO;
+import dtos.ProductoVentaDTO;
+import dtos.VendedorDTO;
+import dtos.VentaDTO;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.UIManager;
@@ -14,24 +17,26 @@ import org.itson.subsistemaventas_sgvapv.SubsistemaVentasFacade;
  * @author Dell
  */
 public class PantallaAgregarProducto extends javax.swing.JFrame {
-    
+
     private String tipoVenta;
+    private VentaDTO venta;
     private ISubsistemaVentasFacade subsistemaVentasFacade = new SubsistemaVentasFacade();
     private PantallaVenta pantallaVenta;
 
     /**
      * Creates new form PantallaInicioSesion
      */
-    public PantallaAgregarProducto(PantallaVenta pantallaVenta) {
+    public PantallaAgregarProducto(PantallaVenta pantallaVenta, VentaDTO venta) {
         initComponents();
         setEnabled(true);
         cargarProductos();
         setVisible(true);
         this.setTitle("SGVAPV - Agregar Producto");
         this.pantallaVenta = pantallaVenta;
+        this.venta = venta;
         txtStock.setEditable(false);
     }
-    
+
     private void cargarProductos() {
         // Creamos una lista de productos.
         List<ProductoDTO> productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("VARIADO"));
@@ -223,8 +228,15 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         ProductoDTO producto = (ProductoDTO) cmbxProductos.getSelectedItem();
-        producto.setCantidad(Integer.valueOf(txtCantidad.getText()));
-        pantallaVenta.cargarProducto(producto);
+        
+        ProductoVentaDTO productoVenta = new ProductoVentaDTO();
+        productoVenta.setCantidad(Integer.valueOf(txtCantidad.getText()));
+        productoVenta.setPrecio(producto.getPrecio());
+        productoVenta.setProducto(producto);
+        
+        venta.agregarProducto(productoVenta);
+        venta.actualizarTotal();
+        pantallaVenta.cargarProducto(productoVenta);
         this.dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -232,22 +244,22 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void verificarTipoVenta(){  
-        if(this.getTipoVenta().equalsIgnoreCase("AGUA PURIFICADA")){
+    private void verificarTipoVenta() {
+        if (this.getTipoVenta().equalsIgnoreCase("AGUA PURIFICADA")) {
             jLabel5.setVisible(false);
             txtStock.setVisible(false);
         }
     }
-    
+
     public String getTipoVenta() {
         return tipoVenta;
     }
-    
+
     public void setTipoVenta(String tipoVenta) {
         this.tipoVenta = tipoVenta;
         lblTipoVenta.setText(tipoVenta);
     }
-    
+
     private void cmbxProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxProductosActionPerformed
         ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
         int stock = productoSeleccionado.getCantidad();
@@ -261,7 +273,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (UnsupportedLookAndFeelException e) {
-            
+
         }
     }
 
