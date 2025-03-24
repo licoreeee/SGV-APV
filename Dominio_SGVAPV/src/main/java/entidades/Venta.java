@@ -33,21 +33,27 @@ public class Venta implements Serializable {
 
     @Column(name = "total", nullable = false)
     private Float total;
-    
+
     @Column(name = "fechaHora", nullable = false)
     private Calendar fechaHora;
-    
+
     @ManyToOne
     @JoinColumn(name = "vendedor_codigo", nullable = false)
     private Vendedor vendedor;
-    
+
     @OneToMany(mappedBy = "venta", cascade = CascadeType.PERSIST)
     private List<ProductoVenta> productos;
-    
+
     @ManyToMany(mappedBy = "ventas")
     private List<ReporteVentas> reportesVentas;
 
     public Venta() {
+    }
+
+    public Venta(Float total, Calendar fechaHora, Vendedor vendedor) {
+        this.total = total;
+        this.fechaHora = fechaHora;
+        this.vendedor = vendedor;
     }
 
     public Venta(Float total, Calendar fechaHora) {
@@ -77,6 +83,30 @@ public class Venta implements Serializable {
 
     public void setFechaHora(Calendar fechaHora) {
         this.fechaHora = fechaHora;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public List<ProductoVenta> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<ProductoVenta> productos) {
+        this.productos = productos;
+    }
+
+    public List<ReporteVentas> getReportesVentas() {
+        return reportesVentas;
+    }
+
+    public void setReportesVentas(List<ReporteVentas> reportesVentas) {
+        this.reportesVentas = reportesVentas;
     }
 
     @Override
@@ -113,5 +143,5 @@ public class Venta implements Serializable {
     public String toString() {
         return "Venta{" + "codigo=" + codigo + ", total=" + total + ", fechaHora=" + fechaHora + '}';
     }
-    
+
 }

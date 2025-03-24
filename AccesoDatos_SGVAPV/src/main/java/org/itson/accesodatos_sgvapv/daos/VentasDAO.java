@@ -5,16 +5,11 @@ package org.itson.accesodatos_sgvapv.daos;
 
 import entidades.Venta;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.itson.accesodatos_sgvapv.conexion.Conexion;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
@@ -27,8 +22,12 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  */
 public class VentasDAO implements IVentasDAO {
 
-    private final IConexion conexion = new Conexion();
+    private final IConexion conexion;
     private static final Logger logger = Logger.getLogger(VentasDAO.class.getName());
+
+    public VentasDAO(IConexion conexion) {
+        this.conexion = conexion;
+    }
 
     /**
      * Permite obtener una venta dado código.

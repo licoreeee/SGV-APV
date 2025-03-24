@@ -15,12 +15,12 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 public interface IUsuariosDAO {
 
     /**
-     * Permite obtener un usuario en específico dado su nombre de usuario.
+     * Permite obtener un usuario en específico dado su código.
      *
-     * @param nombreUsuario Nombre del usuario a buscar,
+     * @param codigo Código del usuario a buscar.
      * @return El usuario que se haya encontrado, null en caso contrario.
      */
-    public Usuario obtenerUsuario(String nombreUsuario);
+    public Usuario obtenerUsuario(Long codigo);
 
     /**
      * Permite actualizar un usuario dado el nombre de usuario y una entidad con
@@ -42,12 +42,11 @@ public interface IUsuariosDAO {
     public void agregarUsuario(Usuario usuario) throws PersistenciaException;
 
     /**
-     * Permite eliminar un usuario de la base de datos dado su nombre de
-     * usuario.
+     * Permite eliminar un usuario de la base de datos dado su código.
      *
-     * @param nombreUsuario Nombre del usuario a eliminar.
+     * @param codigo Código del usuario a eliminar.
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
      * eliminación.
      */
-    public void eliminarUsuario(String nombreUsuario) throws PersistenciaException;
+    public void eliminarUsuario(Long codigo) throws PersistenciaException;
 }

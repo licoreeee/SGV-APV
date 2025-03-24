@@ -19,22 +19,26 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  */
 public class UsuariosDAO implements IUsuariosDAO {
 
-    private final IConexion conexion = new Conexion();
+    private final IConexion conexion;
     private static final Logger logger = Logger.getLogger(UsuariosDAO.class.getName());
 
+    public UsuariosDAO(IConexion conexion) {
+        this.conexion = conexion;
+    }
+    
     /**
-     * Permite obtener un usuario en específico dado su nombre de usuario.
+     * Permite obtener un usuario en específico dado su código.
      *
-     * @param nombreUsuario Nombre del usuario a buscar,
+     * @param codigo Código del usuario a buscar.
      * @return El usuario que se haya encontrado, null en caso contrario.
      */
     @Override
-    public Usuario obtenerUsuario(String nombreUsuario) {
+    public Usuario obtenerUsuario(Long codigo) {
         // Creamos un entity manager.
         EntityManager em = conexion.crearConexion();
 
         // Mandamos a buscar el usuario.
-        Usuario usuario = em.find(Usuario.class, nombreUsuario);
+        Usuario usuario = em.find(Usuario.class, codigo);
 
         // Cerramos el entity manager.
         em.close();
@@ -108,21 +112,20 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     /**
-     * Permite eliminar un usuario de la base de datos dado su nombre de
-     * usuario.
+     * Permite eliminar un usuario de la base de datos dado su código.
      *
-     * @param nombreUsuario Nombre del usuario a eliminar.
+     * @param codigo Código del usuario a eliminar.
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
      * eliminación.
      */
     @Override
-    public void eliminarUsuario(String nombreUsuario) throws PersistenciaException {
+    public void eliminarUsuario(Long codigo) throws PersistenciaException {
         try {
             // Creamos un entity manager.
             EntityManager em = conexion.crearConexion();
 
             // Obtenemos el usuario con base al nombre de usuario.
-            Usuario usuario = em.find(Usuario.class, nombreUsuario);
+            Usuario usuario = em.find(Usuario.class, codigo);
 
             // Iniciamos la transacción.
             em.getTransaction().begin();
