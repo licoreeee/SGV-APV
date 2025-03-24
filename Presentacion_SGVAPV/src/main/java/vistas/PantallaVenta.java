@@ -2,6 +2,7 @@ package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import dtos.ProductoDTO;
+import dtos.VentaDTO;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JOptionPane;
@@ -26,7 +27,7 @@ public class PantallaVenta extends javax.swing.JFrame {
      * IMPLEMENTARLO PERO EL MERO HECHO DE TENER QUE HAER UN DTO ME QUITÓ TODAS
      * LAS GANAS, DE QUE DELETE FROM pipucate WHERE ganas = 1;
      */
-//    private VentaDTO venta;
+    private VentaDTO venta;
     private FormatoDinero fd = new FormatoDinero();
 
     /**

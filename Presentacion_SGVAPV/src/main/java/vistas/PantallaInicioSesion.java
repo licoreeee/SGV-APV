@@ -170,6 +170,7 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
                 && contrasenia != null && !contrasenia.isEmpty()) {
             try {
                 if (inicioSesion.iniciarSesion(nombreUsuario, contrasenia)) {
+                    
                     this.dispose();
                     PantallaMenu pantallaMenu = new PantallaMenu();
                 } else {
