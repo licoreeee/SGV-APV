@@ -16,6 +16,7 @@ public class PantallaMenu extends javax.swing.JFrame {
     public PantallaMenu() {
         initComponents();
         setEnabled(true);
+        this.setVisible(true);
         this.setTitle("SGVAPV - Menú");
     }
 
@@ -172,11 +173,15 @@ public class PantallaMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVentaAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaAguaActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        PantallaVenta pantallaVenta = new PantallaVenta();
+        pantallaVenta.setTipoVenta("AGUA PURIFICADA");
     }//GEN-LAST:event_btnVentaAguaActionPerformed
 
     private void btnVentaProductoVariadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaProductoVariadoActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        PantallaVenta pantallaVenta = new PantallaVenta();
+        pantallaVenta.setTipoVenta("PRODUCTO VARIADO");
     }//GEN-LAST:event_btnVentaProductoVariadoActionPerformed
 
     private void btnGestionarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarInventarioActionPerformed

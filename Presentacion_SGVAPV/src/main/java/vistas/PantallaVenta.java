@@ -18,6 +18,7 @@ public class PantallaVenta extends javax.swing.JFrame {
     public PantallaVenta() {
         initComponents();
         setEnabled(true);
+        setVisible(true);
         this.setTitle("SGVAPV - Venta");
         JTableHeader header = tblProductosVenta.getTableHeader();
         Font headerFont = new Font("Afacad", Font.BOLD, 23);
@@ -102,7 +103,7 @@ public class PantallaVenta extends javax.swing.JFrame {
         });
 
         lblTipoVenta.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        lblTipoVenta.setText("tipo de venta");
+        lblTipoVenta.setText("AGUA PURIFICADA");
 
         btnTerminar1.setBackground(new java.awt.Color(41, 136, 194));
         btnTerminar1.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
@@ -190,7 +191,7 @@ public class PantallaVenta extends javax.swing.JFrame {
                         .addGap(191, 191, 191)
                         .addComponent(jLabel3))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(249, 249, 249)
+                        .addGap(228, 228, 228)
                         .addComponent(lblTipoVenta)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -229,6 +230,10 @@ public class PantallaVenta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
 
+    public void setTipoVenta(String tipoVenta) {
+        lblTipoVenta.setText(tipoVenta);
+    }
+    
     /**
      * @param args the command line arguments
      */

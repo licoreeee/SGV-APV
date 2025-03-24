@@ -1,6 +1,7 @@
 package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -16,6 +17,7 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
     public PantallaInicioSesion() {
         initComponents();
         setEnabled(true);
+        this.setVisible(true);
         this.setTitle("SGVAPV - Iniciar sesión");
     }
 
@@ -158,7 +160,16 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // TODO add your handling code here:
+        String nombreUsuario = txtNombreUsuario.getText();
+        String contrasenia = txtContrasenia.getText();
+        
+        if(nombreUsuario != null && !nombreUsuario.isEmpty() &&
+                contrasenia != null && !contrasenia.isEmpty()){
+            this.dispose();
+            PantallaMenu pantallaMenu = new PantallaMenu();
+        } else{
+            JOptionPane.showConfirmDialog(this, "Ingrese la información solicitada.", "Campos vacíos", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
