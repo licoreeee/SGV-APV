@@ -53,13 +53,13 @@ public interface IProductosDAO {
     public void eliminarProducto(String codigo) throws PersistenciaException;
 
     /**
-     * Permite obtener un listado de los productos cuyo tipo coincida con el
+     * Permite obtener un listado de los productos cuyo tipo coincida con los
      * solicitado.
      *
-     * @param tipo El tipo de productos solicitado
+     * @param tipos Los tipo de productos solicitado
      * @return Una lista de productos
      */
-    public List<Producto> obtenerProductosPorTipo(String tipo);
+    public List<Producto> obtenerProductosPorTipo(List<Class> tipos);
 
     /**
      * Permite obtener un listado de los productos cuyo nombre coincida con el

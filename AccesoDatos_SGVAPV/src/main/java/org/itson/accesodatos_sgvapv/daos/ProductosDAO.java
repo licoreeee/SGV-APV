@@ -170,21 +170,21 @@ public class ProductosDAO implements IProductosDAO {
      * {@inheritDoc}
      */
     @Override
-    public List<Producto> obtenerProductosPorTipo(String tipo) {
+    public List<Producto> obtenerProductosPorTipo(List<Class> tipos) {
         EntityManager em = conexion.crearConexion();
         
         try {
             em.getTransaction().begin();
             
-            String jpqlSelect = "SELECT p FROM Producto p WHERE p.tipo = :tipo";
-            Query querySelect = em.createQuery(jpqlSelect);
-            querySelect.setParameter("tipo", tipo);
+            String jpqlSelect = "SELECT p FROM Producto p WHERE TYPE(p) IN :tipos";
+            TypedQuery<Producto> querySelect = em.createQuery(jpqlSelect, Producto.class);
+            querySelect.setParameter("tipos", tipos);
             
             List<Producto> productos = querySelect.getResultList();
             
             return productos;
         } catch (Exception e) {
-            logger.log(Level.INFO, "No se encontraron productos de tipo: " + tipo);
+            logger.log(Level.INFO, "No se encontraron productos de los tipos seleccionados.");
             return null;
         } finally {
             em.close();

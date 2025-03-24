@@ -4,12 +4,18 @@
  */
 package pruebas;
 
+import entidades.Contenedor;
+import entidades.Llenado;
 import entidades.Producto;
+import entidades.Variado;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.itson.accesodatos_sgvapv.conexion.Conexion;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_sgvapv.daos.IProductosDAO;
 import org.itson.accesodatos_sgvapv.daos.ProductosDAO;
+import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
 /**
  *
@@ -27,6 +33,7 @@ public class Pruebas {
 //        Variado variado = new Variado("VAR-001", "Trapeador", 140f);
 //        Contenedor contenedor = new Contenedor("CON-001", "Garrafón Nuevo 19L", 85f, 19);
 //        Llenado llenado = new Llenado("LEN-001", "Llenado Garrafon", 19, contenedor, 14f);
+//        
 //        try {
 //            productosDAO.agregarProducto(variado);
 //            productosDAO.agregarProducto(contenedor);
@@ -81,21 +88,21 @@ public class Pruebas {
 //            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 
-//        List<Producto> productos = productosDAO.obtenerProductosPorTipo("Llenado");
-//        
-//        if (productos != null) {
-//            for (Producto producto : productos) {
-//                System.out.println(producto);
-//            }
-//        }
-
-        List<Producto> productos2 = productosDAO.obtenerProductosPorNombre("Trapeador");
-//        
-        if (productos2 != null) {
-            for (Producto producto : productos2) {
+        List<Producto> productos = productosDAO.obtenerProductosPorTipo(List.of(Variado.class, Contenedor.class));
+        
+        if (productos != null) {
+            for (Producto producto : productos) {
                 System.out.println(producto);
             }
         }
+
+//        List<Producto> productos2 = productosDAO.obtenerProductosPorNombre("Trapeador");
+//        
+//        if (productos2 != null) {
+//            for (Producto producto : productos2) {
+//                System.out.println(producto);
+//            }
+//        }
 
     }
 
