@@ -12,7 +12,7 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  *
  * @author Equipo 1
  */
-public interface IUsuariosDAO {
+interface IUsuariosDAO {
 
     /**
      * Permite obtener un usuario en específico dado su nombre de usuario.

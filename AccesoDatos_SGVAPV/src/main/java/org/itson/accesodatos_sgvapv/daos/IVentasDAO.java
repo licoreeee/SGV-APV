@@ -14,7 +14,7 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  *
  * @author Equipo 1
  */
-public interface IVentasDAO {
+interface IVentasDAO {
 
     /**
      * Permite obtener una venta dado código.

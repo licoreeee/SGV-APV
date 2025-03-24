@@ -19,11 +19,16 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  *
  * @author Equipo 1
  */
-public class UsuariosDAO implements IUsuariosDAO {
+class UsuariosDAO implements IUsuariosDAO {
 
     private final IConexion conexion;
     private static final Logger logger = Logger.getLogger(UsuariosDAO.class.getName());
 
+    /**
+     * Constructor que recibe la conexión a la base de datos.
+     *
+     * @param conexion La conexión a la base de datos
+     */
     public UsuariosDAO(IConexion conexion) {
         this.conexion = conexion;
     }

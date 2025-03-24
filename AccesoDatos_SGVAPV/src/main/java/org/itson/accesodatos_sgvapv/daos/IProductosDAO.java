@@ -13,7 +13,7 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  *
  * @author Equipo1
  */
-public interface IProductosDAO {
+interface IProductosDAO {
 
     /**
      * Permite obtener un producto a partir de su código.

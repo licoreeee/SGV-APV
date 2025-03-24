@@ -26,7 +26,7 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  *
  * @author Equipo1
  */
-public class ProductosDAO implements IProductosDAO {
+class ProductosDAO implements IProductosDAO {
 
     private IConexion conexion;
     private static final Logger logger = Logger.getLogger(ProductosDAO.class.getName());
