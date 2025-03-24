@@ -1,11 +1,13 @@
 package pruebas;
 
 import entidades.Contenedor;
-import entidades.Producto;
+import entidades.Llenado;
 import entidades.Variado;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.itson.accesodatos_sgvapv.daos.AccesoDatosFacade;
 import org.itson.accesodatos_sgvapv.daos.IAccesoDatosFacade;
+import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
 public class Pruebas {
 
@@ -15,17 +17,17 @@ public class Pruebas {
     public static void main(String[] args) {
         IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
         
-//        Variado variado = new Variado("VAR-001", "Trapeador", 140f);
-//        Contenedor contenedor = new Contenedor("CON-001", "Garrafón Nuevo 19L", 85f, 19);
-//        Llenado llenado = new Llenado("LEN-001", "Llenado Garrafon", 19, contenedor, 14f);
-//        
-//        try {
-//            accesoDatos.agregarProducto(variado);
-//            accesoDatos.agregarProducto(contenedor);
-//            accesoDatos.agregarProducto(llenado);
-//        } catch (PersistenciaException ex) {
-//            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        Variado variado = new Variado("VAR-001", "Trapeador", 140f);
+        Contenedor contenedor = new Contenedor("CON-001", "Garrafón Nuevo 19L", 85f, 19);
+        Llenado llenado = new Llenado("LEN-001", "Llenado Garrafon", 19, contenedor, 14f);
+        
+        try {
+            accesoDatos.agregarProducto(variado);
+            accesoDatos.agregarProducto(contenedor);
+            accesoDatos.agregarProducto(llenado);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 //        Producto productoObtenido = accesoDatos.obtenerProducto("VAR-001");
 //        Producto productoObtenido2 = accesoDatos.obtenerProducto("CON-001");
@@ -74,13 +76,13 @@ public class Pruebas {
 //            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 
-        List<Producto> productos = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class, Contenedor.class));
-        
-        if (productos != null) {
-            for (Producto producto : productos) {
-                System.out.println(producto);
-            }
-        }
+//        List<Producto> productos = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class, Contenedor.class));
+//        
+//        if (productos != null) {
+//            for (Producto producto : productos) {
+//                System.out.println(producto);
+//            }
+//        }
 
     }
 

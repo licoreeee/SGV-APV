@@ -20,11 +20,12 @@ import javax.persistence.Table;
 public class StockProducto implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
     @OneToOne
-    @JoinColumn(name = "producto_codigo", nullable = false)
+    @JoinColumn(name = "id_producto", nullable = false)
     private Producto producto;
 
     
