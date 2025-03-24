@@ -93,4 +93,5 @@ public interface ISubsistemaInventarioFacade {
      * @throws SubsistemaInventarioException Si ocurre un error al modificar el stock
      */
     public void disminuirStock(ProductoDTO producto, int cantidad) throws SubsistemaInventarioException;
+
 }
