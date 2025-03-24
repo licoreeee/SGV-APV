@@ -3,13 +3,16 @@
  */
 package org.itson.accesodatos_sgvapv.daos;
 
-import entidades.Producto;
 import entidades.Usuario;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import org.itson.accesodatos_sgvapv.conexion.Conexion;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
@@ -38,25 +41,64 @@ class UsuariosDAO implements IUsuariosDAO {
      *
      * @param nombreUsuario Código del usuario a buscar.
      * @return El usuario que se haya encontrado, null en caso contrario.
+     * @throws PersistenciaException Si llegase a ocurrir un error durante la
+     * búsqueda.
      */
     @Override
-    public Usuario obtenerUsuario(String nombreUsuario) {
+    public Usuario obtenerUsuario(String nombreUsuario) throws PersistenciaException {
         // Creamos un entity manager.
         EntityManager em = conexion.crearConexion();
+        try {
 
-        // Mandamos a buscar el usuario.
-        String jpqlSelect = "SELECT p FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario";
-        TypedQuery<Usuario> querySelect = em.createQuery(jpqlSelect, Usuario.class);
-        querySelect.setParameter("nombreUsuario", nombreUsuario);
-        Usuario usuario = querySelect.getSingleResult();
-        // Cerramos el entity manager.
-        em.close();
+            // Mandamos a buscar el usuario.
+            String jpqlSelect = "SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario";
+            TypedQuery<Usuario> querySelect = em.createQuery(jpqlSelect, Usuario.class);
+            querySelect.setParameter("nombreUsuario", nombreUsuario);
+            Usuario usuario = querySelect.getSingleResult();
+            // Cerramos el entity manager.
+            em.close();
 
-        // Imprimimos un mensaje de que se obtuvo un usuario.
-        logger.log(Level.INFO, "Se ha obtenido 1 usuario correctamente.");
+            // Imprimimos un mensaje de que se obtuvo un usuario.
+            logger.log(Level.INFO, "Se ha obtenido 1 usuario correctamente.");
 
-        // Retornamos el usuario encontrado.
-        return usuario;
+            // Retornamos el usuario encontrado.
+            return usuario;
+        } catch (Exception e) {
+            throw new PersistenciaException("Ocurrió algún error durante la búsqueda. Error " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Permite obtener todos los usuarios de la base de datos.
+     *
+     * @return Una lista contodos los usuarios, null en caso contrario.
+     * @throws PersistenciaException Si llegase a ocurrir un error durante la
+     * búsqueda.
+     */
+    @Override
+    public List<Usuario> obtenerTodosUsuarios() throws PersistenciaException {
+        EntityManager em = conexion.crearConexion();
+        try {
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+            Root<Usuario> root = criteria.from(Usuario.class);
+
+            criteria.select(root);
+
+            TypedQuery<Usuario> query = em.createQuery(criteria);
+            List<Usuario> usuarios = query.getResultList();
+
+            return usuarios;
+        } catch (NoResultException e) {
+            logger.log(Level.INFO, "No se encontró ningún usuario.");
+            return null;
+        } catch (Exception e) {
+            throw new PersistenciaException("Ocurrió algún error durante la búsqueda. Error " + e.getMessage());
+        } finally {
+            em.close();
+        }
     }
 
     /**
@@ -69,9 +111,9 @@ class UsuariosDAO implements IUsuariosDAO {
      */
     @Override
     public void actualizarUsuario(Usuario usuario) throws PersistenciaException {
+        // Creamos un entity manager.
+        EntityManager em = conexion.crearConexion();
         try {
-            // Creamos un entity manager.
-            EntityManager em = conexion.crearConexion();
 
             // Iniciamos la transacción.
             em.getTransaction().begin();
@@ -81,12 +123,13 @@ class UsuariosDAO implements IUsuariosDAO {
 
             // Hacemos el commit y cerramos el entity manager.
             em.getTransaction().commit();
-            em.close();
 
             // Imprimimos un mensaje de que se actualizó un usuario.
             logger.log(Level.INFO, "Se ha actualizado 1 usuario correctamente.");
         } catch (Exception e) {
             throw new PersistenciaException("Ocurrió algún error durante la actualización. Error " + e.getMessage());
+        } finally {
+            em.close();
         }
     }
 
@@ -99,9 +142,9 @@ class UsuariosDAO implements IUsuariosDAO {
      */
     @Override
     public void agregarUsuario(Usuario usuario) throws PersistenciaException {
+        // Creamos un entity manager.
+        EntityManager em = conexion.crearConexion();
         try {
-            // Creamos un entity manager.
-            EntityManager em = conexion.crearConexion();
 
             // Iniciamos la transacción.
             em.getTransaction().begin();
@@ -116,25 +159,24 @@ class UsuariosDAO implements IUsuariosDAO {
             // Imprimimos un mensaje de que se insertó un usuario.
             logger.log(Level.INFO, "Se ha insertando 1 usuario correctamente.");
         } catch (Exception e) {
-            throw new PersistenciaException("Ocurrió algún error durante la inserción. Error " + e.getMessage());
+            throw new PersistenciaException("Ocurrió algún error durante la búsqueda. Error " + e.getMessage());
+        } finally {
+            em.close();
         }
     }
 
     /**
      * Permite eliminar un usuario de la base de datos dado su código.
      *
-     * @param codigo Código del usuario a eliminar.
+     * @param usuario Usuario a eliminar.
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
      * eliminación.
      */
     @Override
-    public void eliminarUsuario(Long codigo) throws PersistenciaException {
+    public void eliminarUsuario(Usuario usuario) throws PersistenciaException {
+        // Creamos un entity manager.
+        EntityManager em = conexion.crearConexion();
         try {
-            // Creamos un entity manager.
-            EntityManager em = conexion.crearConexion();
-
-            // Obtenemos el usuario con base al nombre de usuario.
-            Usuario usuario = em.find(Usuario.class, codigo);
 
             // Iniciamos la transacción.
             em.getTransaction().begin();
@@ -149,7 +191,9 @@ class UsuariosDAO implements IUsuariosDAO {
             // Imprimimos un mensaje de que se actualizó un usuario.
             logger.log(Level.INFO, "Se ha actualizado 1 usuario correctamente.");
         } catch (Exception e) {
-            throw new PersistenciaException("Ocurrió algún error durante el borrado. Error " + e.getMessage());
+            throw new PersistenciaException("Ocurrió algún error durante la búsqueda. Error " + e.getMessage());
+        } finally {
+            em.close();
         }
     }
 }

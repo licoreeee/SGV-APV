@@ -22,7 +22,7 @@ interface IVentasDAO {
      * @param codigo El código de la venta buscada.
      * @return La venta si se encuentra, null en caso contrario.
      */
-    public Venta obtenerVenta(String codigo);
+    public Venta obtenerVenta(Long codigo);
 
     /**
      * Permite registrar una venta en la base de datos.
@@ -52,4 +52,13 @@ interface IVentasDAO {
      * @return Devuelve un listado con todas las ventas que se hayan encontrado.
      */
     public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin);
+
+    /**
+     * Permite eliminar una venta en la base de datos dado un código.
+     *
+     * @param venta Venta que se quiere eliminar.
+     * @throws PersistenciaException Si llegase a ocurrir un error al tratar de
+     * eliminar una venta.
+     */
+    public void cancelarVenta(Venta venta) throws PersistenciaException;
 }

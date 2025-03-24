@@ -4,6 +4,7 @@
 package org.itson.accesodatos_sgvapv.daos;
 
 import entidades.Usuario;
+import java.util.List;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
 /**
@@ -19,8 +20,19 @@ interface IUsuariosDAO {
      *
      * @param nombreUsuario Código del usuario a buscar.
      * @return El usuario que se haya encontrado, null en caso contrario.
+     * @throws PersistenciaException Si llegase a ocurrir un error durante la
+     * búsqueda.
      */
-    public Usuario obtenerUsuario(String nombreUsuario);
+    public Usuario obtenerUsuario(String nombreUsuario) throws PersistenciaException;
+
+    /**
+     * Permite obtener todos los usuarios de la base de datos.
+     *
+     * @return Una lista contodos los usuarios, null en caso contrario.
+     * @throws PersistenciaException Si llegase a ocurrir un error durante la
+     * búsqueda.
+     */
+    public List<Usuario> obtenerTodosUsuarios() throws PersistenciaException;
 
     /**
      * Permite actualizar un usuario dado el nombre de usuario y una entidad con
@@ -48,5 +60,5 @@ interface IUsuariosDAO {
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
      * eliminación.
      */
-    public void eliminarUsuario(Long codigo) throws PersistenciaException;
+    public void eliminarUsuario(Usuario usuario) throws PersistenciaException;
 }

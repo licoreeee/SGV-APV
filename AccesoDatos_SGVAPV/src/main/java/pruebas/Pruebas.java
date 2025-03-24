@@ -82,14 +82,6 @@ public class Pruebas {
             }
         }
 
-//        List<Producto> productos2 = accesoDatos.obtenerProductosPorNombre("Trapeador");
-//        
-//        if (productos2 != null) {
-//            for (Producto producto : productos2) {
-//                System.out.println(producto);
-//            }
-//        }
-
     }
 
 }

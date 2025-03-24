@@ -5,9 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -35,13 +35,14 @@ public class Venta implements Serializable {
     private Float total;
 
     @Column(name = "fechaHora", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar fechaHora;
 
     @ManyToOne
     @JoinColumn(name = "vendedor_codigo", nullable = false)
     private Vendedor vendedor;
 
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "venta", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ProductoVenta> productos;
 
     @ManyToMany(mappedBy = "ventas")
@@ -50,15 +51,11 @@ public class Venta implements Serializable {
     public Venta() {
     }
 
-    public Venta(Float total, Calendar fechaHora, Vendedor vendedor) {
+    public Venta(Float total, Calendar fechaHora, Vendedor vendedor, List<ProductoVenta> productos) {
         this.total = total;
         this.fechaHora = fechaHora;
         this.vendedor = vendedor;
-    }
-
-    public Venta(Float total, Calendar fechaHora) {
-        this.total = total;
-        this.fechaHora = fechaHora;
+        this.productos = productos;
     }
 
     public Long getCodigo() {

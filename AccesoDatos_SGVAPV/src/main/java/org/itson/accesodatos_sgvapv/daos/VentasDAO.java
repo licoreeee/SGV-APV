@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import org.itson.accesodatos_sgvapv.conexion.Conexion;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
@@ -41,7 +40,7 @@ class VentasDAO implements IVentasDAO {
      * @return La venta si se encuentra, null en caso contrario.
      */
     @Override
-    public Venta obtenerVenta(String codigo) {
+    public Venta obtenerVenta(Long codigo) {
         // Creamos un entity manager.
         EntityManager em = conexion.crearConexion();
 
@@ -142,4 +141,33 @@ class VentasDAO implements IVentasDAO {
         return query.getResultList();
     }
 
+    /**
+     * Permite eliminar una venta en la base de datos dado un código.
+     *
+     * @param venta Venta que se quiere eliminar.
+     * @throws PersistenciaException Si llegase a ocurrir un error al tratar de
+     * eliminar una venta.
+     */
+    @Override
+    public void cancelarVenta(Venta venta) throws PersistenciaException {
+        try {
+            // Creamos un entity manager.
+            EntityManager em = conexion.crearConexion();
+            
+            // Iniciamos la transacción.
+            em.getTransaction().begin();
+
+            // Actualizamos la venta.
+            em.remove(venta);
+
+            // Hacemos el commit y cerramos el entity manager.
+            em.getTransaction().commit();
+            em.close();
+
+            // Imprimimos un mensaje de que se eliminó una venta.
+            logger.log(Level.INFO, "Se ha eliminado 1 venta correctamente.");
+        } catch (Exception e) {
+            throw new PersistenciaException("Ocurrió algún error durante la eliminación. Error " + e.getMessage());
+        }
+    }
 }
