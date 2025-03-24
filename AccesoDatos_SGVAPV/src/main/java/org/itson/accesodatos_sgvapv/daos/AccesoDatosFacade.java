@@ -85,7 +85,7 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
      * {@inheritDoc}
      */
     @Override
-    public Usuario obtenerUsuario(String nombreUsuario) {
+    public Usuario obtenerUsuario(String nombreUsuario) throws PersistenciaException {
         return usuariosDAO.obtenerUsuario(nombreUsuario);
     }
 
@@ -109,15 +109,15 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
      * {@inheritDoc}
      */
     @Override
-    public void eliminarUsuario(Long codigo) throws PersistenciaException {
-        usuariosDAO.eliminarUsuario(codigo);
+    public void eliminarUsuario(Usuario usuario) throws PersistenciaException {
+        usuariosDAO.eliminarUsuario(usuario);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Venta obtenerVenta(String codigo) {
+    public Venta obtenerVenta(Long codigo) throws PersistenciaException {
         return ventasDAO.obtenerVenta(codigo);
     }
 
@@ -141,7 +141,7 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
      * {@inheritDoc}
      */
     @Override
-    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) {
+    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException {
         return ventasDAO.obtenerVentasPeriodo(fechaInicio, fechaFin);
     }
 

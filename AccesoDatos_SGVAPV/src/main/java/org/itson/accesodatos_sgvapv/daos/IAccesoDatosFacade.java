@@ -78,7 +78,7 @@ public interface IAccesoDatosFacade {
      * @param nombreUsuario Nombre del usuario a buscar,
      * @return El usuario que se haya encontrado, null en caso contrario.
      */
-    public Usuario obtenerUsuario(String nombreUsuario);
+    public Usuario obtenerUsuario(String nombreUsuario) throws PersistenciaException;
 
     /**
      * Permite actualizar un usuario dado el nombre de usuario y una entidad con
@@ -100,22 +100,23 @@ public interface IAccesoDatosFacade {
     public void agregarUsuario(Usuario usuario) throws PersistenciaException;
 
     /**
-     * Permite eliminar un usuario de la base de datos dado su nombre de
-     * usuario.
+     * Permite eliminar un usuario de la base de datos.
      *
-     * @param codigo El código del usuario a eliminar.
+     * @param usuario Usuario a eliminar.
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
      * eliminación.
      */
-    public void eliminarUsuario(Long codigo) throws PersistenciaException;
+    public void eliminarUsuario(Usuario usuario) throws PersistenciaException;
 
     /**
      * Permite obtener una venta dado código.
      *
      * @param codigo El código de la venta buscada.
      * @return La venta si se encuentra, null en caso contrario.
+     * @throws PersistenciaException Si llegase a ocurrir un problema durante la
+     * búsqueda.
      */
-    public Venta obtenerVenta(String codigo);
+    public Venta obtenerVenta(Long codigo) throws PersistenciaException;
 
     /**
      * Permite registrar una venta en la base de datos.
@@ -143,7 +144,9 @@ public interface IAccesoDatosFacade {
      * @param fechaInicio Fecha de inicio del periodo a tomar en cuenta.
      * @param fechaFin Fecha fin del periodo a tomar en cuenta.
      * @return Devuelve un listado con todas las ventas que se hayan encontrado.
+     * @throws PersistenciaException Si llegase a ocurrir un problema durante la
+     * eliminación.
      */
-    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin);
+    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException;
 
 }

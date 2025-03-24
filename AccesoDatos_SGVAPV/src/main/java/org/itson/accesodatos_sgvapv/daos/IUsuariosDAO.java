@@ -54,9 +54,9 @@ interface IUsuariosDAO {
     public void agregarUsuario(Usuario usuario) throws PersistenciaException;
 
     /**
-     * Permite eliminar un usuario de la base de datos dado su código.
+     * Permite eliminar un usuario de la base de datos.
      *
-     * @param codigo Código del usuario a eliminar.
+     * @param usuario Usuario a eliminar.
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
      * eliminación.
      */

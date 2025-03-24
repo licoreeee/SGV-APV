@@ -166,7 +166,7 @@ class UsuariosDAO implements IUsuariosDAO {
     }
 
     /**
-     * Permite eliminar un usuario de la base de datos dado su código.
+     * Permite eliminar un usuario de la base de datos.
      *
      * @param usuario Usuario a eliminar.
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
