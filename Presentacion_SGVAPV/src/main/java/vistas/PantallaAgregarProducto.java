@@ -188,15 +188,6 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException e) {
 
         }
-        
-        
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PantallaAgregarProducto().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
