@@ -1,15 +1,18 @@
 package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 
 /**
  *
  * @author Dell
  */
 public class PantallaPago extends javax.swing.JFrame {
-    
+
     private String tipoVenta;
 
     /**
@@ -22,6 +25,9 @@ public class PantallaPago extends javax.swing.JFrame {
         this.setTitle("SGVAPV - Pago");
         txtTotal.setEditable(false);
         txtCambio.setEditable(false);
+        totalVenta = 168f;
+
+        txtTotal.setText(String.format("%.2f", totalVenta));
     }
 
     /**
@@ -105,6 +111,11 @@ public class PantallaPago extends javax.swing.JFrame {
         });
 
         txtPago.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtPago.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPagoKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel3.setText("REGISTRAR VENTA");
@@ -196,22 +207,68 @@ public class PantallaPago extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Se ha completado la venta exitosamente.",
+                "Venta Completada", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnTerminarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        int seleccion = JOptionPane.showConfirmDialog(this, "¿Desea cancelar la operación?",
+                "Cancelar Operación", JOptionPane.YES_NO_OPTION);
+        if (seleccion == JOptionPane.YES_OPTION) {
+
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtPagoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagoKeyTyped
+        int key = evt.getKeyChar();
+        //Solo permitirá caracteres de números y de '/'.
+        boolean nums = key >= 48 && key <= 57;
+        if (!nums) {
+            evt.consume();
+        }
+        if (txtPago.getText().trim().length() == 8) {
+            evt.consume();
+        }
+
+        txtPago.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                calcularCambio();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                calcularCambio();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                calcularCambio();
+            }
+
+            private void calcularCambio() {
+                try {
+                    float total = Float.parseFloat(txtTotal.getText());
+                    float pago = Float.parseFloat(txtPago.getText());
+                    if (pago >= total) {
+                        float cambio = pago - total;
+                        txtCambio.setText(String.format("%.2f", cambio));
+                    } else {
+                        txtCambio.setText("");
+                    }
+                } catch (NumberFormatException ex) {
+                    txtCambio.setText("");
+                }
+            }
+        });
+    }//GEN-LAST:event_txtPagoKeyTyped
 
     public String getTipoVenta() {
         return tipoVenta;
     }
-    
+
     public void setTipoVenta(String tipoVenta) {
         this.tipoVenta = tipoVenta;
         lblTipoVenta.setText(tipoVenta);
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -221,6 +278,13 @@ public class PantallaPago extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException e) {
 
         }
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new PantallaPago().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -239,4 +303,5 @@ public class PantallaPago extends javax.swing.JFrame {
     private javax.swing.JTextField txtPago;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
+    private Float totalVenta;
 }
