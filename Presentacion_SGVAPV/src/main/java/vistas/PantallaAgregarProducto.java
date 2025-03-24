@@ -9,6 +9,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author Dell
  */
 public class PantallaAgregarProducto extends javax.swing.JFrame {
+    
+    private String tipoVenta;
 
     /**
      * Creates new form PantallaInicioSesion
@@ -16,8 +18,10 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     public PantallaAgregarProducto() {
         initComponents();
         setEnabled(true);
+        setVisible(true);
         this.setTitle("SGVAPV - Agregar Producto");
         txtStock.setEditable(false);
+//        verificarTipoVenta();
     }
 
     /**
@@ -35,13 +39,14 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnIngresar = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
         txtStock = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         lblTipoVenta = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         cmbxProductos = new javax.swing.JComboBox<>();
         txtCantidad = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(196, 216, 255));
@@ -90,12 +95,12 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel5.setText("STOCK");
 
-        btnIngresar.setBackground(new java.awt.Color(41, 136, 194));
-        btnIngresar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        btnIngresar.setText("INGRESAR");
-        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setBackground(new java.awt.Color(41, 136, 194));
+        btnAgregar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        btnAgregar.setText("AGREGAR");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
             }
         });
 
@@ -105,7 +110,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         jLabel3.setText("REGISTRAR VENTA");
 
         lblTipoVenta.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        lblTipoVenta.setText("tipo de venta");
+        lblTipoVenta.setText("AGUA PURIFICADA");
 
         jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel6.setText("CANTIDAD");
@@ -113,6 +118,14 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
         txtCantidad.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+
+        btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        btnCancelar.setText("CANCELAR");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -136,14 +149,19 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addGap(65, 65, 65)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnIngresar)
                             .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                             .addComponent(cmbxProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(257, 257, 257)
-                        .addComponent(lblTipoVenta)))
-                .addContainerGap(170, Short.MAX_VALUE))
+                        .addGap(231, 231, 231)
+                        .addComponent(lblTipoVenta))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(136, 136, 136)
+                        .addComponent(btnCancelar)
+                        .addGap(90, 90, 90)
+                        .addComponent(btnAgregar)
+                        .addGap(57, 57, 57)))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,21 +182,43 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51)
-                .addComponent(btnIngresar)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnCancelar))
+                .addGap(38, 38, 38))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 640, 420));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnIngresarActionPerformed
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void verificarTipoVenta(){  
+        if(this.getTipoVenta().equalsIgnoreCase("AGUA PURIFICADA")){
+            jLabel5.setVisible(false);
+            txtStock.setVisible(false);
+        }
+    }
+    
+    public String getTipoVenta() {
+        return tipoVenta;
+    }
+    
+    public void setTipoVenta(String tipoVenta) {
+        this.tipoVenta = tipoVenta;
+        lblTipoVenta.setText(tipoVenta);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -191,7 +231,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> cmbxProductos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

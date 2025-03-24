@@ -9,6 +9,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author Dell
  */
 public class PantallaPago extends javax.swing.JFrame {
+    
+    private String tipoVenta;
 
     /**
      * Creates new form PantallaInicioSesion
@@ -16,6 +18,7 @@ public class PantallaPago extends javax.swing.JFrame {
     public PantallaPago() {
         initComponents();
         setEnabled(true);
+        setVisible(true);
         this.setTitle("SGVAPV - Pago");
         txtTotal.setEditable(false);
         txtCambio.setEditable(false);
@@ -36,13 +39,14 @@ public class PantallaPago extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnIngresar = new javax.swing.JButton();
+        btnTerminar = new javax.swing.JButton();
         txtPago = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         lblTipoVenta = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         txtCambio = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(196, 216, 255));
@@ -91,12 +95,12 @@ public class PantallaPago extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel5.setText("PAGO");
 
-        btnIngresar.setBackground(new java.awt.Color(41, 136, 194));
-        btnIngresar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        btnIngresar.setText("INGRESAR");
-        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+        btnTerminar.setBackground(new java.awt.Color(41, 136, 194));
+        btnTerminar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        btnTerminar.setText("TERMINAR");
+        btnTerminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarActionPerformed(evt);
+                btnTerminarActionPerformed(evt);
             }
         });
 
@@ -106,7 +110,7 @@ public class PantallaPago extends javax.swing.JFrame {
         jLabel3.setText("REGISTRAR VENTA");
 
         lblTipoVenta.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        lblTipoVenta.setText("tipo de venta");
+        lblTipoVenta.setText("AGUA PURIFICADA");
 
         jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel6.setText("CAMBIO");
@@ -114,6 +118,14 @@ public class PantallaPago extends javax.swing.JFrame {
         txtTotal.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
         txtCambio.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+
+        btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        btnCancelar.setText("CANCELAR");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -136,20 +148,20 @@ public class PantallaPago extends javax.swing.JFrame {
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel5))
                                 .addGap(37, 37, 37)))
+                        .addGap(16, 16, 16)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
-                                    .addComponent(txtPago)
-                                    .addComponent(txtCambio)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(btnIngresar))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(257, 257, 257)
-                        .addComponent(lblTipoVenta)))
+                            .addComponent(lblTipoVenta)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                                .addComponent(txtPago)
+                                .addComponent(txtCambio)))))
                 .addContainerGap(125, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 124, Short.MAX_VALUE)
+                .addComponent(btnCancelar)
+                .addGap(84, 84, 84)
+                .addComponent(btnTerminar)
+                .addGap(161, 161, 161))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,9 +182,11 @@ public class PantallaPago extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(btnIngresar)
-                .addGap(33, 33, 33))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTerminar)
+                    .addComponent(btnCancelar))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 640, 420));
@@ -181,10 +195,23 @@ public class PantallaPago extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+    private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnIngresarActionPerformed
+    }//GEN-LAST:event_btnTerminarActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    public String getTipoVenta() {
+        return tipoVenta;
+    }
+    
+    public void setTipoVenta(String tipoVenta) {
+        this.tipoVenta = tipoVenta;
+        lblTipoVenta.setText(tipoVenta);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -197,7 +224,8 @@ public class PantallaPago extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnTerminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

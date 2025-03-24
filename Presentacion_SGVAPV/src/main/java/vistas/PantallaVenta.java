@@ -2,6 +2,7 @@ package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Font;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.JTableHeader;
@@ -11,6 +12,8 @@ import javax.swing.table.JTableHeader;
  * @author Dell
  */
 public class PantallaVenta extends javax.swing.JFrame {
+    
+    private String tipoVenta;
 
     /**
      * Creates new form PantallaInicioSesion
@@ -212,7 +215,7 @@ public class PantallaVenta extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 640, 420));
 
         pack();
         setLocationRelativeTo(null);
@@ -223,15 +226,27 @@ public class PantallaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnTerminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminar1ActionPerformed
-        // TODO add your handling code here:
+        if(tblProductosVenta.getRowCount() != 0){
+            this.dispose();
+            PantallaPago pantallaPago = new PantallaPago();
+            pantallaPago.setTipoVenta(this.getTipoVenta());
+        } else {
+            JOptionPane.showConfirmDialog(this, "Agregue productos para poder realizar la venta.", "Venta inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnTerminar1ActionPerformed
 
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
         this.dispose();
         PantallaAgregarProducto pantallaAgregarProducto = new PantallaAgregarProducto();
+        pantallaAgregarProducto.setTipoVenta(this.getTipoVenta());
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
 
+    public String getTipoVenta() {
+        return tipoVenta;
+    }
+    
     public void setTipoVenta(String tipoVenta) {
+        this.tipoVenta = tipoVenta;
         lblTipoVenta.setText(tipoVenta);
     }
     
