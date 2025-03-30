@@ -74,7 +74,7 @@ class StockProductosDAO implements IStockProductosDAO {
         try {
             em.getTransaction().begin();
 
-            String jpqlUpdate = "UPDATE stockproductos sp SET sp.cantidad = sp.cantidad + :stock WHERE sp.id_producto = :idProducto";
+            String jpqlUpdate = "UPDATE StockProducto sp SET sp.cantidad = sp.cantidad + :stock WHERE sp.id = :idProducto";
             Query queryUpdate = em.createQuery(jpqlUpdate);
             queryUpdate.setParameter("stock", stock);
             queryUpdate.setParameter("idProducto", producto.getId());

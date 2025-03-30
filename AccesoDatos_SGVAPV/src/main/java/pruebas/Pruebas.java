@@ -2,6 +2,7 @@ package pruebas;
 
 import entidades.Contenedor;
 import entidades.Llenado;
+import entidades.Producto;
 import entidades.Variado;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,9 @@ public class Pruebas {
 //        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
 //        List<Variado> productos = new ArrayList<>();
 //
+        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
+        List<Producto> productos;
+
 //        productos.add(new Variado("VAR-001", "Trapeador", 140f));
 //        productos.add(new Variado("VAR-002", "Escoba", 120f));
 //        productos.add(new Variado("VAR-003", "Balde", 90f));
@@ -31,10 +35,15 @@ public class Pruebas {
 //        productos.add(new Variado("VAR-009", "Cepillo para pisos", 130f));
 //        productos.add(new Variado("VAR-010", "Bolsas de basura", 45f));
 
+        productos = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class));
+        
         // Persistir los productos
 //        for (Variado producto : productos) {
 //            accesoDatos.agregarProducto(producto);
 //        }
+        for (int i = 0; i < productos.size(); i++) {
+            accesoDatos.aumentarStock(productos.get(i), (i+1)*2);
+        }
 //        Contenedor contenedor = new Contenedor("CON-001", "Garrafón Nuevo 19L", 85f, 19);
 //        Llenado llenado = new Llenado("LEN-001", "Llenado Garrafon", 19, contenedor, 14f);
 //        List<Producto> lista = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class));

@@ -9,3 +9,5 @@ Dominio_SGVAPV/src/main/resources/META-INF/persistence.xml
 *.jar
 *.class
 /SubsistemaReporteVentas_SGVAPV/target/
+Presentacion_SGVAPV/target/Presentacion_SGVAPV-1.0-SNAPSHOT.jar
+Presentacion_SGVAPV/target/classes/vistas/PantallaAgregarProducto.class

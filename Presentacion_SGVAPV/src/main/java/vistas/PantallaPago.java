@@ -1,11 +1,13 @@
 package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dtos.VentaDTO;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
+import utilidades.FormatoDinero;
 
 /**
  *
@@ -14,20 +16,24 @@ import javax.swing.event.DocumentEvent;
 public class PantallaPago extends javax.swing.JFrame {
 
     private String tipoVenta;
+    private Float totalVenta;
+    private VentaDTO venta;
+    private FormatoDinero fd = new FormatoDinero();
 
     /**
      * Creates new form PantallaInicioSesion
      */
-    public PantallaPago() {
+    public PantallaPago(VentaDTO venta) {
         initComponents();
+        this.venta = venta;
         setEnabled(true);
         setVisible(true);
         this.setTitle("SGVAPV - Pago");
         txtTotal.setEditable(false);
         txtCambio.setEditable(false);
-        totalVenta = 168f;
+        totalVenta = venta.getTotal();
 
-        txtTotal.setText(String.format("%.2f", totalVenta));
+        txtTotal.setText(fd.formatear(totalVenta));
     }
 
     /**
@@ -269,24 +275,6 @@ public class PantallaPago extends javax.swing.JFrame {
         lblTipoVenta.setText(tipoVenta);
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-
-        }
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PantallaPago().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnTerminar;
@@ -303,5 +291,4 @@ public class PantallaPago extends javax.swing.JFrame {
     private javax.swing.JTextField txtPago;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
-    private Float totalVenta;
 }

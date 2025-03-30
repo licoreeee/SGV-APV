@@ -70,7 +70,9 @@ class SubsistemaVentasControl {
         if (listaProductos != null) {
             List<ProductoDTO> listaProductosDTO = new LinkedList();
             for (Producto producto : listaProductos) {
-                listaProductosDTO.add(new ProductoDTO(producto.getCodigo(), producto.getNombre(), producto.getPrecio(), producto.getStock().getCantidad()));
+                if (producto.getStock().getCantidad() > 0) {
+                    listaProductosDTO.add(new ProductoDTO(producto.getCodigo(), producto.getNombre(), producto.getPrecio(), producto.getStock().getCantidad()));
+                } 
             }
             return listaProductosDTO;
         }

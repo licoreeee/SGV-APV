@@ -31,4 +31,22 @@ public class FormatoDinero {
         // Retornamos la cantidad con el formato aplicado.
         return cantFormateada;
     }
+    
+    /**
+     * Método para darle formato al dinero pero dado en String.
+     *
+     * @param cantidad Cantidad que se busca formatear.
+     * @return La cantidad de dinero ya con el formato correcto.
+     */
+    public String formatear(String cantidad) {
+        // Creamos un formato de dinero para México.
+        Locale locale = new Locale("es", "MX");
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+
+        // Formateamos la cantidad como dinero.
+        String cantFormateada = currencyFormatter.format(cantidad) + " MXN";
+
+        // Retornamos la cantidad con el formato aplicado.
+        return cantFormateada;
+    }
 }

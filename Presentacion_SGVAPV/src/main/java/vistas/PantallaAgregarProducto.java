@@ -7,6 +7,7 @@ import dtos.VendedorDTO;
 import dtos.VentaDTO;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.itson.subsistemaventas_sgvapv.ISubsistemaVentasFacade;
@@ -35,21 +36,28 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         this.pantallaVenta = pantallaVenta;
         this.venta = venta;
         txtStock.setEditable(false);
+        txtCantidad.setEnabled(false);
     }
 
     private void cargarProductos() {
         // Creamos una lista de productos.
         List<ProductoDTO> productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("VARIADO"));
 
-        // Creamos un modelo para combo box.
-        DefaultComboBoxModel<ProductoDTO> modelo = new DefaultComboBoxModel<>();
-        for (ProductoDTO producto : productos) {
-            // Agregamos cada producto al modelo.
-            modelo.addElement(producto);
-        }
+        if (productos.isEmpty()) {
+            JOptionPane.showConfirmDialog(this, "No se han encontrado productos con stock.", "No hay stock", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+            pantallaVenta.setVisible(true);
+        } else {
+            // Creamos un modelo para combo box.
+            DefaultComboBoxModel<ProductoDTO> modelo = new DefaultComboBoxModel<>();
+            for (ProductoDTO producto : productos) {
+                // Agregamos cada producto al modelo.
+                modelo.addElement(producto);
+            }
 
-        // Asignamos el modelo al combo box.
-        cmbxProductos.setModel(modelo);
+            // Asignamos el modelo al combo box.
+            cmbxProductos.setModel(modelo);
+        }
     }
 
     /**
@@ -228,16 +236,25 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         ProductoDTO producto = (ProductoDTO) cmbxProductos.getSelectedItem();
-        
-        ProductoVentaDTO productoVenta = new ProductoVentaDTO();
-        productoVenta.setCantidad(Integer.valueOf(txtCantidad.getText()));
-        productoVenta.setPrecio(producto.getPrecio());
-        productoVenta.setProducto(producto);
-        
-        venta.agregarProducto(productoVenta);
-        venta.actualizarTotal();
-        pantallaVenta.cargarProducto(productoVenta);
-        this.dispose();
+
+        int cantidadIngresada = Integer.parseInt(txtCantidad.getText());
+        if (cantidadIngresada <= 0) {
+            JOptionPane.showConfirmDialog(this, "Ingrese una cantidad válida.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+        } else {
+            ProductoVentaDTO productoVenta = new ProductoVentaDTO();
+            productoVenta.setCantidad(cantidadIngresada);
+            productoVenta.setPrecio(producto.getPrecio());
+            productoVenta.setProducto(producto);
+
+            if (validarCantidad(venta, productoVenta)) {
+                venta.agregarProducto(productoVenta);
+                venta.actualizarTotal();
+                pantallaVenta.cargarProducto(productoVenta);
+                this.dispose();
+            } else {
+                JOptionPane.showConfirmDialog(this, "La cantidad ingresada sobrepasa el stock.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -265,6 +282,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
         int stock = productoSeleccionado.getCantidad();
         txtStock.setText(String.valueOf(stock));
+        txtCantidad.setEnabled(true);
     }//GEN-LAST:event_cmbxProductosActionPerformed
 
     /**
@@ -294,4 +312,22 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
+
+    private boolean validarCantidad(VentaDTO venta, ProductoVentaDTO productoVentaNuevo) {
+        if (productoVentaNuevo.getCantidad() > productoVentaNuevo.getProducto().getCantidad()) {
+            return false;
+        } else {
+            for (ProductoVentaDTO productoVenta : venta.getProductos()) {
+                if (productoVenta.getProducto().getCodigo().equalsIgnoreCase(productoVentaNuevo.getProducto().getCodigo())) {
+                    int cantidadVenta = productoVenta.getCantidad();
+                    int cantidadActualizada = cantidadVenta + productoVentaNuevo.getCantidad();
+                    int cantidadStock = productoVenta.getProducto().getCantidad();
+                    if (cantidadActualizada > cantidadStock) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
