@@ -8,3 +8,4 @@ Dominio_SGVAPV/src/main/resources/META-INF/persistence.xml
 /SubsistemaInicioSesion_SGVAPV/target/
 *.jar
 *.class
+/SubsistemaReporteVentas_SGVAPV/target/

@@ -7,6 +7,7 @@
       <Color blue="ff" green="d8" red="c4" type="rgb"/>
     </Property>
     <Property name="enabled" type="boolean" value="false"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -116,7 +117,7 @@
                           <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
                           <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnTerminar1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnTerminar" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -148,7 +149,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnTerminar1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnTerminar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnBuscarProducto" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
@@ -184,7 +185,7 @@
             <Property name="text" type="java.lang.String" value="AGUA PURIFICADA"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnTerminar1">
+        <Component class="javax.swing.JButton" name="btnTerminar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="c2" green="88" red="29" type="rgb"/>
@@ -195,7 +196,7 @@
             <Property name="text" type="java.lang.String" value="TERMINAR"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTerminar1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTerminarActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnBuscarProducto">

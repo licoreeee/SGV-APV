@@ -7,6 +7,7 @@ import dtos.VendedorDTO;
 import dtos.VentaDTO;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -23,16 +24,18 @@ public class PantallaVenta extends javax.swing.JFrame {
     private String tipoVenta;
     private VentaDTO venta;
     private FormatoDinero fd = new FormatoDinero();
+    private JFrame parent;
     private VendedorDTO vendedor = new VendedorDTO("Diego Valenzuela", "pipucate", "123456");
 
     /**
      * Creates new form PantallaInicioSesion
      */
-    public PantallaVenta() {
+    public PantallaVenta(JFrame parent) {
         initComponents();
         setEnabled(true);
         setVisible(true);
         this.setTitle("SGVAPV - Venta");
+        this.parent = parent;
         JTableHeader header = tblProductosVenta.getTableHeader();
         Font headerFont = new Font("Afacad", Font.BOLD, 23);
         header.setFont(headerFont);
@@ -52,11 +55,11 @@ public class PantallaVenta extends javax.swing.JFrame {
          * | +-----------------------------------------+
          */
         // Cambiamos el color del fondo.
-        tblProductosVenta.getTableHeader().setBackground(new Color(106, 27, 49));
+        tblProductosVenta.getTableHeader().setBackground(new Color(41, 136, 194));
         // Cambiamos la fuente y el tamaño.
         tblProductosVenta.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
         // Cambiamos el color de la letra.
-        tblProductosVenta.getTableHeader().setForeground(new Color(188, 149, 92));
+        tblProductosVenta.getTableHeader().setForeground(new Color(255, 255, 255));
     }
 
     /**
@@ -113,7 +116,7 @@ public class PantallaVenta extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         lblTipoVenta = new javax.swing.JLabel();
-        btnTerminar1 = new javax.swing.JButton();
+        btnTerminar = new javax.swing.JButton();
         btnBuscarProducto = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -124,6 +127,7 @@ public class PantallaVenta extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(196, 216, 255));
         setEnabled(false);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(41, 136, 194));
@@ -176,12 +180,12 @@ public class PantallaVenta extends javax.swing.JFrame {
         lblTipoVenta.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         lblTipoVenta.setText("AGUA PURIFICADA");
 
-        btnTerminar1.setBackground(new java.awt.Color(41, 136, 194));
-        btnTerminar1.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        btnTerminar1.setText("TERMINAR");
-        btnTerminar1.addActionListener(new java.awt.event.ActionListener() {
+        btnTerminar.setBackground(new java.awt.Color(41, 136, 194));
+        btnTerminar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        btnTerminar.setText("TERMINAR");
+        btnTerminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTerminar1ActionPerformed(evt);
+                btnTerminarActionPerformed(evt);
             }
         });
 
@@ -253,7 +257,7 @@ public class PantallaVenta extends javax.swing.JFrame {
                         .addGap(91, 91, 91)
                         .addComponent(btnCancelar)
                         .addGap(18, 18, 18)
-                        .addComponent(btnTerminar1)))
+                        .addComponent(btnTerminar)))
                 .addGap(15, 15, 15))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,7 +281,7 @@ public class PantallaVenta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
-                    .addComponent(btnTerminar1)
+                    .addComponent(btnTerminar)
                     .addComponent(btnBuscarProducto))
                 .addGap(14, 14, 14))
         );
@@ -289,10 +293,12 @@ public class PantallaVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        parent.setVisible(true);
+        venta = null;
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnTerminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminar1ActionPerformed
+    private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
         if (tblProductosVenta.getRowCount() != 0) {
             this.dispose();
             PantallaPago pantallaPago = new PantallaPago();
@@ -300,7 +306,7 @@ public class PantallaVenta extends javax.swing.JFrame {
         } else {
             JOptionPane.showConfirmDialog(this, "Agregue productos para poder realizar la venta.", "Venta inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnTerminar1ActionPerformed
+    }//GEN-LAST:event_btnTerminarActionPerformed
 
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
         PantallaAgregarProducto pantallaAgregarProducto = new PantallaAgregarProducto(this, venta);
@@ -319,7 +325,7 @@ public class PantallaVenta extends javax.swing.JFrame {
                 if (index != -1) {
                     codigo = codigoNombre.substring(0, index); // Extrae todo antes de " -"
                 }
-                
+
                 tblProductosVenta.setValueAt(cantidad + 1, selectedRow, 2);
             } else if (evt.getKeyChar() == '-') { // Si presiona "-"
                 if (cantidad > 0) { // Evita valores negativos
@@ -338,21 +344,10 @@ public class PantallaVenta extends javax.swing.JFrame {
         lblTipoVenta.setText(tipoVenta);
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-
-        }
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarProducto;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnTerminar1;
+    private javax.swing.JButton btnTerminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

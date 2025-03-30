@@ -2,6 +2,7 @@ package vistas;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import dtos.UsuarioDTO;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -14,12 +15,14 @@ public class PantallaMenu extends javax.swing.JFrame {
     /**
      * Creates new form PantallaInicioSesion
      * @param usuario
+     * @param parent
      */
-    public PantallaMenu(UsuarioDTO usuario) {
+    public PantallaMenu(UsuarioDTO usuario, JFrame parent) {
         initComponents();
         setEnabled(true);
         this.setVisible(true);
         this.setTitle("SGVAPV - Menú");
+        this.parent = parent;
         
         String[] partesNombre = usuario.getNombre().split(" ");
         
@@ -46,11 +49,12 @@ public class PantallaMenu extends javax.swing.JFrame {
         btnGestionarInventario = new javax.swing.JButton();
         btnReporteVentas = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnLogOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(196, 216, 255));
         setEnabled(false);
+        setResizable(false);
         setSize(new java.awt.Dimension(720, 480));
 
         jPanel1.setBackground(new java.awt.Color(41, 136, 194));
@@ -133,8 +137,13 @@ public class PantallaMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(41, 136, 194));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logout.png"))); // NOI18N
+        btnLogOut.setBackground(new java.awt.Color(41, 136, 194));
+        btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logout.png"))); // NOI18N
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -145,12 +154,12 @@ public class PantallaMenu extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lblNombreUsuario1)
                     .addComponent(lblNombreUsuario)
-                    .addComponent(btnVentaAgua, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVentaProductoVariado, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGestionarInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReporteVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnVentaAgua, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVentaProductoVariado, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGestionarInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReporteVentas))
                 .addGap(74, 74, 74)
-                .addComponent(jButton1)
+                .addComponent(btnLogOut)
                 .addGap(37, 37, 37))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(637, 637, 637)
@@ -164,19 +173,19 @@ public class PantallaMenu extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addComponent(btnLogOut)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addComponent(lblNombreUsuario1)
                         .addGap(40, 40, 40)
                         .addComponent(btnVentaAgua)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnVentaProductoVariado)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnGestionarInventario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnReporteVentas))
+                        .addComponent(btnVentaProductoVariado))
                     .addComponent(lblNombreUsuario))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGestionarInventario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnReporteVentas)
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -203,13 +212,13 @@ public class PantallaMenu extends javax.swing.JFrame {
 
     private void btnVentaAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaAguaActionPerformed
         this.dispose();
-        PantallaVenta pantallaVenta = new PantallaVenta();
+        PantallaVenta pantallaVenta = new PantallaVenta(this);
         pantallaVenta.setTipoVenta("AGUA PURIFICADA");
     }//GEN-LAST:event_btnVentaAguaActionPerformed
 
     private void btnVentaProductoVariadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaProductoVariadoActionPerformed
         this.dispose();
-        PantallaVenta pantallaVenta = new PantallaVenta();
+        PantallaVenta pantallaVenta = new PantallaVenta(this);
         pantallaVenta.setTipoVenta("PRODUCTO VARIADO");
     }//GEN-LAST:event_btnVentaProductoVariadoActionPerformed
 
@@ -221,23 +230,17 @@ public class PantallaMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnReporteVentasActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-
-        }
-    }
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        parent.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogOutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGestionarInventario;
+    private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnReporteVentas;
     private javax.swing.JButton btnVentaAgua;
     private javax.swing.JButton btnVentaProductoVariado;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -246,4 +249,5 @@ public class PantallaMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JLabel lblNombreUsuario1;
     // End of variables declaration//GEN-END:variables
+    private JFrame parent;
 }

@@ -7,6 +7,7 @@
       <Color blue="ff" green="d8" red="c4" type="rgb"/>
     </Property>
     <Property name="enabled" type="boolean" value="false"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

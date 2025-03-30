@@ -23,8 +23,8 @@ public class NewMain {
         } catch (UnsupportedLookAndFeelException e) {
 
         }
-        PantallaVenta p = new PantallaVenta();
-        p.setVisible(true);
+        PantallaInicioSesion pis = new PantallaInicioSesion();
+        pis.setVisible(true);
     }
 
 }

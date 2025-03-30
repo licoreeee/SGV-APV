@@ -1,20 +1,13 @@
 package vistas;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import dtos.UsuarioDTO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import org.itson.subsistemainiciosesion_sgvapv.ISubsistemaInicioSesionFacade;
 import org.itson.subsistemainiciosesion_sgvapv.SubsistemaInicioSesionFacade;
 import org.itson.subsistemainiciosesion_sgvapv.excepciones.SubsistemaInicioSesionException;
 
-/**
- *
- * @author Dell
- */
 public class PantallaInicioSesion extends javax.swing.JFrame {
 
     /**
@@ -53,6 +46,7 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(196, 216, 255));
         setEnabled(false);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(41, 136, 194));
@@ -170,8 +164,10 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
             try {
                 UsuarioDTO usuario = inicioSesion.iniciarSesion(nombreUsuario, contrasenia);
                 if (usuario != null) {
+                    txtContrasenia.setText("");
+                    txtNombreUsuario.setText("");
                     this.dispose();
-                    PantallaMenu pantallaMenu = new PantallaMenu(usuario);
+                    PantallaMenu pantallaMenu = new PantallaMenu(usuario, this);
                 } else {
                     JOptionPane.showMessageDialog(this, "El usuario o la contraseña ingresados no son correctos.", 
                             "Información errónea", JOptionPane.ERROR_MESSAGE); 
@@ -184,24 +180,6 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
                     "Campos vacíos",  JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-
-        }
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PantallaInicioSesion().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
