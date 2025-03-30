@@ -1,15 +1,11 @@
 package vistas;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import dtos.ProductoDTO;
 import dtos.ProductoVentaDTO;
-import dtos.VendedorDTO;
 import dtos.VentaDTO;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import org.itson.subsistemaventas_sgvapv.ISubsistemaVentasFacade;
 import org.itson.subsistemaventas_sgvapv.SubsistemaVentasFacade;
 
@@ -36,7 +32,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         this.pantallaVenta = pantallaVenta;
         this.venta = venta;
         txtStock.setEditable(false);
-        txtCantidad.setEnabled(false);
+        txtCantidad.setEditable(false);
     }
 
     private void cargarProductos() {
@@ -49,7 +45,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
             pantallaVenta.setVisible(true);
         } else {
             // Creamos un modelo para combo box.
-            DefaultComboBoxModel<ProductoDTO> modelo = new DefaultComboBoxModel<>();
+            DefaultComboBoxModel<Object> modelo = new DefaultComboBoxModel<>();
+            modelo.addElement("-- Seleccionar");
             for (ProductoDTO producto : productos) {
                 // Agregamos cada producto al modelo.
                 modelo.addElement(producto);
@@ -141,6 +138,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         });
 
         txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtStock.setFocusable(false);
 
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel3.setText("BUSCAR PRODUCTO");
@@ -152,6 +150,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         jLabel6.setText("CANTIDAD");
 
         cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        cmbxProductos.setSelectedItem("--Seleccionar");
         cmbxProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbxProductosActionPerformed(evt);
@@ -159,6 +158,11 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         });
 
         txtCantidad.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         btnCancelar.setText("CANCELAR");
@@ -235,25 +239,35 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        ProductoDTO producto = (ProductoDTO) cmbxProductos.getSelectedItem();
+        if (cmbxProductos.getSelectedItem() instanceof ProductoDTO) {
+            ProductoDTO producto = (ProductoDTO) cmbxProductos.getSelectedItem();
+            if (!txtCantidad.getText().isBlank()) {
+                int cantidadIngresada = Integer.parseInt(txtCantidad.getText());
+                if (cantidadIngresada <= 0) {
+                    JOptionPane.showConfirmDialog(this, "Ingrese una cantidad válida.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+                } else {
+                    ProductoVentaDTO productoVenta = new ProductoVentaDTO();
+                    productoVenta.setCantidad(cantidadIngresada);
+                    productoVenta.setPrecio(producto.getPrecio());
+                    productoVenta.setProducto(producto);
 
-        int cantidadIngresada = Integer.parseInt(txtCantidad.getText());
-        if (cantidadIngresada <= 0) {
-            JOptionPane.showConfirmDialog(this, "Ingrese una cantidad válida.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-        } else {
-            ProductoVentaDTO productoVenta = new ProductoVentaDTO();
-            productoVenta.setCantidad(cantidadIngresada);
-            productoVenta.setPrecio(producto.getPrecio());
-            productoVenta.setProducto(producto);
-
-            if (validarCantidad(venta, productoVenta)) {
-                venta.agregarProducto(productoVenta);
-                venta.actualizarTotal();
-                pantallaVenta.cargarProducto(productoVenta);
-                this.dispose();
+                    if (validarCantidad(venta, productoVenta)) {
+                        venta.agregarProducto(productoVenta);
+                        venta.actualizarTotal();
+                        pantallaVenta.cargarProducto(productoVenta);
+                        this.dispose();
+                    } else {
+                        JOptionPane.showConfirmDialog(this, "La cantidad ingresada sobrepasa el stock.",
+                                "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             } else {
-                JOptionPane.showConfirmDialog(this, "La cantidad ingresada sobrepasa el stock.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Asegúrese de ingresar una cantidad.",
+                        "Cantidad Vacía.", JOptionPane.WARNING_MESSAGE);
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Asegúrese de seleccionar un producto válido.",
+                    "Producto no Válido.", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -279,27 +293,34 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     }
 
     private void cmbxProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxProductosActionPerformed
-        ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
-        int stock = productoSeleccionado.getCantidad();
-        txtStock.setText(String.valueOf(stock));
-        txtCantidad.setEnabled(true);
+        if (cmbxProductos.getSelectedItem() instanceof ProductoDTO) {
+            ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
+            int stock = productoSeleccionado.getCantidad();
+            txtStock.setText(String.valueOf(stock));
+            txtCantidad.setEditable(true);
+        } else {
+            txtStock.setText("");
+            txtCantidad.setText("");
+            txtCantidad.setEditable(false);
+        }
     }//GEN-LAST:event_cmbxProductosActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        int key = evt.getKeyChar();
+        //Solo permitirá caracteres de números y de '/'.
+        boolean nums = key >= 48 && key <= 57;
+        if (!nums) {
+            evt.consume();
         }
-    }
+        if (txtCantidad.getText().trim().length() == 8) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCantidadKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox<ProductoDTO> cmbxProductos;
+    private javax.swing.JComboBox<Object> cmbxProductos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

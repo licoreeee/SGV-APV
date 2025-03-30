@@ -301,7 +301,7 @@ public class PantallaVenta extends javax.swing.JFrame {
     private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
         if (tblProductosVenta.getRowCount() != 0) {
             this.dispose();
-            PantallaPago pantallaPago = new PantallaPago(venta);
+            PantallaPago pantallaPago = new PantallaPago(venta, this);
             pantallaPago.setTipoVenta(this.getTipoVenta());
         } else {
             JOptionPane.showConfirmDialog(this, "Agregue productos para poder realizar la venta.", "Venta inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);

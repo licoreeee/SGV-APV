@@ -173,7 +173,8 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
                             "Información errónea", JOptionPane.ERROR_MESSAGE); 
                 }
             } catch (SubsistemaInicioSesionException ex) {
-                Logger.getLogger(PantallaInicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Alguno de los datos ingresados es incorrecto.",
+                        "Información Errónea.", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Ingrese la información solicitada.", 

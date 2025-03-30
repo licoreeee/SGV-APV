@@ -1,9 +1,5 @@
 package vistas;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 /**
  *
  * @author Dell
@@ -179,17 +175,6 @@ public class PantallaAgregarLlenado extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
