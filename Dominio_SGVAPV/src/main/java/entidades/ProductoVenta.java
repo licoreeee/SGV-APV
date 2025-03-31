@@ -21,8 +21,8 @@ public class ProductoVenta implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "codigo")
-    private Long codigo;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "precio", nullable = false)
     private Float precio;
@@ -31,7 +31,7 @@ public class ProductoVenta implements Serializable {
     private Integer cantidad;
     
     @ManyToOne
-    @JoinColumn(name = "venta_codigo", nullable = false)
+    @JoinColumn(name = "venta_id", nullable = false)
     private Venta venta;
     
     @ManyToOne
@@ -70,4 +70,22 @@ public class ProductoVenta implements Serializable {
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Venta getVenta() {
+        return venta;
+    }
+
+    public void setVenta(Venta venta) {
+        this.venta = venta;
+    }
+    
+    
 }

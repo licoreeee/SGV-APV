@@ -5,6 +5,7 @@ package org.itson.accesodatos_sgvapv.daos;
 
 import entidades.Producto;
 import entidades.Usuario;
+import entidades.Vendedor;
 import entidades.Venta;
 import java.util.Calendar;
 import java.util.List;
@@ -169,6 +170,14 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
     @Override
     public void disminuirStock(Producto producto, int cantidad) throws PersistenciaException {
         stockProductosDAO.disminuirStock(producto, cantidad);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Vendedor obtenerVendedor(String nombreUsuario) throws PersistenciaException {
+        return (Vendedor) usuariosDAO.obtenerUsuario(nombreUsuario);
     }
 
 }

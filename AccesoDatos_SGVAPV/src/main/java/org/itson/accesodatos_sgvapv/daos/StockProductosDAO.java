@@ -49,7 +49,7 @@ class StockProductosDAO implements IStockProductosDAO {
             Root<StockProducto> root = criteria.from(StockProducto.class);
 
             criteria.select(root).where(
-                    builder.equal(root.get("id_producto"), producto.getId())
+                    builder.equal(root.get("producto"), producto.getId())
             );
 
             TypedQuery<StockProducto> query = em.createQuery(criteria);

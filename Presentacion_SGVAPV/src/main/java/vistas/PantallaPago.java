@@ -1,11 +1,14 @@
 package vistas;
 
+import dtos.UsuarioDTO;
 import dtos.VentaDTO;
-import java.text.DecimalFormat;
+import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
+import org.itson.subsistemaventas_sgvapv.ISubsistemaVentasFacade;
+import org.itson.subsistemaventas_sgvapv.SubsistemaVentasFacade;
 import utilidades.FormatoDinero;
 
 /**
@@ -14,16 +17,18 @@ import utilidades.FormatoDinero;
  */
 public class PantallaPago extends javax.swing.JFrame {
 
+    private UsuarioDTO usuario;
     private String tipoVenta;
     private Float totalVenta;
     private VentaDTO venta;
     private JFrame parent;
     private FormatoDinero fd = new FormatoDinero();
+    private ISubsistemaVentasFacade subsistemaVentasFacade = new SubsistemaVentasFacade();
 
     /**
      * Creates new form PantallaInicioSesion
      */
-    public PantallaPago(VentaDTO venta, JFrame parent) {
+    public PantallaPago(VentaDTO venta, JFrame parent, UsuarioDTO usuario) {
         initComponents();
         this.venta = venta;
         this.parent = parent;
@@ -33,6 +38,7 @@ public class PantallaPago extends javax.swing.JFrame {
         txtTotal.setEditable(false);
         txtCambio.setEditable(false);
         totalVenta = venta.getTotal();
+        this.usuario = usuario;
 
         txtTotal.setText(fd.formatear(totalVenta));
     }
@@ -212,8 +218,13 @@ public class PantallaPago extends javax.swing.JFrame {
 
     private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
         if (!txtCambio.getText().isBlank()) {
+            venta.setFechaHora(new GregorianCalendar());
+            subsistemaVentasFacade.realizarVenta(venta);
+            this.dispose();
+            parent.dispose();
             JOptionPane.showMessageDialog(this, "Se ha completado la venta exitosamente.",
                     "Venta Completada", JOptionPane.INFORMATION_MESSAGE);
+            PantallaMenu pantallaMenu = new PantallaMenu(parent, usuario);
         } else {
             JOptionPane.showMessageDialog(this, "Asegúrese de ingresar una cantidad de pago válida.",
                     "Pago no Válido.", JOptionPane.WARNING_MESSAGE);
@@ -225,6 +236,8 @@ public class PantallaPago extends javax.swing.JFrame {
                 "Cancelar Operación", JOptionPane.YES_NO_OPTION);
         if (seleccion == JOptionPane.YES_OPTION) {
             parent.setVisible(true);
+            this.dispose();
+            parent.setEnabled(true);
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 

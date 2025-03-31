@@ -24,14 +24,14 @@ import javax.persistence.Table;
 public class ReporteVentas implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long codigo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToMany
     @JoinTable(
             name = "reporteVentas_ventas",
-            joinColumns = @JoinColumn(name = "reporteVentas_codigo"),
-            inverseJoinColumns = @JoinColumn(name = "venta_codigo")
+            joinColumns = @JoinColumn(name = "reporte_id"),
+            inverseJoinColumns = @JoinColumn(name = "venta_id")
     )
     private List<Venta> ventas;
 
@@ -63,12 +63,12 @@ public class ReporteVentas implements Serializable {
         this.encargado = encargado;
     }
 
-    public Long getCodigo() {
-        return codigo;
+    public Long getId() {
+        return id;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Venta> getVentas() {
@@ -122,7 +122,7 @@ public class ReporteVentas implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.codigo);
+        hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.ventas);
         hash = 97 * hash + Objects.hashCode(this.total);
         hash = 97 * hash + Objects.hashCode(this.fechaHoraInicio);
@@ -144,7 +144,7 @@ public class ReporteVentas implements Serializable {
             return false;
         }
         final ReporteVentas other = (ReporteVentas) obj;
-        if (!Objects.equals(this.codigo, other.codigo)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.ventas, other.ventas)) {
@@ -167,7 +167,7 @@ public class ReporteVentas implements Serializable {
 
     @Override
     public String toString() {
-        return "ReporteVentas{" + "codigo=" + codigo + ", ventas=" + ventas + ", total=" + total + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFin=" + fechaHoraFin + ", fechaHoraGeneracion=" + fechaHoraGeneracion + ", encargado=" + encargado + '}';
+        return "ReporteVentas{" + "id=" + id + ", ventas=" + ventas + ", total=" + total + ", fechaHoraInicio=" + fechaHoraInicio + ", fechaHoraFin=" + fechaHoraFin + ", fechaHoraGeneracion=" + fechaHoraGeneracion + ", encargado=" + encargado + '}';
     }
 
 }

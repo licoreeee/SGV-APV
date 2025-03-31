@@ -12,17 +12,20 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class PantallaMenu extends javax.swing.JFrame {
 
+    private UsuarioDTO usuario;
+    
     /**
      * Creates new form PantallaInicioSesion
      * @param usuario
      * @param parent
      */
-    public PantallaMenu(UsuarioDTO usuario, JFrame parent) {
+    public PantallaMenu(JFrame parent, UsuarioDTO usuario) {
         initComponents();
         setEnabled(true);
         this.setVisible(true);
         this.setTitle("SGVAPV - Menú");
         this.parent = parent;
+        this.usuario = usuario;
         
         String[] partesNombre = usuario.getNombre().split(" ");
         
@@ -212,13 +215,13 @@ public class PantallaMenu extends javax.swing.JFrame {
 
     private void btnVentaAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaAguaActionPerformed
         this.dispose();
-        PantallaVenta pantallaVenta = new PantallaVenta(this);
+        PantallaVenta pantallaVenta = new PantallaVenta(this, usuario);
         pantallaVenta.setTipoVenta("AGUA PURIFICADA");
     }//GEN-LAST:event_btnVentaAguaActionPerformed
 
     private void btnVentaProductoVariadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaProductoVariadoActionPerformed
         this.dispose();
-        PantallaVenta pantallaVenta = new PantallaVenta(this);
+        PantallaVenta pantallaVenta = new PantallaVenta(this, usuario);
         pantallaVenta.setTipoVenta("PRODUCTO VARIADO");
     }//GEN-LAST:event_btnVentaProductoVariadoActionPerformed
 

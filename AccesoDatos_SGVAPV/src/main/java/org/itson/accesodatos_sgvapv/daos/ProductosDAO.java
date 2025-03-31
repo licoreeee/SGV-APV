@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import entidades.Producto;
 import entidades.Variado;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -98,7 +99,7 @@ class ProductosDAO implements IProductosDAO {
             String jpqlUpdate = null;
             Query queryUpdate = null;
             em.getTransaction().begin();
-            
+
             if (producto instanceof Variado) {
                 jpqlUpdate = "UPDATE Variado v SET v.nombre = :nombre, v.precio = :precio WHERE v.codigo = :codigo";
                 queryUpdate = em.createQuery(jpqlUpdate);
@@ -121,9 +122,9 @@ class ProductosDAO implements IProductosDAO {
                 queryUpdate.setParameter("codigo", producto.getCodigo());
                 queryUpdate.setParameter("volumen", ((Contenedor) producto).getVolumen());
             }
-            
+
             int updatedCount = queryUpdate.executeUpdate();
-            
+
             if (updatedCount > 0) {
                 em.getTransaction().commit();
                 logger.log(Level.INFO, "Se actualizó el producto correctamente.");
@@ -146,13 +147,13 @@ class ProductosDAO implements IProductosDAO {
 
         try {
             em.getTransaction().begin();
-            
+
             String jpqlDelete = "DELETE FROM Producto p WHERE p.codigo = :codigo";
             Query queryDelete = em.createQuery(jpqlDelete);
             queryDelete.setParameter("codigo", codigo);
-            
+
             int deletedCount = queryDelete.executeUpdate();
-            
+
             if (deletedCount > 0) {
                 em.getTransaction().commit();
                 logger.log(Level.INFO, "Se eliminó el producto correctamente.");
@@ -172,19 +173,24 @@ class ProductosDAO implements IProductosDAO {
     @Override
     public List<Producto> obtenerProductosPorTipo(List<Class> tipos) {
         EntityManager em = conexion.crearConexion();
-        
+
         try {
-            em.getTransaction().begin();
-            
+            // Evitar la transacción innecesaria en una consulta de solo lectura
             String jpqlSelect = "SELECT p FROM Producto p WHERE TYPE(p) IN :tipos";
             TypedQuery<Producto> querySelect = em.createQuery(jpqlSelect, Producto.class);
             querySelect.setParameter("tipos", tipos);
-            
+
             List<Producto> productos = querySelect.getResultList();
-            
+
+            // Si es necesario, usar refresh, pero asegúrate de que no haya caché
+            for (Producto producto : productos) {
+                em.refresh(producto.getStock()); // Asegúrate de que los datos estén sincronizados
+            }
+
             return productos;
         } catch (NoResultException e) {
             logger.log(Level.INFO, "No se encontraron productos de los tipos seleccionados. " + e);
+            em.getTransaction().rollback();
             return null;
         } finally {
             em.close();
@@ -197,16 +203,16 @@ class ProductosDAO implements IProductosDAO {
     @Override
     public List<Producto> obtenerProductosPorNombre(String nombre) {
         EntityManager em = conexion.crearConexion();
-        
+
         try {
             em.getTransaction().begin();
-            
+
             String jpqlSelect = "SELECT p FROM Producto p WHERE p.nombre = :nombre";
             Query querySelect = em.createQuery(jpqlSelect);
             querySelect.setParameter("nombre", nombre);
-            
+
             List<Producto> productos = querySelect.getResultList();
-            
+
             return productos;
         } catch (Exception e) {
             logger.log(Level.INFO, "No se encontraron productos con el nombre: " + nombre);

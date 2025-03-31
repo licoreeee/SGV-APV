@@ -39,6 +39,16 @@ public class ProductoVentaDTO {
     public void setProducto(ProductoDTO producto) {
         this.producto = producto;
     }
-    
-    
+
+    public void aumentarCantidad() {
+        if (cantidad < producto.getCantidad()) {
+            cantidad++;
+        }
+    } 
+
+    public void disminuirCantidad() {
+        if (cantidad > 0) {
+            cantidad--;
+        }
+    }
 }

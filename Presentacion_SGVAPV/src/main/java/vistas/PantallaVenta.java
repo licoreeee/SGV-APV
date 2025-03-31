@@ -1,16 +1,14 @@
 package vistas;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import dtos.ProductoDTO;
 import dtos.ProductoVentaDTO;
+import dtos.UsuarioDTO;
 import dtos.VendedorDTO;
 import dtos.VentaDTO;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import utilidades.FormatoDinero;
@@ -25,17 +23,18 @@ public class PantallaVenta extends javax.swing.JFrame {
     private VentaDTO venta;
     private FormatoDinero fd = new FormatoDinero();
     private JFrame parent;
-    private VendedorDTO vendedor = new VendedorDTO("Diego Valenzuela", "pipucate", "123456");
+    private VendedorDTO vendedor;
 
     /**
      * Creates new form PantallaInicioSesion
      */
-    public PantallaVenta(JFrame parent) {
+    public PantallaVenta(JFrame parent, UsuarioDTO usuario) {
         initComponents();
         setEnabled(true);
         setVisible(true);
         this.setTitle("SGVAPV - Venta");
         this.parent = parent;
+        this.vendedor = (VendedorDTO) usuario;
         JTableHeader header = tblProductosVenta.getTableHeader();
         Font headerFont = new Font("Afacad", Font.BOLD, 23);
         header.setFont(headerFont);
@@ -81,6 +80,7 @@ public class PantallaVenta extends javax.swing.JFrame {
                 // Obtener la cantidad actual y sumarle la nueva cantidad
                 int cantidadActual = (int) modeloTabla.getValueAt(i, 1);
                 modeloTabla.setValueAt(cantidadActual + productoVenta.getCantidad(), i, 1);
+                actualizarVenta();
                 return; // Salir del método, ya que solo necesitamos actualizar la cantidad
             }
         }
@@ -93,10 +93,10 @@ public class PantallaVenta extends javax.swing.JFrame {
 
         modeloTabla.addRow(fila);
 
-        actualizarVenta(productoVenta);
+        actualizarVenta();
     }
 
-    private void actualizarVenta(ProductoVentaDTO productoVenta) {
+    private void actualizarVenta() {
         lblTotal.setText(fd.formatear(venta.getTotal()));
     }
 
@@ -300,8 +300,13 @@ public class PantallaVenta extends javax.swing.JFrame {
 
     private void btnTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerminarActionPerformed
         if (tblProductosVenta.getRowCount() != 0) {
-            this.dispose();
-            PantallaPago pantallaPago = new PantallaPago(venta, this);
+            for (ProductoVentaDTO productoVenta : venta.getProductos()) {
+                if (productoVenta.getCantidad() == 0) {
+                    JOptionPane.showConfirmDialog(this, "Tiene productos en la venta con cantidades inválidas.", "Venta inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            this.setEnabled(false);
+            PantallaPago pantallaPago = new PantallaPago(venta, this, vendedor);
             pantallaPago.setTipoVenta(this.getTipoVenta());
         } else {
             JOptionPane.showConfirmDialog(this, "Agregue productos para poder realizar la venta.", "Venta inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -309,28 +314,50 @@ public class PantallaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTerminarActionPerformed
 
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
-        PantallaAgregarProducto pantallaAgregarProducto = new PantallaAgregarProducto(this, venta);
-        pantallaAgregarProducto.setTipoVenta(this.getTipoVenta());
+        PantallaAgregarProducto pantallaAgregarProducto = new PantallaAgregarProducto(this, venta, this.getTipoVenta());
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
 
     private void tblProductosVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProductosVentaKeyPressed
         int selectedRow = tblProductosVenta.getSelectedRow();
         if (selectedRow != -1) { // Verifica que haya una fila seleccionada
-            int cantidad = (int) tblProductosVenta.getValueAt(selectedRow, 1);
+            int cantidad = (int) tblProductosVenta.getValueAt(selectedRow, 1); // Columna de cantidad
 
-            String codigoNombre = (String) tblProductosVenta.getValueAt(selectedRow, 0);
-            String codigo;
             if (evt.getKeyChar() == '+') { // Si presiona "+"
-                int index = codigoNombre.indexOf(" -");
-                if (index != -1) {
-                    codigo = codigoNombre.substring(0, index); // Extrae todo antes de " -"
+                String productoSeleccionado = (String) tblProductosVenta.getValueAt(selectedRow, 0);
+                int index = productoSeleccionado.indexOf(" ");
+                String codigoProducto = productoSeleccionado.substring(0, index);
+
+                ProductoVentaDTO productoVenta = buscarProductoVenta(codigoProducto);
+                if (cantidad < productoVenta.getProducto().getCantidad()) {
+                    productoVenta.aumentarCantidad();
+                    tblProductosVenta.setValueAt(productoVenta.getCantidad(), selectedRow, 1); // Modifica la columna correcta
+                    venta.actualizarTotal();
+                    actualizarVenta();
+                }
+                evt.consume(); // Evita que el "+" se escriba en la celda
+            } else if (evt.getKeyChar() == '-') { // Si presiona "-"
+                String productoSeleccionado = (String) tblProductosVenta.getValueAt(selectedRow, 0);
+                int index = productoSeleccionado.indexOf(" ");
+                String codigoProducto = productoSeleccionado.substring(0, index);
+
+                ProductoVentaDTO productoVenta = buscarProductoVenta(codigoProducto);
+
+                if (cantidad > 1) { // Si la cantidad es mayor que 1, simplemente disminuir
+                    productoVenta.disminuirCantidad();
+                    tblProductosVenta.setValueAt(cantidad - 1, selectedRow, 1);
+                } else if (cantidad == 1) { // Si la cantidad es 1, al disminuir llega a 0
+                    // Eliminar el producto de la venta
+                    venta.getProductos().removeIf(pv
+                            -> pv.getProducto().getCodigo().equals(codigoProducto));
+
+                    // Actualizar la tabla
+                    DefaultTableModel model = (DefaultTableModel) tblProductosVenta.getModel();
+                    model.removeRow(selectedRow);
                 }
 
-                tblProductosVenta.setValueAt(cantidad + 1, selectedRow, 2);
-            } else if (evt.getKeyChar() == '-') { // Si presiona "-"
-                if (cantidad > 0) { // Evita valores negativos
-                    tblProductosVenta.setValueAt(cantidad - 1, selectedRow, 2);
-                }
+                evt.consume(); // Evita que el "-" se escriba en la celda
+                venta.actualizarTotal();
+                actualizarVenta();
             }
         }
     }//GEN-LAST:event_tblProductosVentaKeyPressed
@@ -361,4 +388,12 @@ public class PantallaVenta extends javax.swing.JFrame {
     private javax.swing.JTable tblProductosVenta;
     // End of variables declaration//GEN-END:variables
 
+    private ProductoVentaDTO buscarProductoVenta(String codigoProducto) {
+        for (ProductoVentaDTO producto : venta.getProductos()) {
+            if (producto.getProducto().getCodigo().equalsIgnoreCase(codigoProducto)) {
+                return producto;
+            }
+        }
+        return null;
+    }
 }

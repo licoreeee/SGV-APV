@@ -5,6 +5,7 @@ package org.itson.accesodatos_sgvapv.daos;
 
 import entidades.Producto;
 import entidades.Usuario;
+import entidades.Vendedor;
 import entidades.Venta;
 import java.util.Calendar;
 import java.util.List;
@@ -173,5 +174,14 @@ public interface IAccesoDatosFacade {
      * @throws PersistenciaException Si ocurre un error al modificar el stock
      */
     public void disminuirStock(Producto producto, int cantidad) throws PersistenciaException;
+
+    /**
+     * Permite obtener un vendedor dado su nombre de usuario.
+     *
+     * @param nombreUsuario Nombre de usuario del vendedor a buscar.
+     * @return El vendero que se haya encontrado.
+     * @throws PersistenciaException Si ocurre un error al modificar el stock
+     */
+    public Vendedor obtenerVendedor(String nombreUsuario) throws PersistenciaException;
     
 }

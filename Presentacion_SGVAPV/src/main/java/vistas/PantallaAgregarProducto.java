@@ -3,6 +3,7 @@ package vistas;
 import dtos.ProductoDTO;
 import dtos.ProductoVentaDTO;
 import dtos.VentaDTO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -23,21 +24,27 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     /**
      * Creates new form PantallaInicioSesion
      */
-    public PantallaAgregarProducto(PantallaVenta pantallaVenta, VentaDTO venta) {
+    public PantallaAgregarProducto(PantallaVenta pantallaVenta, VentaDTO venta, String tipoVenta) {
         initComponents();
         setEnabled(true);
-        cargarProductos();
         setVisible(true);
         this.setTitle("SGVAPV - Agregar Producto");
         this.pantallaVenta = pantallaVenta;
         this.venta = venta;
+        this.tipoVenta = tipoVenta;
+        cargarProductos();
         txtStock.setEditable(false);
         txtCantidad.setEditable(false);
     }
 
     private void cargarProductos() {
         // Creamos una lista de productos.
-        List<ProductoDTO> productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("VARIADO"));
+        List<ProductoDTO> productos = new ArrayList<>();
+        if (tipoVenta.equalsIgnoreCase("PRODUCTO VARIADO")) {
+            productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("VARIADO")); 
+        } else if (tipoVenta.equalsIgnoreCase("AGUA PURIFICADA")) {
+            productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("LLENADO", "CONTENEDOR"));
+        }
 
         if (productos.isEmpty()) {
             JOptionPane.showConfirmDialog(this, "No se han encontrado productos con stock.", "No hay stock", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);

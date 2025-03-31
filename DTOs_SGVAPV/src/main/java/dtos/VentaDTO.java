@@ -75,4 +75,12 @@ public class VentaDTO {
         }
     }
 
+    public void setTotal(Float total) {
+        this.total = total;
+    }
+
+    public void setFechaHora(Calendar fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+
 }

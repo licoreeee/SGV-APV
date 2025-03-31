@@ -167,7 +167,7 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
                     txtContrasenia.setText("");
                     txtNombreUsuario.setText("");
                     this.dispose();
-                    PantallaMenu pantallaMenu = new PantallaMenu(usuario, this);
+                    PantallaMenu pantallaMenu = new PantallaMenu(this, usuario);
                 } else {
                     JOptionPane.showMessageDialog(this, "El usuario o la contraseña ingresados no son correctos.", 
                             "Información errónea", JOptionPane.ERROR_MESSAGE); 

@@ -4,6 +4,7 @@
 package org.itson.subsistemaventas_sgvapv;
 
 import dtos.ProductoDTO;
+import dtos.VentaDTO;
 import java.util.List;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 import org.itson.subsistemaventas_sgvapv.excepciones.SubsistemaVentasException;
@@ -68,4 +69,11 @@ public interface ISubsistemaVentasFacade {
      * @return Una lista de productos
      */
     public List<ProductoDTO> obtenerProductosPorNombre(String nombre);
+
+    /**
+     * Permite realizar una venta.
+     *
+     * @param venta Venta a registrar.
+     */
+    public void realizarVenta(VentaDTO venta);
 }

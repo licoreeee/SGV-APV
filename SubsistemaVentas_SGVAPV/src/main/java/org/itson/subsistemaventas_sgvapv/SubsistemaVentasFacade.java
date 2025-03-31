@@ -4,6 +4,7 @@
 package org.itson.subsistemaventas_sgvapv;
 
 import dtos.ProductoDTO;
+import dtos.VentaDTO;
 import java.util.List;
 import org.itson.subsistemaventas_sgvapv.excepciones.SubsistemaVentasException;
 
@@ -47,6 +48,11 @@ public class SubsistemaVentasFacade implements ISubsistemaVentasFacade {
     @Override
     public List<ProductoDTO> obtenerProductosPorNombre(String nombre) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void realizarVenta(VentaDTO venta) {
+        control.realizarVenta(venta);
     }
 
 }

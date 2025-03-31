@@ -27,9 +27,9 @@ import javax.persistence.TemporalType;
 public class Venta implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "codigo")
-    private Long codigo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "total", nullable = false)
     private Float total;
@@ -58,12 +58,12 @@ public class Venta implements Serializable {
         this.productos = productos;
     }
 
-    public Long getCodigo() {
-        return codigo;
+    public Long getId() {
+        return id;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Float getTotal() {
@@ -109,7 +109,7 @@ public class Venta implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + Objects.hashCode(this.codigo);
+        hash = 67 * hash + Objects.hashCode(this.id);
         hash = 67 * hash + Objects.hashCode(this.total);
         hash = 67 * hash + Objects.hashCode(this.fechaHora);
         return hash;
@@ -127,7 +127,7 @@ public class Venta implements Serializable {
             return false;
         }
         final Venta other = (Venta) obj;
-        if (!Objects.equals(this.codigo, other.codigo)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         if (!Objects.equals(this.total, other.total)) {
@@ -138,7 +138,7 @@ public class Venta implements Serializable {
 
     @Override
     public String toString() {
-        return "Venta{" + "codigo=" + codigo + ", total=" + total + ", fechaHora=" + fechaHora + '}';
+        return "Venta{" + "id=" + id + ", total=" + total + ", fechaHora=" + fechaHora + '}';
     }
 
 }
