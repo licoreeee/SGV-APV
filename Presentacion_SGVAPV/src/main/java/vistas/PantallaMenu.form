@@ -122,10 +122,10 @@
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="lblNombreUsuario1" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="lblNombreUsuario" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnVentaAgua" alignment="2" min="-2" pref="440" max="-2" attributes="0"/>
-                      <Component id="btnVentaProductoVariado" alignment="2" min="-2" pref="440" max="-2" attributes="0"/>
-                      <Component id="btnGestionarInventario" alignment="2" min="-2" pref="440" max="-2" attributes="0"/>
-                      <Component id="btnReporteVentas" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnVentaAgua" alignment="2" min="-2" pref="450" max="-2" attributes="0"/>
+                      <Component id="btnVentaProductoVariado" alignment="2" min="-2" pref="450" max="-2" attributes="0"/>
+                      <Component id="btnGestionarInventario" alignment="2" min="-2" pref="450" max="-2" attributes="0"/>
+                      <Component id="btnReporteVentas" alignment="2" min="-2" pref="450" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                   <Component id="btnLogOut" min="-2" max="-2" attributes="0"/>
@@ -149,13 +149,13 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="49" pref="49" max="-2" attributes="0"/>
                           <Component id="lblNombreUsuario1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="btnVentaAgua" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="btnVentaProductoVariado" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="lblNombreUsuario" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="btnVentaAgua" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="btnVentaProductoVariado" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnGestionarInventario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>

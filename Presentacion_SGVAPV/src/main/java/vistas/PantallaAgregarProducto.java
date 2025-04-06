@@ -249,6 +249,9 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         if (cmbxProductos.getSelectedItem() instanceof ProductoDTO) {
             ProductoDTO producto = (ProductoDTO) cmbxProductos.getSelectedItem();
             if (!txtCantidad.getText().isBlank()) {
+                if (!txtCantidad.getText().matches("\\d+")) {
+                    JOptionPane.showConfirmDialog(this, "Ingrese una cantidad válida.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+                }
                 int cantidadIngresada = Integer.parseInt(txtCantidad.getText());
                 if (cantidadIngresada <= 0) {
                     JOptionPane.showConfirmDialog(this, "Ingrese una cantidad válida.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
