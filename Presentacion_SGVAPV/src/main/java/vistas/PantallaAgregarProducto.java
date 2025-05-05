@@ -256,10 +256,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                 if (cantidadIngresada <= 0) {
                     JOptionPane.showConfirmDialog(this, "Ingrese una cantidad válida.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
                 } else {
-                    ProductoVentaDTO productoVenta = new ProductoVentaDTO();
-                    productoVenta.setCantidad(cantidadIngresada);
-                    productoVenta.setPrecio(producto.getPrecio());
-                    productoVenta.setProducto(producto);
+                    ProductoVentaDTO productoVenta = new ProductoVentaDTO(producto.getPrecio(), cantidadIngresada, producto);
 
                     if (validarCantidad(venta, productoVenta)) {
                         venta.agregarProducto(productoVenta);
