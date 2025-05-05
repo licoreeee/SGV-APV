@@ -1,20 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package vistas;
+
+import dtos.ProductoDTO;
+import dtos.UsuarioDTO;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import org.itson.subsistemainventario_sgvapv.ISubsistemaInventarioFacade;
+import org.itson.subsistemainventario_sgvapv.SubsistemaInventarioFacade;
+import org.itson.subsistemainventario_sgvapv.excepciones.SubsistemaInventarioException;
 
 /**
  *
  * @author Dell
  */
 public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
+    
+    private UsuarioDTO usuario;
+    private JFrame parent;
+    private ISubsistemaInventarioFacade subsistemaInventarioFacade;
 
     /**
      * Creates new form PantallaAgregarProductoInventario
      */
-    public PantallaAgregarProductoInventario() {
+    public PantallaAgregarProductoInventario(JFrame parent, UsuarioDTO usuario) {
         initComponents();
+        setEnabled(true);
+        this.setVisible(true);
+        this.setTitle("SGVAPV - Agregar Nuevo Producto");
+        this.parent = parent;
+        this.usuario = usuario;
+        this.subsistemaInventarioFacade = new SubsistemaInventarioFacade();
     }
 
     /**
@@ -94,7 +113,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         });
 
         txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtStock.setFocusable(false);
 
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel3.setText("AGREGAR NUEVO PRODUCTO");
@@ -124,10 +142,8 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         jLabel8.setText("STOCK");
 
         txtCodigo.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtCodigo.setFocusable(false);
 
         txtNombre.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtNombre.setFocusable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -193,15 +209,97 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        
+        String nombre = txtNombre.getText().trim();
+        String codigo = txtCodigo.getText().trim();
+        String stockStr = txtStock.getText().trim();
+        String precioStr = txtPrecio.getText().trim();
+
+        if (nombre.isEmpty() || codigo.isEmpty() || stockStr.isEmpty() || precioStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int stock;
+        try {
+            stock = Integer.parseInt(stockStr);
+            if (stock < 0) {
+                 JOptionPane.showMessageDialog(this, "Ingrese un stock válido.", "Stock inválido", JOptionPane.WARNING_MESSAGE);
+                 return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese un stock válido.", "Stock inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        float precio;
+        try {
+            precio = Float.parseFloat(precioStr);
+             if (precio < 0) {
+                 JOptionPane.showMessageDialog(this, "Ingrese un precio válido.", "Precio inválido", JOptionPane.WARNING_MESSAGE);
+                 return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese un precio válido.", "Precio inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        ProductoDTO nuevoProducto = new ProductoDTO(codigo, nombre, precio, stock);
+
+        try {
+            subsistemaInventarioFacade.agregarProducto(nuevoProducto);
+              JOptionPane.showMessageDialog(this,
+                    "Se ha registrado el producto exitosamente.",
+                    "Registro Completado",
+                    JOptionPane.INFORMATION_MESSAGE);
+              this.dispose();
+              PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this,usuario);
+              
+
+        } catch (SubsistemaInventarioException e) {
+            System.err.println("Error al agregar producto: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo agregar el producto: " + e.getMessage(),
+                    "Error al Guardar",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+             System.err.println("Error inesperado: " + e.getMessage());
+             JOptionPane.showMessageDialog(this,
+                    "Ocurrió un error inesperado. Verifique la consola.",
+                    "Error Crítico",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        char c = evt.getKeyChar();
+        String currentText = txtPrecio.getText();
+
+        if (Character.isDigit(c)) {
+            return; 
+        }
+
+        if (c == '.' && !currentText.contains(".")) {
+            return;
+        }
         
+        if (c == KeyEvent.VK_BACK_SPACE){
+             return;
+        }
+
+        evt.consume();
+    }
+
+     private void txtStockKeyTyped(java.awt.event.KeyEvent evt) {
+         char c = evt.getKeyChar();
+
+         if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+             evt.consume();
+         }
     }//GEN-LAST:event_txtPrecioKeyTyped
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        
+        this.dispose();
+        PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this,usuario);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
    

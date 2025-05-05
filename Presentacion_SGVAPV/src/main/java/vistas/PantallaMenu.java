@@ -226,7 +226,8 @@ public class PantallaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVentaProductoVariadoActionPerformed
 
     private void btnGestionarInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarInventarioActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this,usuario);
     }//GEN-LAST:event_btnGestionarInventarioActionPerformed
 
     private void btnReporteVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteVentasActionPerformed
