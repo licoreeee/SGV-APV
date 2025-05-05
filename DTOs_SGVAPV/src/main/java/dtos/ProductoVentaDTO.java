@@ -16,6 +16,12 @@ public class ProductoVentaDTO {
     
     private ProductoDTO producto;
 
+    public ProductoVentaDTO(Float precio, Integer cantidad, ProductoDTO producto) {
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.producto = producto;
+    }
+
     public Float getPrecio() {
         return precio;
     }

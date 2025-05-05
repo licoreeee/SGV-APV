@@ -148,8 +148,10 @@ public interface IAccesoDatosFacade {
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
      * eliminación.
      */
-    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException;
+    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin);
 
+    public List<Venta> obtenerVentasPorProductos(List<Producto> productos);
+    
     /**
      * Permite obtener el stock de un producto.
      *

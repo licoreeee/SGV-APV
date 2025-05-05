@@ -3,6 +3,7 @@
  */
 package org.itson.accesodatos_sgvapv.daos;
 
+import entidades.Producto;
 import entidades.Venta;
 import java.util.Calendar;
 import java.util.List;
@@ -132,10 +133,24 @@ class VentasDAO implements IVentasDAO {
         EntityManager em = conexion.crearConexion();
 
         // Construcción de la consulta JPQL
-        String jpql = "SELECT v FROM Venta v WHERE v.fechaHora BETWEEN :fechaInicio AND :fechaFin";
+        String jpql = "SELECT v FROM Venta v WHERE v.fechaHora BETWEEN :fechaInicio AND :fechaFin ORDER BY v.fechaHora ASC";
         TypedQuery<Venta> query = em.createQuery(jpql, Venta.class);
         query.setParameter("fechaInicio", fechaInicio);
         query.setParameter("fechaFin", fechaFin);
+
+        // Retornamos la lista de ventas encontradas.
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Venta> obtenerVentasPorProductos(List<Producto> productos) {
+        // Creamos un entity manager.
+        EntityManager em = conexion.crearConexion();
+
+        // Construcción de la consulta JPQL
+        String jpql = "SELECT DISTINCT v FROM Venta v JOIN v.productos p WHERE p.producto IN :productos ORDER BY v.fechaHora ASC";
+        TypedQuery<Venta> query = em.createQuery(jpql, Venta.class);
+        query.setParameter("productos", productos);
 
         // Retornamos la lista de ventas encontradas.
         return query.getResultList();

@@ -144,8 +144,13 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
      * {@inheritDoc}
      */
     @Override
-    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException {
+    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) {
         return ventasDAO.obtenerVentasPeriodo(fechaInicio, fechaFin);
+    }
+
+    @Override
+    public List<Venta> obtenerVentasPorProductos(List<Producto> productos) {
+        return ventasDAO.obtenerVentasPorProductos(productos);
     }
 
     /**

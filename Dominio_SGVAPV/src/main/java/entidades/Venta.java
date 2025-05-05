@@ -44,10 +44,7 @@ public class Venta implements Serializable {
 
     @OneToMany(mappedBy = "venta", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ProductoVenta> productos;
-
-    @ManyToMany(mappedBy = "ventas")
-    private List<ReporteVentas> reportesVentas;
-
+    
     public Venta() {
     }
 
@@ -96,14 +93,6 @@ public class Venta implements Serializable {
 
     public void setProductos(List<ProductoVenta> productos) {
         this.productos = productos;
-    }
-
-    public List<ReporteVentas> getReportesVentas() {
-        return reportesVentas;
-    }
-
-    public void setReportesVentas(List<ReporteVentas> reportesVentas) {
-        this.reportesVentas = reportesVentas;
     }
 
     @Override

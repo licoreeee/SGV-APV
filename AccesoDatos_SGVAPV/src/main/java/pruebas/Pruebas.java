@@ -1,13 +1,9 @@
 package pruebas;
 
-import entidades.Contenedor;
-import entidades.Llenado;
 import entidades.Producto;
 import entidades.Variado;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.itson.accesodatos_sgvapv.daos.AccesoDatosFacade;
 import org.itson.accesodatos_sgvapv.daos.IAccesoDatosFacade;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
@@ -22,23 +18,22 @@ public class Pruebas {
 //        List<Variado> productos = new ArrayList<>();
 //
         IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
-        List<Producto> productos;
+//        IConexion conexion = new Conexion();
+//        conexion.crearConexion();
+        List<Producto> productos = new LinkedList<>();
 
-//        productos.add(new Variado("VAR-001", "Trapeador", 140f));
-//        productos.add(new Variado("VAR-002", "Escoba", 120f));
-//        productos.add(new Variado("VAR-003", "Balde", 90f));
-//        productos.add(new Variado("VAR-004", "Esponja", 30f));
-//        productos.add(new Variado("VAR-005", "Detergente", 75f));
-//        productos.add(new Variado("VAR-006", "Jabón líquido", 110f));
-//        productos.add(new Variado("VAR-007", "Paño de microfibra", 50f));
-//        productos.add(new Variado("VAR-008", "Guantes de limpieza", 60f));
-//        productos.add(new Variado("VAR-009", "Cepillo para pisos", 130f));
-//        productos.add(new Variado("VAR-010", "Bolsas de basura", 45f));
-
-        productos = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class));
-        
+        productos.add(new Variado("VAR-001", "Trapeador", 140f));
+        productos.add(new Variado("VAR-002", "Escoba", 120f));
+        productos.add(new Variado("VAR-003", "Balde", 90f));
+        productos.add(new Variado("VAR-004", "Esponja", 30f));
+        productos.add(new Variado("VAR-005", "Detergente", 75f));
+        productos.add(new Variado("VAR-006", "Jabón líquido", 110f));
+        productos.add(new Variado("VAR-007", "Paño de microfibra", 50f));
+        productos.add(new Variado("VAR-008", "Guantes de limpieza", 60f));
+        productos.add(new Variado("VAR-009", "Cepillo para pisos", 130f));
+        productos.add(new Variado("VAR-010", "Bolsas de basura", 45f));
         // Persistir los productos
-//        for (Variado producto : productos) {
+//        for (Producto producto : productos) {
 //            accesoDatos.agregarProducto(producto);
 //        }
         for (int i = 0; i < productos.size(); i++) {
@@ -57,12 +52,10 @@ public class Pruebas {
 //        }
 //        IConexion conexion = new Conexion();
 //        conexion.crearConexion();
-
 //        Variado variado = new Variado("VAR-001", "Trapeador", 140f);
 //        Contenedor contenedor = new Contenedor("CON-001", "Garrafón Nuevo 19L", 85f, 19);
 //        Llenado llenado = new Llenado("LEN-001", "Llenado Garrafon", 19, contenedor, 14f);
 //        List<Producto> lista = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class));
-
 //        try {
 //            accesoDatos.agregarProducto(variado);
 //            accesoDatos.agregarProducto(contenedor);
@@ -70,7 +63,6 @@ public class Pruebas {
 //        } catch (PersistenciaException ex) {
 //            Logger.getLogger(Pruebas.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
 //        Producto productoObtenido = accesoDatos.obtenerProducto("VAR-001");
 //        Producto productoObtenido2 = accesoDatos.obtenerProducto("CON-001");
 //        Producto productoObtenido3 = accesoDatos.obtenerProducto("LEN-001");

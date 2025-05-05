@@ -34,6 +34,15 @@ public class VentaDTO {
         productos = new ArrayList<>();
     }
 
+    public VentaDTO(Float total, Calendar fechaHora, VendedorDTO vendedor, List<ProductoVentaDTO> productos) {
+        this.total = total;
+        this.fechaHora = fechaHora;
+        this.vendedor = vendedor;
+        this.productos = productos;
+    }
+    
+    
+
     public Float getTotal() {
         return total;
     }
