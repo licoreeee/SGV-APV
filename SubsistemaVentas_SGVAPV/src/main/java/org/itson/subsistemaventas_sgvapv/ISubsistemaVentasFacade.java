@@ -6,7 +6,6 @@ package org.itson.subsistemaventas_sgvapv;
 import dtos.ProductoDTO;
 import dtos.VentaDTO;
 import java.util.List;
-import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 import org.itson.subsistemaventas_sgvapv.excepciones.SubsistemaVentasException;
 
 /**
@@ -27,7 +26,7 @@ public interface ISubsistemaVentasFacade {
      * Permite agregar un producto nuevo a la base de datos.
      *
      * @param producto El producto nuevo a agregar
-     * @throws PersistenciaException Cuando ocurre un error al agregar un
+     * @throws SubsistemaVentasException Cuando ocurre un error al agregar un
      * producto
      */
     public void agregarProducto(ProductoDTO producto) throws SubsistemaVentasException;
@@ -38,7 +37,7 @@ public interface ISubsistemaVentasFacade {
      *
      * @param producto El producto del cual se obtendrán los datos para realizar
      * la actualización
-     * @throws PersistenciaException Cuando ocurre un error al actualizar el
+     * @throws SubsistemaVentasException Cuando ocurre un error al actualizar el
      * producto
      */
     public void actualizarProducto(ProductoDTO producto) throws SubsistemaVentasException;
@@ -47,7 +46,7 @@ public interface ISubsistemaVentasFacade {
      * Permite eliminar un producto de la base de datos.
      *
      * @param codigo El código del producto que se desea eliminar
-     * @throws PersistenciaException Cuando ocurre un error al eliminar el
+     * @throws SubsistemaVentasException Cuando ocurre un error al eliminar el
      * producto
      */
     public void eliminarProducto(String codigo) throws SubsistemaVentasException;
