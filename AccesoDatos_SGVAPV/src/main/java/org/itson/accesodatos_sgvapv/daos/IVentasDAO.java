@@ -3,10 +3,9 @@
  */
 package org.itson.accesodatos_sgvapv.daos;
 
-import entidades.Producto;
 import entidades.Venta;
-import java.util.Calendar;
 import java.util.List;
+import auxiliares.FiltroReportes;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
 /**
@@ -52,9 +51,7 @@ interface IVentasDAO {
      * @param fechaFin Fecha fin del periodo a tomar en cuenta.
      * @return Devuelve un listado con todas las ventas que se hayan encontrado.
      */
-    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin);
-
-    public List<Venta> obtenerVentasPorProductos(List<Producto> productos);
+    public List<Venta> obtenerVentas(FiltroReportes filtro);
 
     /**
      * Permite eliminar una venta en la base de datos dado un código.

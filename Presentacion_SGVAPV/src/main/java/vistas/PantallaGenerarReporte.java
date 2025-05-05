@@ -1,6 +1,28 @@
 package vistas;
 
-
+import dtos.EncargadoDTO;
+import dtos.FiltroReportesDTO;
+import dtos.ProductoDTO;
+import dtos.ReporteVentasDTO;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import org.itson.subsistemainventario_sgvapv.ISubsistemaInventarioFacade;
+import org.itson.subsistemainventario_sgvapv.SubsistemaInventarioFacade;
+import org.itson.subsistemareporteventas_sgvapv.ISubsistemaReporteVentasFacade;
+import org.itson.subsistemareporteventas_sgvapv.SubsistemaReporteVentasFacade;
+import org.itson.subsistemaventas_sgvapv.ISubsistemaVentasFacade;
+import org.itson.subsistemaventas_sgvapv.SubsistemaVentasFacade;
 
 /**
  *
@@ -10,12 +32,27 @@ public class PantallaGenerarReporte extends javax.swing.JFrame {
 
     /**
      * Creates new form PantallaInicioSesion
+     *
+     * @param parent
+     * @param encargado
      */
-    public PantallaGenerarReporte() {
+    public PantallaGenerarReporte(JFrame parent, EncargadoDTO encargado) {
+        initComponents();
+        setEnabled(true);
+        setTitle("Sistema General de Ventas de Agua Purificada del Valle — Generar Reporte de Ventas");
 
+        this.parent = parent;
+        this.encargado = encargado;
+
+        inventario = new SubsistemaInventarioFacade();
+        ventas = new SubsistemaVentasFacade();
+        reportes = new SubsistemaReporteVentasFacade();
+        productosSeleccionados = new LinkedList<>();
+
+        panelProductos.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        cargarProductos();
     }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,10 +86,10 @@ public class PantallaGenerarReporte extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(41, 136, 194));
 
+        jLabel1.setText("SISTEMA GENERAL DE VENTAS");
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("SISTEMA GENERAL DE VENTAS");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logo Agua Purificada del Valle.png"))); // NOI18N
 
@@ -83,45 +120,48 @@ public class PantallaGenerarReporte extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(196, 216, 255));
 
-        jLabel4.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel4.setText("PRODUCTO");
+        jLabel4.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel5.setText("FECHA FINAL");
+        jLabel5.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
 
+        btnGenerar.setText("GENERAR");
         btnGenerar.setBackground(new java.awt.Color(41, 136, 194));
         btnGenerar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        btnGenerar.setText("GENERAR");
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarActionPerformed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel3.setText("GENERAR REPORTE DE VENTAS");
+        jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
 
-        lblTipoVenta.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         lblTipoVenta.setText("FILTRAR POR");
+        lblTipoVenta.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel6.setText("FECHA INICIAL");
+        jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
 
-        btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         btnCancelar.setText("CANCELAR");
+        btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
 
-        cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxProductos.setSelectedItem("--Seleccionar");
+        cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbxProductosActionPerformed(evt);
             }
         });
+
+        panelProductos.setBackground(new java.awt.Color(255, 255, 255));
+        panelProductos.setPreferredSize(new java.awt.Dimension(472, 100));
 
         javax.swing.GroupLayout panelProductosLayout = new javax.swing.GroupLayout(panelProductos);
         panelProductos.setLayout(panelProductosLayout);
@@ -145,29 +185,28 @@ public class PantallaGenerarReporte extends javax.swing.JFrame {
                         .addComponent(jLabel3))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(125, 125, 125)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cmbxProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(btnCancelar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnGenerar))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel6))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(dtFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(dtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(panelProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnCancelar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnGenerar))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dtFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dtFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(panelProductos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(296, 296, 296)
                         .addComponent(lblTipoVenta)))
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +228,7 @@ public class PantallaGenerarReporte extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbxProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -205,18 +244,92 @@ public class PantallaGenerarReporte extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
-      
+        if (dtFechaInicial.getDate() != null && dtFechaFinal != null || !productosSeleccionados.isEmpty()) {
+            FiltroReportesDTO filtro = new FiltroReportesDTO();
+            
+            if (dtFechaInicial.getDate() != null && dtFechaFinal != null) {
+                filtro.setFechaInicio(new GregorianCalendar(dtFechaInicial.getDate().getYear(), dtFechaInicial.getDate().getMonthValue() - 1, dtFechaInicial.getDate().getDayOfMonth()));
+                filtro.setFechaFin(new GregorianCalendar(dtFechaFinal.getDate().getYear(), dtFechaFinal.getDate().getMonthValue() - 1, dtFechaFinal.getDate().getDayOfMonth()));
+            }
+            
+            if (!productosSeleccionados.isEmpty()) {
+                filtro.setProductos(productosSeleccionados);
+            }
+            
+            ReporteVentasDTO reporteObtenido = reportes.obtenerVentas(filtro);
+            
+            if (reporteObtenido != null) {
+                PantallaReporteVentas reporteVentas = new PantallaReporteVentas(this, reporteObtenido);
+                this.dispose();
+                reporteVentas.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "La búsqueda no generó ningún resultado.",
+                        "Búsqueda vacía.", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Asegúrese de ingresar ambas fechas solicitadas.",
+                    "Fecha faltante.", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnGenerarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        
+        this.dispose();
+        parent.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cmbxProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxProductosActionPerformed
-        
+        if (cmbxProductos.getSelectedItem() instanceof ProductoDTO) {
+            ProductoDTO producto = (ProductoDTO) cmbxProductos.getSelectedItem();
+            if (producto != null && !productosSeleccionados.contains(producto)) {
+                productosSeleccionados.add(producto);
+                JLabel etiqueta = new JLabel(producto.getNombre());
+                etiqueta.setOpaque(true);
+                etiqueta.setBackground(new Color(200, 230, 255));
+                etiqueta.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+                etiqueta.setToolTipText("Haz clic para eliminar");
+                etiqueta.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+                etiqueta.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        panelProductos.remove(etiqueta);
+                        productosSeleccionados.remove(producto);
+                        panelProductos.revalidate();
+                        panelProductos.repaint();
+                    }
+                });
+
+                panelProductos.add(etiqueta);
+                panelProductos.revalidate();
+                panelProductos.repaint();
+            }
+        }
     }//GEN-LAST:event_cmbxProductosActionPerformed
 
+    private void cargarProductos() {
+        // Creamos una lista de productos.
+        List<ProductoDTO> productos;
 
+        productos = inventario.obtenerProductosPorTipo(List.of("VARIADO"));
+        productos.addAll(inventario.obtenerProductosPorTipo(List.of("LLENADO", "CONTENEDOR")));
+
+        if (productos.isEmpty()) {
+            JOptionPane.showConfirmDialog(this, "No se han encontrado productos.",
+                    "No hay productos.", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+            parent.setVisible(true);
+        } else {
+            // Creamos un modelo para combo box.
+            DefaultComboBoxModel<Object> modelo = new DefaultComboBoxModel<>();
+            modelo.addElement("-- Seleccionar");
+            for (ProductoDTO producto : productos) {
+                // Agregamos cada producto al modelo.
+                modelo.addElement(producto);
+            }
+
+            // Asignamos el modelo al combo box.
+            cmbxProductos.setModel(modelo);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -235,6 +348,10 @@ public class PantallaGenerarReporte extends javax.swing.JFrame {
     private javax.swing.JLabel lblTipoVenta;
     private javax.swing.JPanel panelProductos;
     // End of variables declaration//GEN-END:variables
-
-    
+    private ISubsistemaInventarioFacade inventario;
+    private ISubsistemaVentasFacade ventas;
+    private ISubsistemaReporteVentasFacade reportes;
+    private JFrame parent;
+    private List<ProductoDTO> productosSeleccionados;
+    private EncargadoDTO encargado;
 }

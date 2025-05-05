@@ -7,8 +7,8 @@ import entidades.Producto;
 import entidades.Usuario;
 import entidades.Vendedor;
 import entidades.Venta;
-import java.util.Calendar;
 import java.util.List;
+import auxiliares.FiltroReportes;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
 /**
@@ -142,15 +142,11 @@ public interface IAccesoDatosFacade {
      * Permite obtener un listado de todas las ventas que se hayan realizado
      * dentro del periodo que engloba la fecha de inicio y la fecha de fin.
      *
-     * @param fechaInicio Fecha de inicio del periodo a tomar en cuenta.
-     * @param fechaFin Fecha fin del periodo a tomar en cuenta.
      * @return Devuelve un listado con todas las ventas que se hayan encontrado.
      * @throws PersistenciaException Si llegase a ocurrir un problema durante la
      * eliminación.
      */
-    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin);
-
-    public List<Venta> obtenerVentasPorProductos(List<Producto> productos);
+    public List<Venta> obtenerVentas(FiltroReportes filtro);
     
     /**
      * Permite obtener el stock de un producto.

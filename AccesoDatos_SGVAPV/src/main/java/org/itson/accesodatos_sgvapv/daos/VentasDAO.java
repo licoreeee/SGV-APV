@@ -5,12 +5,12 @@ package org.itson.accesodatos_sgvapv.daos;
 
 import entidades.Producto;
 import entidades.Venta;
-import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import auxiliares.FiltroReportes;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
@@ -128,29 +128,31 @@ class VentasDAO implements IVentasDAO {
      * @return Devuelve un listado con todas las ventas que se hayan encontrado.
      */
     @Override
-    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) {
+    public List<Venta> obtenerVentas(FiltroReportes filtro) {
         // Creamos un entity manager.
         EntityManager em = conexion.crearConexion();
 
-        // Construcción de la consulta JPQL
-        String jpql = "SELECT v FROM Venta v WHERE v.fechaHora BETWEEN :fechaInicio AND :fechaFin ORDER BY v.fechaHora ASC";
+        String jpql = "SELECT DISTINCT v FROM Venta v JOIN v.productos p WHERE 1=1";
+
+        if (filtro.getFechaInicio() != null && filtro.getFechaFin() != null) {
+            jpql += " AND v.fechaHora BETWEEN :fechaInicio AND :fechaFin";
+        }
+
+        if (filtro.getProductos() != null && !filtro.getProductos().isEmpty()) {
+            jpql += " AND p.producto IN :productos";
+        }
+
+        jpql += " ORDER BY v.fechaHora DESC";
+
         TypedQuery<Venta> query = em.createQuery(jpql, Venta.class);
-        query.setParameter("fechaInicio", fechaInicio);
-        query.setParameter("fechaFin", fechaFin);
 
-        // Retornamos la lista de ventas encontradas.
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Venta> obtenerVentasPorProductos(List<Producto> productos) {
-        // Creamos un entity manager.
-        EntityManager em = conexion.crearConexion();
-
-        // Construcción de la consulta JPQL
-        String jpql = "SELECT DISTINCT v FROM Venta v JOIN v.productos p WHERE p.producto IN :productos ORDER BY v.fechaHora ASC";
-        TypedQuery<Venta> query = em.createQuery(jpql, Venta.class);
-        query.setParameter("productos", productos);
+        if (filtro.getFechaInicio() != null && filtro.getFechaFin() != null) {
+            query.setParameter("fechaInicio", filtro.getFechaInicio());
+            query.setParameter("fechaFin", filtro.getFechaFin());
+        }
+        if (filtro.getProductos() != null && !filtro.getProductos().isEmpty()) {
+            query.setParameter("productos", filtro.getProductos());
+        }
 
         // Retornamos la lista de ventas encontradas.
         return query.getResultList();
@@ -168,7 +170,7 @@ class VentasDAO implements IVentasDAO {
         try {
             // Creamos un entity manager.
             EntityManager em = conexion.crearConexion();
-            
+
             // Iniciamos la transacción.
             em.getTransaction().begin();
 
