@@ -21,7 +21,7 @@ import org.itson.subsistemainventario_sgvapv.excepciones.SubsistemaInventarioExc
  * @author Dell
  */
 public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
-    
+
     private JFrame parent;
     private UsuarioDTO usuario;
     private ISubsistemaInventarioFacade subsistemaInventarioFacade;
@@ -34,6 +34,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         initComponents();
         this.parent = parent;
         this.usuario = usuario;
+        this.setVisible(true);
         this.subsistemaInventarioFacade = new SubsistemaInventarioFacade();
         inicializar();
     }
@@ -57,7 +58,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         txtStock = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        cmbxProductos = new javax.swing.JComboBox<>();
+        cmbxProductos = new javax.swing.JComboBox<Object>();
         txtPrecio = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
@@ -172,10 +173,10 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(137, 137, 137)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(btnCancelar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnEliminar))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -194,7 +195,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(206, 206, 206)
                         .addComponent(jLabel3)))
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +218,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -238,7 +239,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         Object selectedItem = cmbxProductos.getSelectedItem();
 
         if (!(selectedItem instanceof ProductoDTO)) {
-             JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(this,
                     "Seleccione un producto válido.",
                     "Producto inválido.",
                     JOptionPane.WARNING_MESSAGE);
@@ -263,7 +264,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
                 cargarProductosEnComboBox();
                 this.dispose();
-                PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this,usuario);
+                PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this, usuario);
 
             } catch (SubsistemaInventarioException e) {
                 System.err.println("Error al eliminar producto: " + e.getMessage());
@@ -273,52 +274,52 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 System.err.println("Error inesperado al eliminar: " + e.getMessage());
-                 e.printStackTrace();
-                 JOptionPane.showMessageDialog(this,
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this,
                         "Ocurrió un error inesperado al intentar eliminar el producto.",
                         "Error Crítico",
                         JOptionPane.ERROR_MESSAGE);
             }
         } else {
-             System.out.println("Eliminación cancelada por el usuario.");
+            System.out.println("Eliminación cancelada por el usuario.");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
-        
+
     }//GEN-LAST:event_txtPrecioKeyTyped
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
-        PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this,usuario);
+        PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this, usuario);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cmbxProductosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbxProductosItemStateChanged
-    if (evt.getStateChange() == ItemEvent.SELECTED) {
-        Object selectedItem = cmbxProductos.getSelectedItem();
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            Object selectedItem = cmbxProductos.getSelectedItem();
 
-        if (selectedItem instanceof ProductoDTO) {
-            ProductoDTO producto = (ProductoDTO) selectedItem;
-            txtNombre.setText(producto.getNombre() != null ? producto.getNombre() : "");
-            txtCodigo.setText(producto.getCodigo() != null ? producto.getCodigo() : "");
-            txtStock.setText(producto.getCantidad() != null ? String.valueOf(producto.getCantidad()) : "N/A");
-            txtPrecio.setText(producto.getPrecio() != null ? String.format("%.2f", producto.getPrecio()) : "N/A");
-            btnEliminar.setEnabled(true);
-        } else {
-            configurarComponentesIniciales();
+            if (selectedItem instanceof ProductoDTO) {
+                ProductoDTO producto = (ProductoDTO) selectedItem;
+                txtNombre.setText(producto.getNombre() != null ? producto.getNombre() : "");
+                txtCodigo.setText(producto.getCodigo() != null ? producto.getCodigo() : "");
+                txtStock.setText(producto.getCantidad() != null ? String.valueOf(producto.getCantidad()) : "N/A");
+                txtPrecio.setText(producto.getPrecio() != null ? String.format("%.2f", producto.getPrecio()) : "N/A");
+                btnEliminar.setEnabled(true);
+            } else {
+                configurarComponentesIniciales();
+            }
         }
-    }
     }//GEN-LAST:event_cmbxProductosItemStateChanged
 
-   private void configurarComponentesIniciales() {
+    private void configurarComponentesIniciales() {
         txtNombre.setEditable(false);
         txtCodigo.setEditable(false);
         txtStock.setEditable(false);
         txtPrecio.setEditable(false);
         btnEliminar.setEnabled(false);
     }
-   
-   private void cargarProductosEnComboBox() {
+
+    private void cargarProductosEnComboBox() {
         try {
             List<String> tiposABuscar = Arrays.asList("LLENADO", "VARIADO", "CONTENEDOR");
             System.out.println("Cargando productos de tipos: " + tiposABuscar);
@@ -334,21 +335,21 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                     model.addElement(producto);
                 }
             } else {
-                 System.out.println("No se encontraron productos.");
+                System.out.println("No se encontraron productos.");
             }
 
             cmbxProductos.setModel(model); // Establecer el modelo en el JComboBox
 
         } catch (Exception e) {
             System.err.println("Error inesperado al cargar productos por tipo: " + e.getMessage());
-             e.printStackTrace();
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this,
                     "Ocurrió un error inesperado al cargar la lista de productos.",
                     "Error Inesperado", JOptionPane.ERROR_MESSAGE);
         }
     }
-   
-   private void inicializar() {
+
+    private void inicializar() {
         this.setTitle("SGVAPV - Eliminar Producto");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
