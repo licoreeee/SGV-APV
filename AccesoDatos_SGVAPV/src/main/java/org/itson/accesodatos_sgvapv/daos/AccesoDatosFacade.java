@@ -7,8 +7,8 @@ import entidades.Producto;
 import entidades.Usuario;
 import entidades.Vendedor;
 import entidades.Venta;
-import java.util.Calendar;
 import java.util.List;
+import auxiliares.FiltroReportes;
 import org.itson.accesodatos_sgvapv.conexion.Conexion;
 import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
@@ -144,14 +144,10 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
      * {@inheritDoc}
      */
     @Override
-    public List<Venta> obtenerVentasPeriodo(Calendar fechaInicio, Calendar fechaFin) {
-        return ventasDAO.obtenerVentasPeriodo(fechaInicio, fechaFin);
+    public List<Venta> obtenerVentas(FiltroReportes filtro) {
+        return ventasDAO.obtenerVentas(filtro);
     }
 
-    @Override
-    public List<Venta> obtenerVentasPorProductos(List<Producto> productos) {
-        return ventasDAO.obtenerVentasPorProductos(productos);
-    }
 
     /**
      * {@inheritDoc}

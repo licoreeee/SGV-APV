@@ -1,10 +1,9 @@
 package vistas;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import dtos.EncargadoDTO;
 import dtos.UsuarioDTO;
 import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -231,7 +230,14 @@ public class PantallaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionarInventarioActionPerformed
 
     private void btnReporteVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteVentasActionPerformed
-        // TODO add your handling code here:
+        if (usuario instanceof EncargadoDTO) {
+            this.dispose();
+            PantallaGenerarReporte pantallaReporte = new PantallaGenerarReporte(this, (EncargadoDTO) usuario);
+            pantallaReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No cuentas con los permisos necesarios para acceder.",
+                    "Error de permisos.", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnReporteVentasActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed

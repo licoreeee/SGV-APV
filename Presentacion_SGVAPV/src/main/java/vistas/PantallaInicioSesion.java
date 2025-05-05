@@ -1,8 +1,6 @@
 package vistas;
 
 import dtos.UsuarioDTO;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.itson.subsistemainiciosesion_sgvapv.ISubsistemaInicioSesionFacade;
 import org.itson.subsistemainiciosesion_sgvapv.SubsistemaInicioSesionFacade;
@@ -20,7 +18,7 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
         inicioSesion = new SubsistemaInicioSesionFacade();
 
         this.setVisible(true);
-        this.setTitle("Sistema General de Ventas de Agua Purificada del Valle — Iniciar sesión");
+        this.setTitle("Sistema General de Ventas de Agua Purificada del Valle — Iniciar Sesión");
     }
 
     /**

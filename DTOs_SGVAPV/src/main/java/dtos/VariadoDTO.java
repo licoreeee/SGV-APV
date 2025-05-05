@@ -19,14 +19,7 @@ public class VariadoDTO extends ProductoDTO {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("VariadoDTO{");
-        sb.append("codigo=").append(codigo);
-        sb.append(", nombre=").append(nombre);
-        sb.append(", precio=").append(precio);
-        sb.append(", cantidad=").append(cantidad);
-        sb.append('}');
-        return sb.toString();
+        return getCodigo() + " - " + getNombre();
     }
     
     

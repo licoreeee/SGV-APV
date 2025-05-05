@@ -1,17 +1,14 @@
 package vistas;
 
-import dtos.ProductoDTO;
 import dtos.ProductoVentaDTO;
-import dtos.UsuarioDTO;
-import dtos.VendedorDTO;
+import dtos.ReporteVentasDTO;
 import dtos.VentaDTO;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Calendar;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import utilidades.FormatoDinero;
 
 /**
  *
@@ -19,16 +16,43 @@ import utilidades.FormatoDinero;
  */
 public class PantallaReporteVentas extends javax.swing.JFrame {
 
-
-
     /**
      * Creates new form PantallaInicioSesion
+     *
+     * @param reporte
      */
-    public PantallaReporteVentas() {
+    public PantallaReporteVentas(JFrame parent, ReporteVentasDTO reporte) {
+        initComponents();
+        setEnabled(true);
+        setTitle("Sistema General de Ventas de Agua Purificada del Valle — Reporte de Ventas");
 
+        this.parent = parent;
+        this.reporte = reporte;
+
+        JTableHeader header = tblProductosVenta.getTableHeader();
+        Font headerFont = new Font("Afacad", Font.BOLD, 23);
+        header.setFont(headerFont);
+        // Mandamos a formatear la tabla y a cargar los datos.
+        formatearTabla();
+
+        cargarProductos();
     }
 
-    
+    /**
+     * Método para darle formato a la tabla.
+     */
+    private void formatearTabla() {
+        /**
+         * +-----------------------------------------+ | | | CAMBIAR COLORES | |
+         * | +-----------------------------------------+
+         */
+        // Cambiamos el color del fondo.
+        tblProductosVenta.getTableHeader().setBackground(new Color(41, 136, 194));
+        // Cambiamos la fuente y el tamaño.
+        tblProductosVenta.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
+        // Cambiamos el color de la letra.
+        tblProductosVenta.getTableHeader().setForeground(new Color(255, 255, 255));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -116,15 +140,23 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        tblProductosVenta.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        tblProductosVenta.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
         tblProductosVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "PRODUCTO", "CANTIDAD", "PRECIO"
+                "FECHA", "PRODUCTOS", "CANTIDAD", "TOTAL"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblProductosVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tblProductosVentaKeyPressed(evt);
@@ -200,18 +232,34 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        
+        parent.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        
+
     }//GEN-LAST:event_btnExportarActionPerformed
 
     private void tblProductosVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProductosVentaKeyPressed
-        
+
     }//GEN-LAST:event_tblProductosVentaKeyPressed
 
-    
+    public void cargarProductos() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblProductosVenta.getModel();
+
+        for (VentaDTO venta : reporte.getVentas()) {
+            Object[] fila = new Object[4];
+            fila[0] = (venta.getFechaHora().get(Calendar.DATE) + 1) + "/" + (venta.getFechaHora().get(Calendar.MONTH) + 1) + "/" + venta.getFechaHora().get(Calendar.YEAR);
+            fila[1] = "";
+            for (ProductoVentaDTO producto : venta.getProductos()) {
+                fila[1] += producto.getProducto().getNombre() + "\n";
+            }
+            fila[2] = venta.getProductos().size();
+            fila[3] = venta.getTotal();
+
+            modeloTabla.addRow(fila);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
@@ -227,6 +275,6 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tblProductosVenta;
     // End of variables declaration//GEN-END:variables
-
-    
+    private ReporteVentasDTO reporte;
+    private JFrame parent;
 }
