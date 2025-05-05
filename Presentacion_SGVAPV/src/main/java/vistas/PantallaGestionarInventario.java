@@ -4,17 +4,27 @@
  */
 package vistas;
 
+import dtos.UsuarioDTO;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Dell
  */
 public class PantallaGestionarInventario extends javax.swing.JFrame {
+    
+    private UsuarioDTO usuario;
 
     /**
      * Creates new form PantallaGestionarInventario
      */
-    public PantallaGestionarInventario() {
+    public PantallaGestionarInventario(JFrame parent, UsuarioDTO usuario) {
         initComponents();
+        setEnabled(true);
+        this.setVisible(true);
+        this.setTitle("SGVAPV - Gestión Inventario");
+        this.parent = parent;
+        this.usuario = usuario;
     }
 
     /**
@@ -72,7 +82,7 @@ public class PantallaGestionarInventario extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 643, 70));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 70));
 
         jPanel2.setBackground(new java.awt.Color(196, 216, 255));
 
@@ -159,19 +169,23 @@ public class PantallaGestionarInventario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-
+        this.dispose();
+        PantallaEditaProductoInventario pantallaEliminar = new PantallaEditaProductoInventario();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregar1ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        PantallaAgregarProductoInventario pantallaAgregar = new PantallaAgregarProductoInventario(this,usuario);
     }//GEN-LAST:event_btnAgregar1ActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        PantallaEliminarProductoInventario pantallaEditar = new PantallaEliminarProductoInventario(this,usuario);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        PantallaMenu pantallaMenu = new PantallaMenu(this,usuario);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
    
@@ -188,4 +202,5 @@ public class PantallaGestionarInventario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+    private JFrame parent;
 }
