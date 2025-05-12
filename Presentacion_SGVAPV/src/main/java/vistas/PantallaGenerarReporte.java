@@ -3,7 +3,7 @@ package vistas;
 import dtos.EncargadoDTO;
 import dtos.FiltroReportesDTO;
 import dtos.ProductoDTO;
-import dtos.ReporteVentasDTO;
+import dtos.VentaDTO;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
@@ -256,10 +256,10 @@ public class PantallaGenerarReporte extends javax.swing.JFrame {
                 filtro.setProductos(productosSeleccionados);
             }
             
-            ReporteVentasDTO reporteObtenido = reportes.obtenerVentas(filtro);
+            List<VentaDTO> ventas = reportes.obtenerVentas(filtro);
             
-            if (reporteObtenido != null) {
-                PantallaReporteVentas reporteVentas = new PantallaReporteVentas(this, reporteObtenido);
+            if (ventas != null && !ventas.isEmpty()) {
+                PantallaReporteVentas reporteVentas = new PantallaReporteVentas(this, ventas);
                 this.dispose();
                 reporteVentas.setVisible(true);
             } else {

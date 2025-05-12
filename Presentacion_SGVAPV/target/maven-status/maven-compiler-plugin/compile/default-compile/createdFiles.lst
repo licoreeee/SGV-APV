@@ -24,6 +24,7 @@ vistas\PantallaReporteVentas.class
 vistas\PantallaAgregarLlenado.class
 vistas\PantallaEditaProductoInventario$1.class
 vistas\SelectorProductos$1.class
+vistas\PantallaReporteVentas$TextAreaRenderer.class
 vistas\PantallaVenta.class
 vistas\PantallaAgregarProductoInventario$2.class
 vistas\PantallaReporteVentas$2.class

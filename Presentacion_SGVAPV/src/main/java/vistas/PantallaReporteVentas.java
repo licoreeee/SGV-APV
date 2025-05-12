@@ -1,14 +1,23 @@
 package vistas;
 
 import dtos.ProductoVentaDTO;
-import dtos.ReporteVentasDTO;
+import dtos.VentaReporteDTO;
 import dtos.VentaDTO;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import org.itson.subsistemareporteventas_sgvapv.ISubsistemaReporteVentasFacade;
+import org.itson.subsistemareporteventas_sgvapv.SubsistemaReporteVentasFacade;
+import utilidades.FormatoDinero;
 
 /**
  *
@@ -19,21 +28,28 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
     /**
      * Creates new form PantallaInicioSesion
      *
-     * @param reporte
+     * @param parent
+     * @param ventas
      */
-    public PantallaReporteVentas(JFrame parent, ReporteVentasDTO reporte) {
+    public PantallaReporteVentas(JFrame parent, List<VentaDTO> ventas) {
         initComponents();
         setEnabled(true);
         setTitle("Sistema General de Ventas de Agua Purificada del Valle — Reporte de Ventas");
 
         this.parent = parent;
-        this.reporte = reporte;
+        this.ventas = ventas;
+        
+        formatoDinero = new FormatoDinero();
+        subsistemaReportes = new SubsistemaReporteVentasFacade();
+        ventasReporte = new LinkedList<>();
 
         JTableHeader header = tblProductosVenta.getTableHeader();
         Font headerFont = new Font("Afacad", Font.BOLD, 23);
         header.setFont(headerFont);
         // Mandamos a formatear la tabla y a cargar los datos.
         formatearTabla();
+        
+        tblProductosVenta.setEnabled(false);
 
         cargarProductos();
     }
@@ -237,7 +253,7 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-
+        subsistemaReportes.generarReporte(ventasReporte);
     }//GEN-LAST:event_btnExportarActionPerformed
 
     private void tblProductosVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProductosVentaKeyPressed
@@ -246,18 +262,66 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
 
     public void cargarProductos() {
         DefaultTableModel modeloTabla = (DefaultTableModel) tblProductosVenta.getModel();
+        tblProductosVenta.getColumnModel().getColumn(0).setCellRenderer(new TextAreaRenderer());
+        tblProductosVenta.getColumnModel().getColumn(1).setCellRenderer(new TextAreaRenderer());
+        tblProductosVenta.getColumnModel().getColumn(2).setCellRenderer(new TextAreaRenderer());
+        tblProductosVenta.getColumnModel().getColumn(3).setCellRenderer(new TextAreaRenderer());
+        tblProductosVenta.setRowHeight(80);
+        
+        Float totalVentas = 0.0f;
+        VentaReporteDTO ventaReporte = new VentaReporteDTO();
 
-        for (VentaDTO venta : reporte.getVentas()) {
+        for (VentaDTO venta : ventas) {
             Object[] fila = new Object[4];
             fila[0] = (venta.getFechaHora().get(Calendar.DATE) + 1) + "/" + (venta.getFechaHora().get(Calendar.MONTH) + 1) + "/" + venta.getFechaHora().get(Calendar.YEAR);
-            fila[1] = "";
+            String productos = "";
+            String cantidades = "";
             for (ProductoVentaDTO producto : venta.getProductos()) {
-                fila[1] += producto.getProducto().getNombre() + "\n";
+                productos += producto.getProducto().getNombre() + "\n";
             }
-            fila[2] = venta.getProductos().size();
-            fila[3] = venta.getTotal();
+            for (ProductoVentaDTO producto : venta.getProductos()) {
+                cantidades += producto.getCantidad().toString() + "\n";
+            }
+            fila[1] = productos;
+            fila[2] = cantidades;
+            fila[3] = formatoDinero.formatear(venta.getTotal());
 
             modeloTabla.addRow(fila);
+            
+            ventaReporte.setFechaVenta(venta.getFechaHora().getTime());
+            ventaReporte.setProductos("hola");
+            ventaReporte.setCantidades("1");
+            ventaReporte.setTotal(venta.getTotal());
+            
+            ventasReporte.add(ventaReporte);
+            
+            totalVentas += venta.getTotal();
+        }
+        
+        lblTotal.setText(formatoDinero.formatear(totalVentas));
+    }
+    
+    static class TextAreaRenderer extends JTextArea implements TableCellRenderer {
+
+        public TextAreaRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                                                       boolean isSelected, boolean hasFocus,
+                                                       int row, int column) {
+            setText(value != null ? value.toString() : "");
+            if (isSelected) {
+                setBackground(table.getSelectionBackground());
+                setForeground(table.getSelectionForeground());
+            } else {
+                setBackground(table.getBackground());
+                setForeground(table.getForeground());
+            }
+            return this;
         }
     }
 
@@ -275,6 +339,9 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tblProductosVenta;
     // End of variables declaration//GEN-END:variables
-    private ReporteVentasDTO reporte;
+    private List<VentaDTO> ventas;
+    private List<VentaReporteDTO> ventasReporte;
     private JFrame parent;
+    private FormatoDinero formatoDinero;
+    private ISubsistemaReporteVentasFacade subsistemaReportes;
 }

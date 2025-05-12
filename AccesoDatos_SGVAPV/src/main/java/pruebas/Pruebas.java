@@ -1,11 +1,12 @@
 package pruebas;
 
-import entidades.Producto;
+import auxiliares.FiltroReportes;
+import entidades.ProductoVenta;
 import entidades.Variado;
-import java.util.LinkedList;
+import org.itson.accesodatos_sgvapv.daos.IAccesoDatosFacade;
+import entidades.Venta;
 import java.util.List;
 import org.itson.accesodatos_sgvapv.daos.AccesoDatosFacade;
-import org.itson.accesodatos_sgvapv.daos.IAccesoDatosFacade;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
 public class Pruebas {
@@ -17,28 +18,28 @@ public class Pruebas {
 //        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
 //        List<Variado> productos = new ArrayList<>();
 //
-        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
+//        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
 //        IConexion conexion = new Conexion();
 //        conexion.crearConexion();
-        List<Producto> productos = new LinkedList<>();
+//        List<Producto> productos = new LinkedList<>();
 
-        productos.add(new Variado("VAR-001", "Trapeador", 140f));
-        productos.add(new Variado("VAR-002", "Escoba", 120f));
-        productos.add(new Variado("VAR-003", "Balde", 90f));
-        productos.add(new Variado("VAR-004", "Esponja", 30f));
-        productos.add(new Variado("VAR-005", "Detergente", 75f));
-        productos.add(new Variado("VAR-006", "Jabón líquido", 110f));
-        productos.add(new Variado("VAR-007", "Paño de microfibra", 50f));
-        productos.add(new Variado("VAR-008", "Guantes de limpieza", 60f));
-        productos.add(new Variado("VAR-009", "Cepillo para pisos", 130f));
-        productos.add(new Variado("VAR-010", "Bolsas de basura", 45f));
+//        productos.add(new Variado("VAR-001", "Trapeador", 140f));
+//        productos.add(new Variado("VAR-002", "Escoba", 120f));
+//        productos.add(new Variado("VAR-003", "Balde", 90f));
+//        productos.add(new Variado("VAR-004", "Esponja", 30f));
+//        productos.add(new Variado("VAR-005", "Detergente", 75f));
+//        productos.add(new Variado("VAR-006", "Jabón líquido", 110f));
+//        productos.add(new Variado("VAR-007", "Paño de microfibra", 50f));
+//        productos.add(new Variado("VAR-008", "Guantes de limpieza", 60f));
+//        productos.add(new Variado("VAR-009", "Cepillo para pisos", 130f));
+//        productos.add(new Variado("VAR-010", "Bolsas de basura", 45f));
         // Persistir los productos
 //        for (Producto producto : productos) {
 //            accesoDatos.agregarProducto(producto);
 //        }
-        for (int i = 0; i < productos.size(); i++) {
-            accesoDatos.aumentarStock(productos.get(i), (i+1)*2);
-        }
+//        for (int i = 0; i < productos.size(); i++) {
+//            accesoDatos.aumentarStock(productos.get(i), (i+1)*2);
+//        }
 //        Contenedor contenedor = new Contenedor("CON-001", "Garrafón Nuevo 19L", 85f, 19);
 //        Llenado llenado = new Llenado("LEN-001", "Llenado Garrafon", 19, contenedor, 14f);
 //        List<Producto> lista = accesoDatos.obtenerProductosPorTipo(List.of(Variado.class));
@@ -113,6 +114,27 @@ public class Pruebas {
 //                System.out.println(producto);
 //            }
 //        }
+
+
+        FiltroReportes fr = new FiltroReportes();
+        Variado variado = new Variado("VAR-001", "Trapeador", 140.0f);
+        variado.setId(1L);
+        fr.setProductos(List.of(variado));
+        
+        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
+        
+        List<Venta> ventas = accesoDatos.obtenerVentas(fr);
+        
+        if (ventas.isEmpty()) {
+            System.out.println("No se obtuvo ninguna venta.");
+        } else {
+            for (Venta venta : ventas) {
+                System.out.println(venta.getFechaHora());
+                for (ProductoVenta producto : venta.getProductos()) {
+                    System.out.println(producto);
+                }
+            }
+        }
     }
 
 }

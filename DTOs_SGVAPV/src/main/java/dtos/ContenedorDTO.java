@@ -11,13 +11,13 @@ public class ContenedorDTO extends ProductoDTO {
     
     private Integer volumen;
 
-    public ContenedorDTO(Integer volumen, String codigo, String nombre, Float precio) {
-        super(codigo, nombre, precio);
+    public ContenedorDTO(Long id, Integer volumen, String codigo, String nombre, Float precio) {
+        super(id, codigo, nombre, precio);
         this.volumen = volumen;
     }
 
-    public ContenedorDTO(Integer volumen, String codigo, String nombre, Float precio, Integer cantidad) {
-        super(codigo, nombre, precio, cantidad);
+    public ContenedorDTO(Long id, Integer volumen, String codigo, String nombre, Float precio, Integer cantidad) {
+        super(id, codigo, nombre, precio, cantidad);
         this.volumen = volumen;
     }
 

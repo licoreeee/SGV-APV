@@ -38,7 +38,7 @@ class SubsistemaVentasControl {
         Producto productoObtenido = accesoDatos.obtenerProducto(codigo);
 
         if (productoObtenido instanceof Variado) {
-            VariadoDTO variado = new VariadoDTO(codigo, codigo, Float.NaN, Integer.SIZE);
+            VariadoDTO variado = new VariadoDTO(productoObtenido.getId(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio());
         } else if (productoObtenido instanceof Contenedor) {
 
         } else if (productoObtenido instanceof Llenado) {
@@ -80,7 +80,7 @@ class SubsistemaVentasControl {
             List<ProductoDTO> listaProductosDTO = new LinkedList();
             for (Producto producto : listaProductos) {
                 if (producto.getStock().getCantidad() > 0) {
-                    listaProductosDTO.add(new ProductoDTO(producto.getCodigo(), producto.getNombre(), producto.getPrecio(), producto.getStock().getCantidad()));
+                    listaProductosDTO.add(new ProductoDTO(producto.getId(), producto.getCodigo(), producto.getNombre(), producto.getPrecio(), producto.getStock().getCantidad()));
                 }
             }
             return listaProductosDTO;

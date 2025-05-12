@@ -9,12 +9,12 @@ package dtos;
  */
 public class VariadoDTO extends ProductoDTO {
 
-    public VariadoDTO(String codigo, String nombre, Float precio) {
-        super(codigo, nombre, precio);
+    public VariadoDTO(Long id, String codigo, String nombre, Float precio) {
+        super(id, codigo, nombre, precio);
     }
 
-    public VariadoDTO(String codigo, String nombre, Float precio, Integer cantidad) {
-        super(codigo, nombre, precio, cantidad);
+    public VariadoDTO(Long id, String codigo, String nombre, Float precio, Integer cantidad) {
+        super(id, codigo, nombre, precio, cantidad);
     }
 
     @Override

@@ -3,8 +3,10 @@
  */
 package org.itson.subsistemareporteventas_sgvapv;
 
-import dtos.ReporteVentasDTO;
+import dtos.VentaReporteDTO;
 import dtos.FiltroReportesDTO;
+import dtos.VentaDTO;
+import java.util.List;
 
 /**
  * @author Equipo1
@@ -21,8 +23,13 @@ public class SubsistemaReporteVentasFacade implements ISubsistemaReporteVentasFa
     }
 
     @Override
-    public ReporteVentasDTO obtenerVentas(FiltroReportesDTO filtro) {
+    public List<VentaDTO> obtenerVentas(FiltroReportesDTO filtro) {
         return control.obtenerVentas(filtro);
+    }
+
+    @Override
+    public void generarReporte(List<VentaReporteDTO> ventas) {
+        control.generarReporte(ventas);
     }
     
 }

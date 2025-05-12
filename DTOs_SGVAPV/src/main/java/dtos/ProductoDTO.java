@@ -11,23 +11,32 @@ import java.util.Objects;
  */
 public class ProductoDTO {
 
+    protected Long id;
     protected String codigo;
     protected String nombre;
     protected Float precio;
     protected Integer cantidad;
 
-    public ProductoDTO(String codigo, String nombre, Float precio) {
+    public ProductoDTO(Long id, String codigo, String nombre, Float precio) {
+        this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
     }
 
-    public ProductoDTO(String codigo, String nombre, Float precio, Integer cantidad) {
+    public ProductoDTO(Long id, String codigo, String nombre, Float precio, Integer cantidad) {
+        this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
         this.cantidad = cantidad;
     }
+
+    public Long getId() {
+        return id;
+    }
+    
+    
 
     public String getCodigo() {
         return codigo;

@@ -11,8 +11,8 @@ public class LlenadoDTO extends ProductoDTO {
 
     private Integer litros;
 
-    public LlenadoDTO(String codigo, String nombre, Float precio, Integer litros) {
-        super(codigo, nombre, precio);
+    public LlenadoDTO(Long id, String codigo, String nombre, Float precio, Integer litros) {
+        super(id, codigo, nombre, precio);
         this.litros = litros;
     }
 

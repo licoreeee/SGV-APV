@@ -4,9 +4,6 @@ package vistas;
 import dtos.ProductoDTO;
 import dtos.UsuarioDTO;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.itson.subsistemainventario_sgvapv.ISubsistemaInventarioFacade;
@@ -243,7 +240,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
             return;
         }
 
-        ProductoDTO nuevoProducto = new ProductoDTO(codigo, nombre, precio, stock);
+        ProductoDTO nuevoProducto = new ProductoDTO(0L, codigo, nombre, precio, stock);
 
         try {
             subsistemaInventarioFacade.agregarProducto(nuevoProducto);

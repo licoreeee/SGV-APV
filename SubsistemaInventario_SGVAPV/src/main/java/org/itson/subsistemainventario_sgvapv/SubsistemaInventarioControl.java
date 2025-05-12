@@ -46,11 +46,11 @@ class SubsistemaInventarioControl {
         ProductoDTO producto = null;
 
         if (productoObtenido instanceof Variado) {
-            producto = new VariadoDTO(productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad);
+            producto = new VariadoDTO(productoObtenido.getId(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad);
         } else if (productoObtenido instanceof Contenedor) {
-            producto = new ContenedorDTO(((Contenedor) productoObtenido).getVolumen(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad);
+            producto = new ContenedorDTO(productoObtenido.getId(), ((Contenedor) productoObtenido).getVolumen(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad);
         } else if (productoObtenido instanceof Llenado) {
-            producto = new LlenadoDTO(productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), ((Llenado) productoObtenido).getLitros());
+            producto = new LlenadoDTO(productoObtenido.getId(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), ((Llenado) productoObtenido).getLitros());
         }
 
         return producto;
@@ -135,11 +135,11 @@ class SubsistemaInventarioControl {
                 Integer cantidad = accesoDatos.obtenerStockProducto(productoObtenido);
 
                 if (productoObtenido instanceof Variado) {
-                    productos.add(new VariadoDTO(productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad));
+                    productos.add(new VariadoDTO(productoObtenido.getId(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad));
                 } else if (productoObtenido instanceof Contenedor) {
-                    productos.add(new ContenedorDTO(((Contenedor) productoObtenido).getVolumen(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad));
+                    productos.add(new ContenedorDTO(productoObtenido.getId(), ((Contenedor) productoObtenido).getVolumen(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad));
                 } else if (productoObtenido instanceof Llenado) {
-                    productos.add(new LlenadoDTO(productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), ((Llenado) productoObtenido).getLitros()));
+                    productos.add(new LlenadoDTO(productoObtenido.getId(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), ((Llenado) productoObtenido).getLitros()));
                 }
             }
         }
@@ -163,11 +163,11 @@ class SubsistemaInventarioControl {
                 Integer cantidad = accesoDatos.obtenerStockProducto(productoObtenido);
 
                 if (productoObtenido instanceof Variado) {
-                    productos.add(new VariadoDTO(productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad));
+                    productos.add(new VariadoDTO(productoObtenido.getId(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad));
                 } else if (productoObtenido instanceof Contenedor) {
-                    productos.add(new ContenedorDTO(((Contenedor) productoObtenido).getVolumen(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad));
+                    productos.add(new ContenedorDTO(productoObtenido.getId(), ((Contenedor) productoObtenido).getVolumen(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), cantidad));
                 } else if (productoObtenido instanceof Llenado) {
-                    productos.add(new LlenadoDTO(productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), ((Llenado) productoObtenido).getLitros()));
+                    productos.add(new LlenadoDTO(productoObtenido.getId(), productoObtenido.getCodigo(), productoObtenido.getNombre(), productoObtenido.getPrecio(), ((Llenado) productoObtenido).getLitros()));
                 }
             }
         }

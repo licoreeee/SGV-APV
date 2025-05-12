@@ -59,6 +59,4 @@ public class Contenedor extends Producto implements Serializable {
         return sb.toString();
     }
     
-    
-
 }

@@ -63,7 +63,7 @@ class VentasDAO implements IVentasDAO {
      *
      * @param venta Venta que se quiere agregar.
      * @throws PersistenciaException Si llegase a ocurrir un error al tratar de
-     * guardar una venta.
+     *                               guardar una venta.
      */
     @Override
     public void agregarVenta(Venta venta) throws PersistenciaException {
@@ -94,7 +94,7 @@ class VentasDAO implements IVentasDAO {
      *
      * @param venta Venta que se quiere modificar.
      * @throws PersistenciaException Si llegase a ocurrir un error al tratar de
-     * actualizar una venta.
+     *                               actualizar una venta.
      */
     @Override
     public void actualizarVenta(Venta venta) throws PersistenciaException {
@@ -124,37 +124,40 @@ class VentasDAO implements IVentasDAO {
      * dentro del periodo que engloba la fecha de inicio y la fecha de fin.
      *
      * @param fechaInicio Fecha de inicio del periodo a tomar en cuenta.
-     * @param fechaFin Fecha fin del periodo a tomar en cuenta.
+     * @param fechaFin    Fecha fin del periodo a tomar en cuenta.
      * @return Devuelve un listado con todas las ventas que se hayan encontrado.
      */
     @Override
     public List<Venta> obtenerVentas(FiltroReportes filtro) {
-        // Creamos un entity manager.
         EntityManager em = conexion.crearConexion();
 
-        String jpql = "SELECT DISTINCT v FROM Venta v JOIN v.productos p WHERE 1=1";
+        String jpql = "SELECT DISTINCT v FROM Venta v " +
+                "JOIN v.productos pv " +
+                "JOIN pv.producto p " +
+                "WHERE 1=1";
 
         if (filtro.getFechaInicio() != null && filtro.getFechaFin() != null) {
             jpql += " AND v.fechaHora BETWEEN :fechaInicio AND :fechaFin";
         }
 
         if (filtro.getProductos() != null && !filtro.getProductos().isEmpty()) {
-            jpql += " AND p.producto IN :productos";
+            jpql += " AND p IN :productos";
         }
 
         jpql += " ORDER BY v.fechaHora DESC";
 
         TypedQuery<Venta> query = em.createQuery(jpql, Venta.class);
 
+        // Parámetros
         if (filtro.getFechaInicio() != null && filtro.getFechaFin() != null) {
             query.setParameter("fechaInicio", filtro.getFechaInicio());
             query.setParameter("fechaFin", filtro.getFechaFin());
         }
+
         if (filtro.getProductos() != null && !filtro.getProductos().isEmpty()) {
-            query.setParameter("productos", filtro.getProductos());
+            query.setParameter("productos", filtro.getProductos()); // Deben ser entidades completas
         }
 
-        // Retornamos la lista de ventas encontradas.
         return query.getResultList();
     }
 
@@ -163,7 +166,7 @@ class VentasDAO implements IVentasDAO {
      *
      * @param venta Venta que se quiere eliminar.
      * @throws PersistenciaException Si llegase a ocurrir un error al tratar de
-     * eliminar una venta.
+     *                               eliminar una venta.
      */
     @Override
     public void cancelarVenta(Venta venta) throws PersistenciaException {

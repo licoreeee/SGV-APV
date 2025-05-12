@@ -40,8 +40,6 @@ public class VentaDTO {
         this.vendedor = vendedor;
         this.productos = productos;
     }
-    
-    
 
     public Float getTotal() {
         return total;
