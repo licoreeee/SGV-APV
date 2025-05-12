@@ -38,7 +38,7 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
 
         this.parent = parent;
         this.ventas = ventas;
-        
+
         formatoDinero = new FormatoDinero();
         subsistemaReportes = new SubsistemaReporteVentasFacade();
         ventasReporte = new LinkedList<>();
@@ -48,7 +48,7 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
         header.setFont(headerFont);
         // Mandamos a formatear la tabla y a cargar los datos.
         formatearTabla();
-        
+
         tblProductosVenta.setEnabled(false);
 
         cargarProductos();
@@ -267,13 +267,12 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
         tblProductosVenta.getColumnModel().getColumn(2).setCellRenderer(new TextAreaRenderer());
         tblProductosVenta.getColumnModel().getColumn(3).setCellRenderer(new TextAreaRenderer());
         tblProductosVenta.setRowHeight(80);
-        
+
         Float totalVentas = 0.0f;
-        VentaReporteDTO ventaReporte = new VentaReporteDTO();
 
         for (VentaDTO venta : ventas) {
             Object[] fila = new Object[4];
-            fila[0] = (venta.getFechaHora().get(Calendar.DATE) + 1) + "/" + (venta.getFechaHora().get(Calendar.MONTH) + 1) + "/" + venta.getFechaHora().get(Calendar.YEAR);
+            fila[0] = venta.getFechaHora().get(Calendar.DATE) + "/" + (venta.getFechaHora().get(Calendar.MONTH) + 1) + "/" + venta.getFechaHora().get(Calendar.YEAR);
             String productos = "";
             String cantidades = "";
             for (ProductoVentaDTO producto : venta.getProductos()) {
@@ -287,20 +286,22 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
             fila[3] = formatoDinero.formatear(venta.getTotal());
 
             modeloTabla.addRow(fila);
-            
-            ventaReporte.setFechaVenta(venta.getFechaHora().getTime());
-            ventaReporte.setProductos("hola");
-            ventaReporte.setCantidades("1");
-            ventaReporte.setTotal(venta.getTotal());
-            
-            ventasReporte.add(ventaReporte);
-            
+
+            for (ProductoVentaDTO producto : venta.getProductos()) {
+                VentaReporteDTO ventaReporte = new VentaReporteDTO();
+                ventaReporte.setFechaVenta(venta.getFechaHora().getTime());
+                ventaReporte.setProductos(producto.getProducto().getNombre());
+                ventaReporte.setCantidades(String.valueOf(producto.getCantidad()));
+                ventaReporte.setTotal(producto.getPrecio() * producto.getCantidad());
+                ventasReporte.add(ventaReporte);
+            }
+
             totalVentas += venta.getTotal();
         }
-        
+
         lblTotal.setText(formatoDinero.formatear(totalVentas));
     }
-    
+
     static class TextAreaRenderer extends JTextArea implements TableCellRenderer {
 
         public TextAreaRenderer() {
@@ -311,8 +312,8 @@ public class PantallaReporteVentas extends javax.swing.JFrame {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
-                                                       int row, int column) {
+                boolean isSelected, boolean hasFocus,
+                int row, int column) {
             setText(value != null ? value.toString() : "");
             if (isSelected) {
                 setBackground(table.getSelectionBackground());

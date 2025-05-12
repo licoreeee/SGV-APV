@@ -121,17 +121,15 @@ class SubsistemaReporteVentasControl {
             }
 
             // Cargar el diseño del reporte desde el archivo "plantilla-reporte.jrxml"
-            try (InputStream input = new FileInputStream(
-    "C:\\Users\\ricar\\OneDrive\\Documentos\\Proyecto de Software Integrador\\SGV-APV\\SubsistemaReporteVentas_SGVAPV\\plantilla-reportes.jrxml")) {
+            try (InputStream input = getClass().getResourceAsStream("/plantilla-reportes.jrxml")) {
                 JasperDesign jasperDesign = JRXmlLoader.load(input);
                 // Compilar el reporte
                 JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
                 // Llenar el reporte con los datos y parámetros proporcionados
-                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
                 // Exportar el reporte a un archivo PDF
-                try (
-                        OutputStream outputStream = new FileOutputStream(new File(filePath))) {
+                try (OutputStream outputStream = new FileOutputStream(new File(filePath))) {
                     JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
                 }
 
@@ -141,7 +139,7 @@ class SubsistemaReporteVentasControl {
                 JOptionPane.showMessageDialog(null, "Archivo guardado", "Info", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 // Log y excepción en caso de error
-                JOptionPane.showMessageDialog(null, "Error.", 
+                JOptionPane.showMessageDialog(null, "Error.",
                         "Hubo un error al generar el reporte", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
                 Logger.getLogger(SubsistemaReporteVentasControl.class.getName()).log(Level.SEVERE, "Error al generar el reporte");
