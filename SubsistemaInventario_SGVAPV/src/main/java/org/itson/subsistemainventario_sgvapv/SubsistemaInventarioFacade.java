@@ -4,6 +4,7 @@
 package org.itson.subsistemainventario_sgvapv;
 
 import dtos.ProductoDTO;
+import java.util.Arrays;
 import java.util.List;
 import org.itson.subsistemainventario_sgvapv.excepciones.SubsistemaInventarioException;
 
@@ -20,6 +21,40 @@ public class SubsistemaInventarioFacade implements ISubsistemaInventarioFacade {
      */
     public SubsistemaInventarioFacade() {
         this.control = new SubsistemaInventarioControl();
+    }
+
+    @Override
+    public List<ProductoDTO> obtenerTodosLosProductos() throws SubsistemaInventarioException {
+        System.out.println("[FACADE] SubsistemaInventarioFacade: llamando a control.obtenerProductosPorTipo...");
+        try {
+            List<ProductoDTO> resultado = this.control.obtenerProductosPorTipo(Arrays.asList("CONTENEDOR", "LLENADO", "VARIADO"));
+            System.out.println("[FACADE] SubsistemaInventarioFacade: control.obtenerProductosPorTipo devolvió. Es null? " + (resultado == null));
+            if (resultado != null) {
+                System.out.println("[FACADE] SubsistemaInventarioFacade: Número de DTOs devueltos por control: " + resultado.size());
+            }
+            return resultado;
+        } catch (Exception e) {
+            System.err.println("[FACADE ERROR] SubsistemaInventarioFacade: Exception en obtenerTodosLosProductos: " + e.getMessage());
+            e.printStackTrace();
+            throw new SubsistemaInventarioException(e.getMessage());
+        }
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ProductoDTO obtenerProductoParaEdicion(Long productoId) throws SubsistemaInventarioException {
+        return this.control.obtenerProductoParaEdicion(productoId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void guardarCambiosProducto(ProductoDTO productoEditado) throws SubsistemaInventarioException {
+        this.control.guardarCambiosProducto(productoEditado);
     }
 
     /**

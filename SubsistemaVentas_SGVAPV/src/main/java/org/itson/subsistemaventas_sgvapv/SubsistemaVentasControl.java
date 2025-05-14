@@ -60,32 +60,54 @@ class SubsistemaVentasControl {
     }
 
     public List<ProductoDTO> obtenerProductosPorTipo(List<String> tipos) {
-        List<Class> tiposSeleccionados = new LinkedList();
+        List<Class> tiposSeleccionados = new LinkedList<>();
         for (String tipo : tipos) {
             if (tipo.equalsIgnoreCase("VARIADO")) {
                 tiposSeleccionados.add(Variado.class);
-            }
-            if (tipo.equalsIgnoreCase("LLENADO")) {
+            } else if (tipo.equalsIgnoreCase("LLENADO")) {
                 tiposSeleccionados.add(Llenado.class);
-            }
-            if (tipo.equalsIgnoreCase("CONTENEDOR")) {
+            } else if (tipo.equalsIgnoreCase("CONTENEDOR")) {
                 tiposSeleccionados.add(Contenedor.class);
             }
-
         }
-        
-        List<Producto> listaProductos = accesoDatos.obtenerProductosPorTipo(tiposSeleccionados);
-        
-        if (listaProductos != null) {
-            List<ProductoDTO> listaProductosDTO = new LinkedList();
-            for (Producto producto : listaProductos) {
-                if (producto.getStock().getCantidad() > 0) {
-                    listaProductosDTO.add(new ProductoDTO(producto.getId(), producto.getCodigo(), producto.getNombre(), producto.getPrecio(), producto.getStock().getCantidad()));
+
+        List<Producto> listaProductosEntidad = accesoDatos.obtenerProductosPorTipo(tiposSeleccionados);
+
+        List<ProductoDTO> listaProductosDTO = new LinkedList<>();
+
+        if (listaProductosEntidad != null && !listaProductosEntidad.isEmpty()) {
+            for (Producto productoEntidad : listaProductosEntidad) {
+                if (productoEntidad == null) {
+                    continue;
+                }
+                Integer cantidadEnStock = null;
+                if (productoEntidad.getStock() != null) {
+                    cantidadEnStock = productoEntidad.getStock().getCantidad();
+                }
+                if (productoEntidad instanceof Llenado) {
+                    
+                    listaProductosDTO.add(new ProductoDTO(
+                            productoEntidad.getId(),
+                            productoEntidad.getCodigo(),
+                            productoEntidad.getNombre(),
+                            productoEntidad.getPrecio(),
+                            null
+                    ));
+                } else {
+                    if (cantidadEnStock != null && cantidadEnStock > 0) {
+                        listaProductosDTO.add(new ProductoDTO(
+                                productoEntidad.getId(),
+                                productoEntidad.getCodigo(),
+                                productoEntidad.getNombre(),
+                                productoEntidad.getPrecio(),
+                                cantidadEnStock
+                        ));
+                    } else {
+                    }
                 }
             }
-            return listaProductosDTO;
         }
-        return null;
+        return listaProductosDTO;
     }
 
     public List<ProductoDTO> obtenerProductosPorNombre(String nombre) {

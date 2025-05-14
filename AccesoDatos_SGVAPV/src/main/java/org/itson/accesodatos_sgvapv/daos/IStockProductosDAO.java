@@ -13,6 +13,10 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  * @author Equipo1
  */
 interface IStockProductosDAO {
+    
+    void eliminarStockPorProductoId(Long productoId) throws PersistenciaException;
+    
+    void setStockCantidad(Long productoId, Integer nuevaCantidad) throws PersistenciaException; 
 
     /**
      * Permite obtener el stock de un producto.

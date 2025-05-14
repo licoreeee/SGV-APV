@@ -13,6 +13,25 @@ import org.itson.subsistemainventario_sgvapv.excepciones.SubsistemaInventarioExc
  */
 public interface ISubsistemaInventarioFacade {
     
+    List<ProductoDTO> obtenerTodosLosProductos() throws SubsistemaInventarioException;
+
+    /**
+     * Obtiene un ProductoDTO detallado, listo para ser editado, buscando por su ID.
+     *
+     * @param productoId El ID del producto a obtener.
+     * @return El ProductoDTO con todos sus detalles (incluyendo id y, para Llenado, el contenedor asociado).
+     * @throws SubsistemaInventarioException Si ocurre un error o el producto no se encuentra.
+     */
+    ProductoDTO obtenerProductoParaEdicion(Long productoId) throws SubsistemaInventarioException;
+
+    /**
+     * Guarda los cambios realizados a un producto existente.
+     *
+     * @param productoEditado El ProductoDTO con los datos actualizados (debe incluir el ID original).
+     * @throws SubsistemaInventarioException Si ocurre un error al guardar los cambios.
+     */
+    void guardarCambiosProducto(ProductoDTO productoEditado) throws SubsistemaInventarioException;
+    
     /**
      * Permite obtener un producto a partir de su código.
      *

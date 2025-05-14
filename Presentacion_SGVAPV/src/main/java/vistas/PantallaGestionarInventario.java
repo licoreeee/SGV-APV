@@ -180,7 +180,7 @@ public class PantallaGestionarInventario extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         this.dispose();
-        PantallaEliminarProductoInventario pantallaEditar = new PantallaEliminarProductoInventario(this,usuario);
+        PantallaEditarProductoInventario pantallaEditar = new PantallaEditarProductoInventario(this,usuario);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

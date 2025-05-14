@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import entidades.Producto;
 import entidades.Variado;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -38,6 +39,32 @@ class ProductosDAO implements IProductosDAO {
      */
     public ProductosDAO(IConexion conexion) {
         this.conexion = conexion;
+    }
+    
+    @Override
+    public Producto obtenerProductoPorId(Long id) throws PersistenciaException {
+        EntityManager em = conexion.crearConexion();
+        try {
+            if (id == null) {
+                logger.log(Level.WARNING, "Se intentó obtener un producto con ID nulo.");
+                throw new PersistenciaException("El ID del producto no puede ser nulo para la búsqueda.");
+            }
+            Producto producto = em.find(Producto.class, id);
+            if (producto == null) {
+                logger.log(Level.INFO, "No se encontró un producto con el ID: " + id);
+            }
+            return producto;
+        } catch (IllegalArgumentException iae) { // em.find puede lanzar esto si el ID no es del tipo correcto
+            logger.log(Level.SEVERE, "Argumento ilegal al buscar producto por ID: " + id, iae);
+            throw new PersistenciaException(iae.getMessage());
+        } catch (Exception e) { // Captura más general para otros errores de persistencia
+            logger.log(Level.SEVERE, "Error de persistencia al obtener producto por ID: " + id, e);
+            throw new PersistenciaException(e.getMessage());
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
 
     /**
@@ -171,30 +198,39 @@ class ProductosDAO implements IProductosDAO {
      */
     @Override
     public List<Producto> obtenerProductosPorTipo(List<Class> tipos) {
-        EntityManager em = conexion.crearConexion();
+    EntityManager em = conexion.crearConexion();
+    System.out.println("[DAO] ProductosDAO: Buscando productos por tipos Class: " + tipos); // DEBUG
+    try {
+        String jpqlSelect = "SELECT p FROM Producto p WHERE TYPE(p) IN :tipos";
+        TypedQuery<Producto> querySelect = em.createQuery(jpqlSelect, Producto.class);
+        querySelect.setParameter("tipos", tipos);
 
-        try {
-            // Evitar la transacción innecesaria en una consulta de solo lectura
-            String jpqlSelect = "SELECT p FROM Producto p WHERE TYPE(p) IN :tipos";
-            TypedQuery<Producto> querySelect = em.createQuery(jpqlSelect, Producto.class);
-            querySelect.setParameter("tipos", tipos);
+        List<Producto> productos = querySelect.getResultList();
+        System.out.println("[DAO] ProductosDAO: Productos encontrados en BD (antes de refresh de stock): " + (productos != null ? productos.size() : "null")); // DEBUG
 
-            List<Producto> productos = querySelect.getResultList();
-
-            // Si es necesario, usar refresh, pero asegúrate de que no haya caché
+        if (productos != null) {
             for (Producto producto : productos) {
-                em.refresh(producto.getStock()); // Asegúrate de que los datos estén sincronizados
+                if (producto != null && producto.getStock() != null) {
+                    try {
+                        // System.out.println("[DAO] ProductosDAO: Refrescando stock para producto: " + producto.getCodigo()); // DEBUG
+                        em.refresh(producto.getStock());
+                    } catch (Exception e_refresh) {
+                        logger.log(Level.WARNING, "DAO: No se pudo hacer refresh del stock para producto: " + producto.getCodigo() + ". Causa: " + e_refresh.getMessage());
+                    }
+                }
             }
-
-            return productos;
-        } catch (NoResultException e) {
-            logger.log(Level.INFO, "No se encontraron productos de los tipos seleccionados. " + e);
-            em.getTransaction().rollback();
-            return null;
-        } finally {
+        }
+        return productos;
+    } catch (Exception e) { // Cambiado a Exception general para ver cualquier error
+        logger.log(Level.SEVERE, "Error al obtener productos por tipo: " + tipos, e);
+        // Devolver lista vacía en caso de error para no romper el flujo, pero loguear severamente.
+        return Collections.emptyList();
+    } finally {
+        if (em != null && em.isOpen()) {
             em.close();
         }
     }
+}
 
     /**
      * {@inheritDoc}

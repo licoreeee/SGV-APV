@@ -96,56 +96,42 @@ class SubsistemaReporteVentasControl {
     }
 
     public void generarReporte(List<VentaReporteDTO> ventas) {
-        // Crear un JRBeanCollectionDataSource con la lista de VentaReporteDTO
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(ventas, false);
-        // Parámetros para el reporte
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("CollectionBeanParam", dataSource);
 
-        // Configuración del JFileChooser para seleccionar la ubicación y nombre del archivo
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Guardar Reporte");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF", "pdf"));
 
-        // Mostrar el diálogo para guardar el archivo
         int userSelection = fileChooser.showSaveDialog(null);
 
-        // Si el usuario selecciona guardar
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
             String filePath = fileToSave.getAbsolutePath();
 
-            // Asegurar que la extensión del archivo sea .pdf
             if (!filePath.endsWith(".pdf")) {
                 filePath += ".pdf";
             }
 
-            // Cargar el diseño del reporte desde el archivo "plantilla-reporte.jrxml"
             try (InputStream input = getClass().getResourceAsStream("/plantilla-reportes.jrxml")) {
                 JasperDesign jasperDesign = JRXmlLoader.load(input);
-                // Compilar el reporte
                 JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-                // Llenar el reporte con los datos y parámetros proporcionados
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
-
-                // Exportar el reporte a un archivo PDF
                 try (OutputStream outputStream = new FileOutputStream(new File(filePath))) {
                     JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
                 }
 
-                // Log y mensaje de éxito
                 Logger.getLogger(SubsistemaReporteVentasControl.class.getName()).log(Level.INFO, "Reporte generado.");
                 System.out.println("Ruta del archivo guardado: " + filePath);
                 JOptionPane.showMessageDialog(null, "Archivo guardado", "Info", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
-                // Log y excepción en caso de error
                 JOptionPane.showMessageDialog(null, "Error.",
                         "Hubo un error al generar el reporte", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
                 Logger.getLogger(SubsistemaReporteVentasControl.class.getName()).log(Level.SEVERE, "Error al generar el reporte");
             }
         } else if (userSelection == JFileChooser.CANCEL_OPTION) {
-            // Si el usuario cancela la operación
             Logger.getLogger(SubsistemaReporteVentasControl.class.getName()).log(Level.INFO, "El usuario canceló la operación.");
         }
     }

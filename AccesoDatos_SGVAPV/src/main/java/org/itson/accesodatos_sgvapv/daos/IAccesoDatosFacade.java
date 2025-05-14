@@ -17,6 +17,27 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  * @author Equipo1
  */
 public interface IAccesoDatosFacade {
+    
+    void eliminarStockPorProductoId(Long productoId) throws PersistenciaException;
+    
+    /**
+     * Obtiene un producto específico de la base de datos utilizando su ID.
+     *
+     * @param id El ID del producto a obtener.
+     * @return El objeto Producto encontrado, o null si no se encuentra.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
+    Producto obtenerProductoPorId(Long id) throws PersistenciaException;
+
+    /**
+     * Establece la cantidad de stock para un producto específico.
+     * (Este método es recomendado para simplificar la actualización de stock).
+     *
+     * @param productoId El ID del Producto cuyo stock se va a modificar.
+     * @param nuevaCantidad La nueva cantidad de stock. Puede ser null.
+     * @throws PersistenciaException Si ocurre un error durante la actualización.
+     */
+    void setStockCantidad(Long productoId, Integer nuevaCantidad) throws PersistenciaException;
 
     /**
      * Permite obtener un producto a partir de su código.

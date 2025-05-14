@@ -1,9 +1,17 @@
 
 package vistas;
 
+import dtos.ContenedorDTO;
+import dtos.LlenadoDTO;
 import dtos.ProductoDTO;
 import dtos.UsuarioDTO;
+import dtos.VariadoDTO;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.itson.subsistemainventario_sgvapv.ISubsistemaInventarioFacade;
@@ -15,22 +23,23 @@ import org.itson.subsistemainventario_sgvapv.excepciones.SubsistemaInventarioExc
  * @author Dell
  */
 public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
-    
+
     private UsuarioDTO usuario;
-    private JFrame parent;
+    private JFrame parentFrame; // --- CAMBIO: Renombrado de 'parent' para claridad ---
     private ISubsistemaInventarioFacade subsistemaInventarioFacade;
+    private final String PLACEHOLDER_TIPO = "-- Seleccionar Tipo --";
+    private final String PLACEHOLDER_CONTENEDOR = "-- Seleccionar Contenedor --";
 
     /**
      * Creates new form PantallaAgregarProductoInventario
      */
-    public PantallaAgregarProductoInventario(JFrame parent, UsuarioDTO usuario) {
+    public PantallaAgregarProductoInventario(JFrame parentFrame, UsuarioDTO usuario) {
         initComponents();
-        setEnabled(true);
-        this.setVisible(true);
-        this.setTitle("SGVAPV - Agregar Nuevo Producto");
-        this.parent = parent;
+        setVisible(true);
+        this.parentFrame = parentFrame;
         this.usuario = usuario;
         this.subsistemaInventarioFacade = new SubsistemaInventarioFacade();
+        inicializarComponentesAdicionales();
     }
 
     /**
@@ -42,6 +51,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cmbxProductos = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -57,6 +67,22 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
+        lblContenedor = new javax.swing.JLabel();
+        cmbxTipoProductos = new javax.swing.JComboBox();
+        jLabel10 = new javax.swing.JLabel();
+        lblLitros = new javax.swing.JLabel();
+        txtLitros = new javax.swing.JTextField();
+        lblVolumen = new javax.swing.JLabel();
+        txtVolumen = new javax.swing.JTextField();
+        cmbxContenedor = new javax.swing.JComboBox();
+
+        cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        cmbxProductos.setSelectedItem("--Seleccionar");
+        cmbxProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbxProductosActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -142,61 +168,140 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
 
         txtNombre.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
 
+        lblContenedor.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        lblContenedor.setText("CONTENEDOR");
+
+        cmbxTipoProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        cmbxTipoProductos.setSelectedItem("--Seleccionar");
+        cmbxTipoProductos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbxTipoProductosItemStateChanged(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        jLabel10.setText("TIPO DE PRODUCTO");
+
+        lblLitros.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        lblLitros.setText("LITROS");
+
+        txtLitros.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+
+        lblVolumen.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        lblVolumen.setText("VOLUMEN");
+
+        txtVolumen.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+
+        cmbxContenedor.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        cmbxContenedor.setSelectedItem("--Seleccionar");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addComponent(btnCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregar))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(166, 166, 166)
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel6))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel6))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCodigo)
-                                    .addComponent(txtStock, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPrecio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(161, Short.MAX_VALUE))
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addGap(32, 32, 32))
+                                    .addComponent(cmbxTipoProductos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(btnCancelar)
+                                    .addGap(147, 147, 147)
+                                    .addComponent(btnAgregar))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(176, 176, 176))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                                        .addComponent(lblLitros))
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(lblVolumen)
+                                                            .addComponent(lblContenedor))))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(176, 176, 176)))
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtLitros)
+                                        .addComponent(cmbxContenedor, 0, 193, Short.MAX_VALUE)
+                                        .addComponent(txtVolumen)))))
+                        .addContainerGap(29, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jLabel3)
-                .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbxTipoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblLitros)
+                            .addComponent(txtLitros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblContenedor)
+                            .addComponent(cmbxContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(lblVolumen)
+                            .addComponent(txtVolumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(33, 33, 33)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnAgregar))
-                .addGap(35, 35, 35))
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
@@ -208,62 +313,144 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         String nombre = txtNombre.getText().trim();
         String codigo = txtCodigo.getText().trim();
-        String stockStr = txtStock.getText().trim();
         String precioStr = txtPrecio.getText().trim();
 
-        if (nombre.isEmpty() || codigo.isEmpty() || stockStr.isEmpty() || precioStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+        Object tipoSeleccionadoObj = cmbxTipoProductos.getSelectedItem();
+        String tipoSeleccionado = (tipoSeleccionadoObj != null && !tipoSeleccionadoObj.toString().equals(PLACEHOLDER_TIPO))
+                ? tipoSeleccionadoObj.toString() : null;
+
+        if (tipoSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un tipo de producto.", "Validación Faltante", JOptionPane.WARNING_MESSAGE);
+            cmbxTipoProductos.requestFocus();
             return;
         }
 
-        int stock;
-        try {
-            stock = Integer.parseInt(stockStr);
-            if (stock < 0) {
-                 JOptionPane.showMessageDialog(this, "Ingrese un stock válido.", "Stock inválido", JOptionPane.WARNING_MESSAGE);
-                 return;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ingrese un stock válido.", "Stock inválido", JOptionPane.WARNING_MESSAGE);
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo 'Nombre' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+            txtNombre.requestFocus();
+            return;
+        }
+        if (codigo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo 'Código' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+            txtCodigo.requestFocus();
+            return;
+        }
+        if (precioStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo 'Precio' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+            txtPrecio.requestFocus();
             return;
         }
 
-        float precio;
+        Float precio;
         try {
             precio = Float.parseFloat(precioStr);
-             if (precio < 0) {
-                 JOptionPane.showMessageDialog(this, "Ingrese un precio válido.", "Precio inválido", JOptionPane.WARNING_MESSAGE);
-                 return;
+            if (precio < 0) {
+                throw new NumberFormatException("Precio negativo");
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ingrese un precio válido.", "Precio inválido", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Precio: Ingrese un número válido no negativo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+            txtPrecio.requestFocus();
             return;
         }
 
-        ProductoDTO nuevoProducto = new ProductoDTO(0L, codigo, nombre, precio, stock);
+        Integer stockParaDTO = null;
+
+        if ("CONTENEDOR".equals(tipoSeleccionado) || "VARIADO".equals(tipoSeleccionado)) {
+            String stockStr = txtStock.getText().trim();
+            if (stockStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El campo 'Stock' es obligatorio para " + tipoSeleccionado + ".", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+                txtStock.requestFocus();
+                return;
+            }
+            try {
+                stockParaDTO = Integer.parseInt(stockStr);
+                if (stockParaDTO < 0) {
+                    throw new NumberFormatException("Stock negativo");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Stock: Ingrese un número entero no negativo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                txtStock.requestFocus();
+                return;
+            }
+        }
+        
+        ProductoDTO productoAAgregar = null;
+        Integer litros = null;
+        Integer volumen = null;
+        String codigoContenedorAsociado = null;
+
+        if ("CONTENEDOR".equals(tipoSeleccionado)) {
+            String volumenStr = txtVolumen.getText().trim();
+            if (volumenStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El campo 'Volumen' es obligatorio para Contenedor.", "Validación", JOptionPane.WARNING_MESSAGE);
+                txtVolumen.requestFocus();
+                return;
+            }
+            try {
+                volumen = Integer.parseInt(volumenStr);
+                if (volumen <= 0) {
+                    throw new NumberFormatException("Volumen no positivo");
+                }
+                productoAAgregar = new ContenedorDTO(volumen, codigo, nombre, precio, stockParaDTO);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Volumen: Ingrese un número entero positivo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                txtVolumen.requestFocus();
+                return;
+            }
+
+        } else if ("LLENADO".equals(tipoSeleccionado)) {
+            String litrosStr = txtLitros.getText().trim();
+            Object contenedorAsociadoObj = cmbxContenedor.getSelectedItem();
+
+            if (litrosStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El campo 'Litros' es obligatorio para Llenado.", "Validación", JOptionPane.WARNING_MESSAGE);
+                txtLitros.requestFocus();
+                return;
+            }
+
+            if (contenedorAsociadoObj != null && !(contenedorAsociadoObj.toString().equals(PLACEHOLDER_CONTENEDOR))) {
+                if (contenedorAsociadoObj instanceof ProductoDTO) {
+                    codigoContenedorAsociado = ((ProductoDTO) contenedorAsociadoObj).getCodigo();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error: Selección inválida en 'Contenedor Asociado'.", "Error Interno", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            try {
+                litros = Integer.parseInt(litrosStr);
+                if (litros <= 0) {
+                    throw new NumberFormatException("Litros no positivos");
+                }
+                
+                productoAAgregar = new LlenadoDTO(codigo, nombre, precio, litros, codigoContenedorAsociado);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Litros: Ingrese un número entero positivo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                txtLitros.requestFocus();
+                return;
+            }
+
+        } else if ("VARIADO".equals(tipoSeleccionado)) {
+            productoAAgregar = new VariadoDTO(codigo, nombre, precio, stockParaDTO);
+        }
+
+        if (productoAAgregar == null) {
+            JOptionPane.showMessageDialog(this, "Error: No se pudo determinar el tipo de producto para agregar.", "Error Interno", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         try {
-            subsistemaInventarioFacade.agregarProducto(nuevoProducto);
-              JOptionPane.showMessageDialog(this,
-                    "Se ha registrado el producto exitosamente.",
-                    "Registro Completado",
-                    JOptionPane.INFORMATION_MESSAGE);
-              this.dispose();
-              PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this,usuario);
-              
-
+            subsistemaInventarioFacade.agregarProducto(productoAAgregar);
+            JOptionPane.showMessageDialog(this, "Producto '" + nombre + "' (" + tipoSeleccionado + ") registrado exitosamente.", "Registro Completado", JOptionPane.INFORMATION_MESSAGE);
+            limpiarFormularioCompleto();
+            cargarContenedoresExistentes();
         } catch (SubsistemaInventarioException e) {
             System.err.println("Error al agregar producto: " + e.getMessage());
-            JOptionPane.showMessageDialog(this,
-                    "No se pudo agregar el producto: " + e.getMessage(),
-                    "Error al Guardar",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo agregar el producto: " + e.getMessage(), "Error al Guardar", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-             System.err.println("Error inesperado: " + e.getMessage());
-             JOptionPane.showMessageDialog(this,
-                    "Ocurrió un error inesperado. Verifique la consola.",
-                    "Error Crítico",
-                    JOptionPane.ERROR_MESSAGE);
+            System.err.println("Error inesperado: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado. Revise la consola.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -272,39 +459,194 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         String currentText = txtPrecio.getText();
 
         if (Character.isDigit(c)) {
-            return; 
+            return;
         }
 
         if (c == '.' && !currentText.contains(".")) {
             return;
         }
-        
-        if (c == KeyEvent.VK_BACK_SPACE){
-             return;
+
+        if (c == KeyEvent.VK_BACK_SPACE) {
+            return;
         }
 
         evt.consume();
     }
 
-     private void txtStockKeyTyped(java.awt.event.KeyEvent evt) {
-         char c = evt.getKeyChar();
+    private void txtStockKeyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
 
-         if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
-             evt.consume();
-         }
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtPrecioKeyTyped
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
-        PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this,usuario);
+        PantallaGestionarInventario pantallaInventario = new PantallaGestionarInventario(this, usuario);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-   
+    private void cmbxProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxProductosActionPerformed
+
+    }//GEN-LAST:event_cmbxProductosActionPerformed
+
+    private void cmbxTipoProductosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbxTipoProductosItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            configurarVisibilidadCamposTipo();
+        }
+    }//GEN-LAST:event_cmbxTipoProductosItemStateChanged
+
+    private void inicializarComponentesAdicionales() {
+        this.setTitle("SGVAPV - Agregar Nuevo Producto");
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        txtNombre.setEditable(true);
+        txtCodigo.setEditable(true);
+        txtStock.setEditable(true);
+        txtPrecio.setEditable(true);
+
+        cargarTiposDeProducto();
+        cargarContenedoresExistentes();
+        configurarVisibilidadCamposTipo();
+
+        cmbxTipoProductos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbxTipoProductosItemStateChanged(evt);
+            }
+        });
+
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                validarInputNumericoDecimal(evt, txtPrecio);
+            }
+        });
+        txtStock.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                validarInputNumericoEntero(evt);
+            }
+        });
+        txtLitros.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                validarInputNumericoEntero(evt);
+            }
+        });
+        txtVolumen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                validarInputNumericoEntero(evt);
+            }
+        });
+
+        this.pack();
+        this.setLocationRelativeTo(parentFrame);
+    }
+
+    private void cargarContenedoresExistentes() {
+        try {
+            List<ProductoDTO> contenedores = subsistemaInventarioFacade.obtenerProductosPorTipo(Arrays.asList("CONTENEDOR"));
+            DefaultComboBoxModel<Object> model = new DefaultComboBoxModel<>();
+            model.addElement(PLACEHOLDER_CONTENEDOR);
+
+            if (contenedores != null && !contenedores.isEmpty()) {
+                for (ProductoDTO prod : contenedores) {
+                    model.addElement(prod);
+                }
+            } else {
+                System.out.println("No se encontraron productos de tipo CONTENEDOR.");
+            }
+            cmbxContenedor.setModel(model);
+        } catch (Exception e) {
+            System.err.println("Error al cargar contenedores existentes: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al cargar lista de contenedores.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void cargarTiposDeProducto() {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement(PLACEHOLDER_TIPO);
+        model.addElement("CONTENEDOR");
+        model.addElement("LLENADO");
+        model.addElement("VARIADO");
+        cmbxTipoProductos.setModel(model);
+    }
+
+    private void configurarVisibilidadCamposTipo() {
+        String tipoSeleccionado = cmbxTipoProductos.getSelectedItem() != null ? cmbxTipoProductos.getSelectedItem().toString() : "";
+        System.out.println("Configurando visibilidad para tipo: " + tipoSeleccionado);
+
+        boolean esLlenado = "LLENADO".equals(tipoSeleccionado);
+        boolean esContenedor = "CONTENEDOR".equals(tipoSeleccionado);
+        boolean esVariado = "VARIADO".equals(tipoSeleccionado);
+        boolean mostrarStock = esContenedor || esVariado;
+        jLabel8.setVisible(mostrarStock);
+        txtStock.setVisible(mostrarStock);
+        txtStock.setEditable(mostrarStock);
+        if (!mostrarStock) {
+            txtStock.setText("");
+        }
+
+        lblLitros.setVisible(esLlenado);
+        txtLitros.setVisible(esLlenado);
+        txtLitros.setEditable(esLlenado);
+        if (!esLlenado) {
+            txtLitros.setText("");
+        }
+
+        lblContenedor.setVisible(esLlenado);
+        cmbxContenedor.setVisible(esLlenado);
+        if (!esLlenado && cmbxContenedor.getItemCount() > 0) {
+            cmbxContenedor.setSelectedIndex(0);
+        }
+
+        lblVolumen.setVisible(esContenedor);
+        txtVolumen.setVisible(esContenedor);
+        txtVolumen.setEditable(esContenedor);
+        if (!esContenedor) {
+            txtVolumen.setText("");
+        }
+    }
+
+    private void limpiarFormularioCompleto() {
+        txtNombre.setText("");
+        txtCodigo.setText("");
+        txtStock.setText("");
+        txtPrecio.setText("");
+        txtLitros.setText("");
+        txtVolumen.setText("");
+        if (cmbxTipoProductos.getItemCount() > 0) {
+            cmbxTipoProductos.setSelectedIndex(0);
+        }
+        if (cmbxContenedor.getItemCount() > 0) {
+            cmbxContenedor.setSelectedIndex(0);
+        }
+        txtNombre.requestFocus();
+    }
+
+    private void validarInputNumericoDecimal(java.awt.event.KeyEvent evt, javax.swing.JTextField campo) {
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '.' && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+        if (c == '.' && campo.getText().contains(".")) {
+            evt.consume();
+        }
+    }
+
+    private void validarInputNumericoEntero(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox cmbxContenedor;
+    private javax.swing.JComboBox<Object> cmbxProductos;
+    private javax.swing.JComboBox cmbxTipoProductos;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -313,9 +655,14 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblContenedor;
+    private javax.swing.JLabel lblLitros;
+    private javax.swing.JLabel lblVolumen;
     private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtLitros;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtStock;
+    private javax.swing.JTextField txtVolumen;
     // End of variables declaration//GEN-END:variables
 }

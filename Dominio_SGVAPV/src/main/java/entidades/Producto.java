@@ -44,7 +44,7 @@ public class Producto implements Serializable {
     @OneToMany(mappedBy = "producto")
     protected List<ProductoVenta> productosVenta;
 
-    @OneToOne(mappedBy = "producto", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     protected StockProducto stock;
 
     public Producto() {

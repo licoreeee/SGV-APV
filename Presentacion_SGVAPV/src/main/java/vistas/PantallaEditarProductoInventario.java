@@ -10,8 +10,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,7 +21,7 @@ import org.itson.subsistemainventario_sgvapv.excepciones.SubsistemaInventarioExc
  *
  * @author Dell
  */
-public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
+public class PantallaEditarProductoInventario extends javax.swing.JFrame {
 
     private UsuarioDTO usuario;
     private JFrame parentFrame;
@@ -31,13 +29,12 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
     private final String PLACEHOLDER_TIPO = "-- Seleccionar Tipo --";
     private final String PLACEHOLDER_CONTENEDOR = "-- Seleccionar Contenedor --";
     private final String PLACEHOLDER_PRODUCTO_EDITAR = "-- Seleccione Producto a Editar --";
-    private ProductoDTO productoSeleccionadoParaAccion;
-    private static final Logger logger = Logger.getLogger(PantallaEliminarProductoInventario.class.getName());
+    private ProductoDTO productoSeleccionadoParaEditar;
 
     /**
      * Creates new form PantallaAgregarProductoInventario
      */
-    public PantallaEliminarProductoInventario(JFrame parentFrame, UsuarioDTO usuario) {
+    public PantallaEditarProductoInventario(JFrame parentFrame, UsuarioDTO usuario) {
         initComponents();
         setVisible(true);
         this.parentFrame = parentFrame;
@@ -60,7 +57,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        btnEliminar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         txtStock = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -127,26 +124,24 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(196, 216, 255));
 
-        btnEliminar.setBackground(new java.awt.Color(41, 136, 194));
-        btnEliminar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        btnEliminar.setText("ELIMINAR");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setBackground(new java.awt.Color(41, 136, 194));
+        btnEditar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
         txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtStock.setEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
-        jLabel3.setText("ELIMINAR PRODUCTO");
+        jLabel3.setText("EDITAR PRODUCTO");
 
         jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel6.setText("PRECIO");
 
         txtPrecio.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtPrecio.setEnabled(false);
         txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPrecioKeyTyped(evt);
@@ -168,7 +163,6 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         jLabel8.setText("STOCK");
 
         txtNombre.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtNombre.setEnabled(false);
 
         lblContenedor.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblContenedor.setText("CONTENEDOR");
@@ -188,17 +182,14 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         lblLitros.setText("LITROS");
 
         txtLitros.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtLitros.setEnabled(false);
 
         lblVolumen.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblVolumen.setText("VOLUMEN");
 
         txtVolumen.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtVolumen.setEnabled(false);
 
         cmbxContenedor.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxContenedor.setSelectedItem("--Seleccionar");
-        cmbxContenedor.setEnabled(false);
 
         lblCodigo.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblCodigo.setText("CÓDIGO");
@@ -231,7 +222,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(btnCancelar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEliminar)
+                                .addComponent(btnEditar)
                                 .addGap(105, 105, 105))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -298,7 +289,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnEditar))
                 .addGap(27, 27, 27))
         );
 
@@ -308,40 +299,147 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if (this.productoSeleccionadoParaAccion == null || this.productoSeleccionadoParaAccion.getCodigo() == null) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto de la lista para eliminar.", "Producto no Seleccionado", JOptionPane.WARNING_MESSAGE);
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (this.productoSeleccionadoParaEditar == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto de la lista para editar.", "Producto no Seleccionado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (this.productoSeleccionadoParaEditar.getId() == null) {
+            JOptionPane.showMessageDialog(this, "Error: El producto seleccionado no tiene un ID para actualizar.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        int confirmacion = JOptionPane.showConfirmDialog(
-                this,
-                "¿Está seguro de que desea eliminar el producto:\n"
-                + "Código: " + productoSeleccionadoParaAccion.getCodigo() + "\n"
-                + "Nombre: " + productoSeleccionadoParaAccion.getNombre() + "?",
-                "Confirmar Eliminación",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
+        String nombre = txtNombre.getText().trim();
+        String codigoOriginal = this.productoSeleccionadoParaEditar.getCodigo();
+        String tipoOriginalDetectado = "";
+        if (this.productoSeleccionadoParaEditar instanceof ContenedorDTO) {
+            tipoOriginalDetectado = "CONTENEDOR";
+        } else if (this.productoSeleccionadoParaEditar instanceof LlenadoDTO) {
+            tipoOriginalDetectado = "LLENADO";
+        } else if (this.productoSeleccionadoParaEditar instanceof VariadoDTO) {
+            tipoOriginalDetectado = "VARIADO";
+        } else {
+            tipoOriginalDetectado = "PRODUCTO_BASE"; // Caso raro
+        }
 
-        if (confirmacion == JOptionPane.YES_OPTION) {
+        String precioStr = txtPrecio.getText().trim();
+
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo 'Nombre' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+            txtNombre.requestFocus();
+            return;
+        }
+        if (precioStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo 'Precio' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+            txtPrecio.requestFocus();
+            return;
+        }
+
+        Float precio;
+        try {
+            precio = Float.parseFloat(precioStr);
+            if (precio < 0) {
+                throw new NumberFormatException("Precio negativo");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Precio: Ingrese un número válido no negativo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+            txtPrecio.requestFocus();
+            return;
+        }
+
+        Integer stockParaDTO = null;
+        if (("CONTENEDOR".equals(tipoOriginalDetectado) || "VARIADO".equals(tipoOriginalDetectado) || "PRODUCTO_BASE".equals(tipoOriginalDetectado)) && txtStock.isVisible()) {
+            String stockStr = txtStock.getText().trim();
+            if (stockStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El campo 'Stock' es obligatorio para " + tipoOriginalDetectado + ".", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+                txtStock.requestFocus();
+                return;
+            }
             try {
-                logger.log(Level.INFO, "[UI ELIMINAR] Intentando eliminar producto con código: " + productoSeleccionadoParaAccion.getCodigo());
-                subsistemaInventarioFacade.eliminarProducto(productoSeleccionadoParaAccion.getCodigo()); // Usa el código para eliminar
-                JOptionPane.showMessageDialog(this, "Producto '" + productoSeleccionadoParaAccion.getNombre() + "' eliminado exitosamente.", "Eliminación Completada", JOptionPane.INFORMATION_MESSAGE);
-
-                cargarListaDeProductosEn_cmbxProductos2(); // Recargar la lista
-                limpiarYDeshabilitarFormularioDetalles();
-
-            } catch (SubsistemaInventarioException e) {
-                logger.log(Level.SEVERE, "[UI ERROR ELIMINAR] SubsistemaInventarioException al eliminar", e);
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar el producto: " + e.getMessage(), "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
-            } catch (Exception e) {
-                logger.log(Level.SEVERE, "[UI ERROR ELIMINAR] Exception general al eliminar", e);
-                JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado al eliminar. Revise la consola.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
+                stockParaDTO = Integer.parseInt(stockStr);
+                if (stockParaDTO < 0) {
+                    throw new NumberFormatException("Stock negativo");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Stock: Ingrese un número entero no negativo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                txtStock.requestFocus();
+                return;
             }
         }
-    }//GEN-LAST:event_btnEliminarActionPerformed
+
+        ProductoDTO productoEditadoConNuevosDatos = null;
+        Long idDelProductoAEditar = this.productoSeleccionadoParaEditar.getId();
+
+        if ("CONTENEDOR".equals(tipoOriginalDetectado)) {
+            String volumenStr = txtVolumen.getText().trim();
+            if (volumenStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El campo 'Volumen' es obligatorio para Contenedor.", "Validación", JOptionPane.WARNING_MESSAGE);
+                txtVolumen.requestFocus();
+                return;
+            }
+            try {
+                Integer volumen = Integer.parseInt(volumenStr);
+                if (volumen <= 0) {
+                    throw new NumberFormatException("Volumen no positivo");
+                }
+                productoEditadoConNuevosDatos = new ContenedorDTO(volumen, idDelProductoAEditar, codigoOriginal, nombre, precio, stockParaDTO);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Volumen: Ingrese un número entero positivo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                txtVolumen.requestFocus();
+                return;
+            }
+        } else if ("LLENADO".equals(tipoOriginalDetectado)) {
+            String litrosStr = txtLitros.getText().trim();
+            if (litrosStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El campo 'Litros' es obligatorio para Llenado.", "Validación", JOptionPane.WARNING_MESSAGE);
+                txtLitros.requestFocus();
+                return;
+            }
+            String codigoContAsociadoForm = null;
+            Object contSelObj = cmbxContenedor.getSelectedItem();
+            if (contSelObj != null && !contSelObj.toString().equals(PLACEHOLDER_CONTENEDOR)) {
+                if (contSelObj instanceof ProductoDTO) {
+                    codigoContAsociadoForm = ((ProductoDTO) contSelObj).getCodigo();
+                } else {
+                    codigoContAsociadoForm = contSelObj.toString();
+                }
+            }
+            try {
+                Integer litros = Integer.parseInt(litrosStr);
+                if (litros <= 0) {
+                    throw new NumberFormatException("Litros no positivos");
+                }
+                productoEditadoConNuevosDatos = new LlenadoDTO(litros, codigoContAsociadoForm, idDelProductoAEditar, codigoOriginal, nombre, precio);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Litros: Ingrese un número entero positivo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                txtLitros.requestFocus();
+                return;
+            }
+        } else if ("VARIADO".equals(tipoOriginalDetectado) || "PRODUCTO_BASE".equals(tipoOriginalDetectado)) {
+            productoEditadoConNuevosDatos = new VariadoDTO(idDelProductoAEditar, codigoOriginal, nombre, precio, stockParaDTO);
+        }
+
+        if (productoEditadoConNuevosDatos == null) {
+            JOptionPane.showMessageDialog(this, "Error: No se pudo construir el DTO para guardar los cambios.", "Error Interno", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            subsistemaInventarioFacade.guardarCambiosProducto(productoEditadoConNuevosDatos);
+            JOptionPane.showMessageDialog(this, "Producto '" + nombre + "' actualizado exitosamente.", "Actualización Completada", JOptionPane.INFORMATION_MESSAGE);
+
+            cargarListaDeProductosEn_cmbxProductos2();
+            limpiarYDeshabilitarFormularioDetalles();
+            if (cmbxProductos.getItemCount() > 0) {
+                cmbxProductos.setSelectedIndex(0);
+            }
+
+        } catch (SubsistemaInventarioException e) {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar los cambios del producto:\n" + e.getMessage(), "Error al Guardar", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado. Revise la consola.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
         char c = evt.getKeyChar();
@@ -384,9 +482,8 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbxProductos2ItemStateChanged
 
     private void inicializarComponentesAdicionales() {
-        this.setTitle("SGVAPV - Eliminar Producto");
+        this.setTitle("SGVAPV - Editar Producto"); // Título
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        logger.log(Level.INFO, "[UI ELIMINAR] PantallaEliminar: Inicializando componentes adicionales...");
 
         cargarListaDeProductosEn_cmbxProductos2();
         cargarContenedoresExistentes();
@@ -397,6 +494,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
             }
         });
 
+        // Key Listeners (sin cambios)
         txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 validarInputNumericoDecimal(evt, txtPrecio);
@@ -419,7 +517,6 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         });
 
         limpiarYDeshabilitarFormularioDetalles();
-        logger.log(Level.INFO, "[UI ELIMINAR] PantallaEliminar: Componentes adicionales inicializados.");
     }
 
     private void cargarListaDeProductosEn_cmbxProductos2() {
@@ -429,7 +526,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
 
             System.out.println("[UI] PantallaEditar: Fachada devolvió listaProductos. Es null? " + (listaProductos == null));
             if (listaProductos != null) {
-                System.out.println("[UI] PantallaEditar: Número de productos DTO recibidos: " + listaProductos.size());
+                System.out.println("[UI] PantallaEditar: Número de productos DTO recibidos: " + listaProductos.size()); 
                 if (!listaProductos.isEmpty()) {
                     for (int i = 0; i < Math.min(3, listaProductos.size()); i++) {
                         ProductoDTO p = listaProductos.get(i);
@@ -472,9 +569,9 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                     return;
                 }
                 try {
-                    this.productoSeleccionadoParaAccion = subsistemaInventarioFacade.obtenerProductoParaEdicion(productoResumen.getId());
-                    if (this.productoSeleccionadoParaAccion != null) {
-                        cargarDatosProductoEnFormulario(this.productoSeleccionadoParaAccion);
+                    this.productoSeleccionadoParaEditar = subsistemaInventarioFacade.obtenerProductoParaEdicion(productoResumen.getId());
+                    if (this.productoSeleccionadoParaEditar != null) {
+                        cargarDatosProductoEnFormulario(this.productoSeleccionadoParaEditar);
                         habilitarFormularioDetalles(true);
                         txtCodigo.setEditable(false);
                     } else {
@@ -485,8 +582,8 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Error al cargar detalles del producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     limpiarYDeshabilitarFormularioDetalles();
                 }
-            } else {
-                this.productoSeleccionadoParaAccion = null;
+            } else { // Placeholder seleccionado en cmbxProductos2
+                this.productoSeleccionadoParaEditar = null;
                 limpiarYDeshabilitarFormularioDetalles();
             }
         }
@@ -496,19 +593,17 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         if (producto == null) {
             return;
         }
-        logger.log(Level.INFO, "[UI DEBUG ELIMINAR] cargarDatos...ParaVisualizacion para: " + producto.getCodigo());
+        System.out.println("[UI DEBUG] cargarDatosProductoEnFormulario para: " + producto.getCodigo() + ", Tipo DTO: " + producto.getClass().getSimpleName());
 
         txtNombre.setText(producto.getNombre());
         txtCodigo.setText(producto.getCodigo());
         txtPrecio.setText(String.valueOf(producto.getPrecio()));
-
         txtStock.setText("");
         txtLitros.setText("");
         txtVolumen.setText("");
         if (cmbxContenedor.getItemCount() > 0) {
             cmbxContenedor.setSelectedIndex(0);
         }
-
         String tipoDetectado = "";
 
         if (producto instanceof ContenedorDTO) {
@@ -520,14 +615,24 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
             tipoDetectado = "LLENADO";
             LlenadoDTO lDto = (LlenadoDTO) producto;
             txtLitros.setText(String.valueOf(lDto.getLitros()));
+
             if (lDto.getCodigoContenedorAsociado() != null && !lDto.getCodigoContenedorAsociado().isEmpty()) {
+                boolean encontrado = false;
                 for (int i = 0; i < cmbxContenedor.getModel().getSize(); i++) {
                     Object item = cmbxContenedor.getModel().getElementAt(i);
-                    if (item instanceof ProductoDTO && ((ProductoDTO) item).getCodigo().equals(lDto.getCodigoContenedorAsociado())) {
-                        cmbxContenedor.setSelectedIndex(i);
-                        break;
+                    if (item instanceof ProductoDTO) {
+                        if (((ProductoDTO) item).getCodigo().equals(lDto.getCodigoContenedorAsociado())) {
+                            cmbxContenedor.setSelectedIndex(i);
+                            encontrado = true;
+                            break;
+                        }
                     }
                 }
+                if (!encontrado) {
+                    cmbxContenedor.setSelectedItem(PLACEHOLDER_CONTENEDOR);
+                }
+            } else {
+                cmbxContenedor.setSelectedItem(PLACEHOLDER_CONTENEDOR);
             }
         } else if (producto instanceof VariadoDTO) {
             tipoDetectado = "VARIADO";
@@ -542,20 +647,8 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         configurarVisibilidadCamposTipo(tipoDetectado);
     }
 
-    private void habilitarAccionEliminar(boolean habilitarBoton) {
-        txtNombre.setEditable(false);
-        txtCodigo.setEditable(false);
-        txtPrecio.setEditable(false);
-        txtStock.setEditable(false);
-        txtLitros.setEditable(false);
-        txtVolumen.setEditable(false);
-        cmbxContenedor.setEnabled(false);
-
-        btnEliminar.setEnabled(habilitarBoton);
-    }
-
     private void limpiarYDeshabilitarFormularioDetalles() {
-        logger.log(Level.INFO, "[UI DEBUG ELIMINAR] Limpiando y deshabilitando todos los campos.");
+        System.out.println("[UI DEBUG] Limpiando y deshabilitando formulario.");
         txtNombre.setText("");
         txtCodigo.setText("");
         txtStock.setText("");
@@ -566,12 +659,14 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         if (cmbxProductos2.getItemCount() > 0) {
             cmbxProductos2.setSelectedIndex(0);
         }
+
         configurarVisibilidadCamposTipo(PLACEHOLDER_PRODUCTO_EDITAR);
 
         if (cmbxContenedor.getItemCount() > 0) {
             cmbxContenedor.setSelectedIndex(0);
         }
-        habilitarAccionEliminar(false);
+        habilitarFormularioDetalles(false);
+        btnEditar.setEnabled(false);
     }
 
     private void habilitarFormularioDetalles(boolean habilitar) {
@@ -584,7 +679,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         txtLitros.setEditable(habilitar && txtLitros.isVisible());
         txtVolumen.setEditable(habilitar && txtVolumen.isVisible());
         cmbxContenedor.setEnabled(habilitar && cmbxContenedor.isVisible());
-        btnEliminar.setEnabled(habilitar);
+        btnEditar.setEnabled(habilitar);
     }
 
     private void cargarContenedoresExistentes() {
@@ -617,33 +712,39 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
     }
 
     private void configurarVisibilidadCamposTipo(String tipoProductoDeterminado) {
-        logger.log(Level.INFO, "[UI DEBUG ELIMINAR] configurarVisibilidadCamposTipo para tipo: '" + tipoProductoDeterminado + "'");
+        System.out.println("[UI DEBUG] configurarVisibilidadCamposTipo para tipo: '" + tipoProductoDeterminado + "'");
 
         boolean esLlenado = "LLENADO".equals(tipoProductoDeterminado);
         boolean esContenedor = "CONTENEDOR".equals(tipoProductoDeterminado);
-        boolean esVariadoOBase = "VARIADO".equals(tipoProductoDeterminado) || "PRODUCTO_BASE".equals(tipoProductoDeterminado);
+        boolean esVariado = "VARIADO".equals(tipoProductoDeterminado) || "PRODUCTO_BASE".equals(tipoProductoDeterminado);
 
-        boolean mostrarStock = esContenedor || esVariadoOBase;
+        boolean esFormularioActivoParaEdicion = (this.productoSeleccionadoParaEditar != null && btnEditar.isEnabled());
+
+        boolean mostrarStock = esContenedor || esVariado;
         jLabel8.setVisible(mostrarStock);
         txtStock.setVisible(mostrarStock);
+        txtStock.setEditable(mostrarStock && esFormularioActivoParaEdicion);
         if (!mostrarStock) {
             txtStock.setText("");
         }
 
         lblLitros.setVisible(esLlenado);
         txtLitros.setVisible(esLlenado);
+        txtLitros.setEditable(esLlenado && esFormularioActivoParaEdicion);
         if (!esLlenado) {
             txtLitros.setText("");
         }
 
         lblContenedor.setVisible(esLlenado);
         cmbxContenedor.setVisible(esLlenado);
+        cmbxContenedor.setEnabled(esLlenado && esFormularioActivoParaEdicion);
         if (!esLlenado && cmbxContenedor.getItemCount() > 0) {
             cmbxContenedor.setSelectedItem(PLACEHOLDER_CONTENEDOR);
         }
 
         lblVolumen.setVisible(esContenedor);
         txtVolumen.setVisible(esContenedor);
+        txtVolumen.setEditable(esContenedor && esFormularioActivoParaEdicion);
         if (!esContenedor) {
             txtVolumen.setText("");
         }
@@ -668,7 +769,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JComboBox cmbxContenedor;
     private javax.swing.JComboBox<Object> cmbxProductos;
     private javax.swing.JComboBox cmbxProductos2;

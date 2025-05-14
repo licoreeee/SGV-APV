@@ -17,10 +17,13 @@ public class VariadoDTO extends ProductoDTO {
         super(id, codigo, nombre, precio, cantidad);
     }
 
+    public VariadoDTO(String codigo, String nombre, Float precio, Integer cantidad) {
+        super(codigo, nombre, precio, cantidad);
+    }
+
     @Override
     public String toString() {
         return getCodigo() + " - " + getNombre();
     }
-    
     
 }

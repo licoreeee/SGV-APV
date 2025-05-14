@@ -14,6 +14,8 @@ import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
  * @author Equipo1
  */
 interface IProductosDAO {
+    
+    Producto obtenerProductoPorId(Long id) throws PersistenciaException;
 
     /**
      * Permite obtener un producto a partir de su código.

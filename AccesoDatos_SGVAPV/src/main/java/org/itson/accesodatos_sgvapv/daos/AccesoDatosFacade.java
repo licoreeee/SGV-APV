@@ -36,6 +36,26 @@ public class AccesoDatosFacade implements IAccesoDatosFacade {
         stockProductosDAO = new StockProductosDAO(conexion);
     }
 
+    @Override
+    public void eliminarStockPorProductoId(Long productoId) throws PersistenciaException {
+        this.stockProductosDAO.eliminarStockPorProductoId(productoId);
+    }
+
+    @Override
+    public Producto obtenerProductoPorId(Long id) throws PersistenciaException {
+        return this.productosDAO.obtenerProductoPorId(id);
+    }
+
+    /**
+     * {@inheritDoc} (Este método es recomendado. Si decidiste NO añadir
+     * setStockCantidad a IStockProductosDAO, entonces no necesitas este método
+     * aquí).
+     */
+    @Override
+    public void setStockCantidad(Long productoId, Integer nuevaCantidad) throws PersistenciaException {
+        this.stockProductosDAO.setStockCantidad(productoId, nuevaCantidad);
+    }
+
     /**
      * {@inheritDoc}
      */

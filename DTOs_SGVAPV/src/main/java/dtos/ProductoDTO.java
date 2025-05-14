@@ -32,11 +32,22 @@ public class ProductoDTO {
         this.cantidad = cantidad;
     }
 
+    public ProductoDTO(String codigo, String nombre, Float precio, Integer cantidad) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+    }   
+
+    public ProductoDTO(String codigo, String nombre, Float precio) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+
     public Long getId() {
         return id;
     }
-    
-    
 
     public String getCodigo() {
         return codigo;
@@ -56,6 +67,10 @@ public class ProductoDTO {
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

@@ -28,8 +28,7 @@ public class StockProducto implements Serializable {
     @JoinColumn(name = "id_producto", nullable = false)
     private Producto producto;
 
-    
-    @Column(name = "cantidad", nullable = false)
+    @Column(name = "cantidad", nullable = true)
     private Integer cantidad;
     
     public StockProducto() {
