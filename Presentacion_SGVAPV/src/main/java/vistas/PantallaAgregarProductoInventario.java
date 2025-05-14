@@ -122,9 +122,12 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 70));
 
         jPanel2.setBackground(new java.awt.Color(196, 216, 255));
+        jPanel2.setLayout(null);
 
         jLabel5.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel5.setText("CÓDIGO");
+        jPanel2.add(jLabel5);
+        jLabel5.setBounds(40, 99, 88, 31);
 
         btnAgregar.setBackground(new java.awt.Color(41, 136, 194));
         btnAgregar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
@@ -134,14 +137,22 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 btnAgregarActionPerformed(evt);
             }
         });
+        jPanel2.add(btnAgregar);
+        btnAgregar.setBounds(419, 363, 160, 38);
 
         txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        jPanel2.add(txtStock);
+        txtStock.setBounds(134, 233, 172, 33);
 
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel3.setText("AGREGAR NUEVO PRODUCTO");
+        jPanel2.add(jLabel3);
+        jLabel3.setBounds(166, 27, 384, 40);
 
         jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel6.setText("PRECIO");
+        jPanel2.add(jLabel6);
+        jLabel6.setBounds(53, 297, 75, 31);
 
         txtPrecio.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -149,6 +160,8 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 txtPrecioKeyTyped(evt);
             }
         });
+        jPanel2.add(txtPrecio);
+        txtPrecio.setBounds(134, 297, 172, 33);
 
         btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         btnCancelar.setText("CANCELAR");
@@ -157,19 +170,31 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
+        jPanel2.add(btnCancelar);
+        btnCancelar.setBounds(134, 363, 170, 38);
 
         jLabel7.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel7.setText("NOMBRE");
+        jPanel2.add(jLabel7);
+        jLabel7.setBounds(40, 166, 88, 31);
 
         jLabel8.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel8.setText("STOCK");
+        jPanel2.add(jLabel8);
+        jLabel8.setBounds(59, 233, 69, 31);
 
         txtCodigo.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        jPanel2.add(txtCodigo);
+        txtCodigo.setBounds(134, 99, 172, 33);
 
         txtNombre.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        jPanel2.add(txtNombre);
+        txtNombre.setBounds(134, 166, 241, 33);
 
         lblContenedor.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblContenedor.setText("CONTENEDOR");
+        jPanel2.add(lblContenedor);
+        lblContenedor.setBounds(331, 233, 145, 31);
 
         cmbxTipoProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxTipoProductos.setSelectedItem("--Seleccionar");
@@ -178,131 +203,36 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 cmbxTipoProductosItemStateChanged(evt);
             }
         });
+        jPanel2.add(cmbxTipoProductos);
+        cmbxTipoProductos.setBounds(440, 116, 243, 33);
 
         jLabel10.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel10.setText("TIPO DE PRODUCTO");
+        jPanel2.add(jLabel10);
+        jLabel10.setBounds(449, 79, 202, 31);
 
         lblLitros.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblLitros.setText("LITROS");
+        jPanel2.add(lblLitros);
+        lblLitros.setBounds(405, 167, 71, 31);
 
         txtLitros.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        jPanel2.add(txtLitros);
+        txtLitros.setBounds(482, 167, 193, 33);
 
         lblVolumen.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblVolumen.setText("VOLUMEN");
+        jPanel2.add(lblVolumen);
+        lblVolumen.setBounds(376, 297, 100, 31);
 
         txtVolumen.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        jPanel2.add(txtVolumen);
+        txtVolumen.setBounds(482, 297, 193, 33);
 
         cmbxContenedor.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxContenedor.setSelectedItem("--Seleccionar");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel6))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel10)
-                                        .addGap(32, 32, 32))
-                                    .addComponent(cmbxTipoProductos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addComponent(btnCancelar)
-                                    .addGap(147, 147, 147)
-                                    .addComponent(btnAgregar))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(176, 176, 176))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                                        .addComponent(lblLitros))
-                                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addGap(0, 0, Short.MAX_VALUE)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                            .addComponent(lblVolumen)
-                                                            .addComponent(lblContenedor))))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(176, 176, 176)))
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtLitros)
-                                        .addComponent(cmbxContenedor, 0, 193, Short.MAX_VALUE)
-                                        .addComponent(txtVolumen)))))
-                        .addContainerGap(29, Short.MAX_VALUE))))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel3)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbxTipoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblLitros)
-                            .addComponent(txtLitros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblContenedor)
-                            .addComponent(cmbxContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(lblVolumen)
-                            .addComponent(txtVolumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(33, 33, 33)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnAgregar))
-                .addContainerGap())
-        );
+        jPanel2.add(cmbxContenedor);
+        cmbxContenedor.setBounds(482, 233, 193, 33);
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
 
