@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 public class PantallaMenu extends javax.swing.JFrame {
 
     private UsuarioDTO usuario;
+    private JFrame parent;
     
     /**
      * Creates new form PantallaInicioSesion
@@ -245,7 +246,7 @@ public class PantallaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReporteVentasActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
-        parent.setVisible(true);
+        PantallaInicioSesion pantallaInicio = new PantallaInicioSesion();
         this.dispose();
     }//GEN-LAST:event_btnLogOutActionPerformed
 
@@ -263,5 +264,5 @@ public class PantallaMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JLabel lblNombreUsuario1;
     // End of variables declaration//GEN-END:variables
-    private JFrame parent;
+
 }

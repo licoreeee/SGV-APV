@@ -34,7 +34,6 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         this.tipoVenta = tipoVenta;
         cargarProductos();
         txtStock.setEditable(false);
-        txtCantidad.setEditable(false);
     }
 
     private void cargarProductos() {
