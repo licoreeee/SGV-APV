@@ -244,11 +244,11 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (this.productoSeleccionadoParaEditar == null) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto de la lista para editar.", "Producto no Seleccionado", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione un producto de la lista para editar.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (this.productoSeleccionadoParaEditar.getId() == null) {
-            JOptionPane.showMessageDialog(this, "Error: El producto seleccionado no tiene un ID para actualizar.", "Error de Datos", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al obtener el producto, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -262,7 +262,7 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
         } else if (this.productoSeleccionadoParaEditar instanceof VariadoDTO) {
             tipoOriginalDetectado = "VARIADO";
         } else {
-            tipoOriginalDetectado = "PRODUCTO_BASE"; // Caso raro
+            tipoOriginalDetectado = "PRODUCTO_BASE";
         }
 
         String precioStr = txtPrecio.getText().trim();
@@ -285,7 +285,7 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
                 throw new NumberFormatException("Precio negativo");
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Precio: Ingrese un número válido no negativo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
             txtPrecio.requestFocus();
             return;
         }
@@ -294,7 +294,7 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
         if (("CONTENEDOR".equals(tipoOriginalDetectado) || "VARIADO".equals(tipoOriginalDetectado) || "PRODUCTO_BASE".equals(tipoOriginalDetectado)) && txtStock.isVisible()) {
             String stockStr = txtStock.getText().trim();
             if (stockStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo 'Stock' es obligatorio para " + tipoOriginalDetectado + ".", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El campo 'Stock' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
                 txtStock.requestFocus();
                 return;
             }
@@ -304,7 +304,7 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
                     throw new NumberFormatException("Stock negativo");
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Stock: Ingrese un número entero no negativo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
                 txtStock.requestFocus();
                 return;
             }
@@ -316,7 +316,7 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
         if ("CONTENEDOR".equals(tipoOriginalDetectado)) {
             String volumenStr = txtVolumen.getText().trim();
             if (volumenStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo 'Volumen' es obligatorio para Contenedor.", "Validación", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El campo 'Volumen' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
                 txtVolumen.requestFocus();
                 return;
             }
@@ -327,14 +327,14 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
                 }
                 productoEditadoConNuevosDatos = new ContenedorDTO(volumen, idDelProductoAEditar, codigoOriginal, nombre, precio, stockParaDTO);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Volumen: Ingrese un número entero positivo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
                 txtVolumen.requestFocus();
                 return;
             }
         } else if ("LLENADO".equals(tipoOriginalDetectado)) {
             String litrosStr = txtLitros.getText().trim();
             if (litrosStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo 'Litros' es obligatorio para Llenado.", "Validación", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El campo 'Litros' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
                 txtLitros.requestFocus();
                 return;
             }
@@ -354,7 +354,7 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
                 }
                 productoEditadoConNuevosDatos = new LlenadoDTO(litros, codigoContAsociadoForm, idDelProductoAEditar, codigoOriginal, nombre, precio);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Litros: Ingrese un número entero positivo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
                 txtLitros.requestFocus();
                 return;
             }
@@ -363,13 +363,13 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
         }
 
         if (productoEditadoConNuevosDatos == null) {
-            JOptionPane.showMessageDialog(this, "Error: No se pudo construir el DTO para guardar los cambios.", "Error Interno", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al actualizar, inténtelo de nuevo.", "Error Interno", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
             subsistemaInventarioFacade.guardarCambiosProducto(productoEditadoConNuevosDatos);
-            JOptionPane.showMessageDialog(this, "Producto '" + nombre + "' actualizado exitosamente.", "Actualización Completada", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El producto se ha actualizado exitosamente.", "Actualización Exitosa", JOptionPane.INFORMATION_MESSAGE);
 
             cargarListaDeProductosEn_cmbxProductos2();
             limpiarYDeshabilitarFormularioDetalles();
@@ -378,9 +378,9 @@ public class PantallaEditarProductoInventario extends javax.swing.JFrame {
             }
 
         } catch (SubsistemaInventarioException e) {
-            JOptionPane.showMessageDialog(this, "No se pudo guardar los cambios del producto:\n" + e.getMessage(), "Error al Guardar", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo guardar los cambios del producto, inténtelo de nuevo.","Error al Guardar", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado. Revise la consola.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al actualizar, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 

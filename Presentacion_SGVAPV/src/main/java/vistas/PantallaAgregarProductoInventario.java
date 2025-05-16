@@ -204,7 +204,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
             }
         });
         jPanel2.add(cmbxTipoProductos);
-        cmbxTipoProductos.setBounds(440, 116, 243, 33);
+        cmbxTipoProductos.setBounds(430, 110, 243, 33);
 
         jLabel10.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel10.setText("TIPO DE PRODUCTO");
@@ -278,7 +278,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 throw new NumberFormatException("Precio negativo");
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Precio: Ingrese un número válido no negativo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
             txtPrecio.requestFocus();
             return;
         }
@@ -288,7 +288,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         if ("CONTENEDOR".equals(tipoSeleccionado) || "VARIADO".equals(tipoSeleccionado)) {
             String stockStr = txtStock.getText().trim();
             if (stockStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo 'Stock' es obligatorio para " + tipoSeleccionado + ".", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El campo 'Stock' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
                 txtStock.requestFocus();
                 return;
             }
@@ -298,7 +298,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                     throw new NumberFormatException("Stock negativo");
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Stock: Ingrese un número entero no negativo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
                 txtStock.requestFocus();
                 return;
             }
@@ -312,7 +312,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         if ("CONTENEDOR".equals(tipoSeleccionado)) {
             String volumenStr = txtVolumen.getText().trim();
             if (volumenStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo 'Volumen' es obligatorio para Contenedor.", "Validación", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El campo 'Volumen' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
                 txtVolumen.requestFocus();
                 return;
             }
@@ -323,7 +323,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 }
                 productoAAgregar = new ContenedorDTO(volumen, codigo, nombre, precio, stockParaDTO);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Volumen: Ingrese un número entero positivo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
                 txtVolumen.requestFocus();
                 return;
             }
@@ -333,7 +333,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
             Object contenedorAsociadoObj = cmbxContenedor.getSelectedItem();
 
             if (litrosStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo 'Litros' es obligatorio para Llenado.", "Validación", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El campo 'Litros' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
                 txtLitros.requestFocus();
                 return;
             }
@@ -342,7 +342,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 if (contenedorAsociadoObj instanceof ProductoDTO) {
                     codigoContenedorAsociado = ((ProductoDTO) contenedorAsociadoObj).getCodigo();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Error: Selección inválida en 'Contenedor Asociado'.", "Error Interno", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error: Selección inválida.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -355,7 +355,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 
                 productoAAgregar = new LlenadoDTO(codigo, nombre, precio, litros, codigoContenedorAsociado);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Litros: Ingrese un número entero positivo.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ingrese un número válido.", "Dato Inválido", JOptionPane.WARNING_MESSAGE);
                 txtLitros.requestFocus();
                 return;
             }
@@ -365,22 +365,22 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         }
 
         if (productoAAgregar == null) {
-            JOptionPane.showMessageDialog(this, "Error: No se pudo determinar el tipo de producto para agregar.", "Error Interno", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al agregar, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
             subsistemaInventarioFacade.agregarProducto(productoAAgregar);
-            JOptionPane.showMessageDialog(this, "Producto '" + nombre + "' (" + tipoSeleccionado + ") registrado exitosamente.", "Registro Completado", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El producto se ha registrado exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
             limpiarFormularioCompleto();
             cargarContenedoresExistentes();
         } catch (SubsistemaInventarioException e) {
             System.err.println("Error al agregar producto: " + e.getMessage());
-            JOptionPane.showMessageDialog(this, "No se pudo agregar el producto: " + e.getMessage(), "Error al Guardar", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al registrar el producto, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             System.err.println("Error inesperado: " + e.getMessage());
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado. Revise la consola.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al guardar el producto, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 

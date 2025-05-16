@@ -253,15 +253,13 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if (this.productoSeleccionadoParaAccion == null || this.productoSeleccionadoParaAccion.getCodigo() == null) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto de la lista para eliminar.", "Producto no Seleccionado", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione un producto de la lista para eliminar.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         int confirmacion = JOptionPane.showConfirmDialog(
                 this,
-                "¿Está seguro de que desea eliminar el producto:\n"
-                + "Código: " + productoSeleccionadoParaAccion.getCodigo() + "\n"
-                + "Nombre: " + productoSeleccionadoParaAccion.getNombre() + "?",
+                "¿Está seguro de que desea eliminar el producto?",
                 "Confirmar Eliminación",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
@@ -271,17 +269,17 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
             try {
                 logger.log(Level.INFO, "[UI ELIMINAR] Intentando eliminar producto con código: " + productoSeleccionadoParaAccion.getCodigo());
                 subsistemaInventarioFacade.eliminarProducto(productoSeleccionadoParaAccion.getCodigo()); // Usa el código para eliminar
-                JOptionPane.showMessageDialog(this, "Producto '" + productoSeleccionadoParaAccion.getNombre() + "' eliminado exitosamente.", "Eliminación Completada", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El producto ha sido eliminado exitosamente.", "Eliminación Exitosa", JOptionPane.INFORMATION_MESSAGE);
 
                 cargarListaDeProductosEn_cmbxProductos2(); // Recargar la lista
                 limpiarYDeshabilitarFormularioDetalles();
 
             } catch (SubsistemaInventarioException e) {
                 logger.log(Level.SEVERE, "[UI ERROR ELIMINAR] SubsistemaInventarioException al eliminar", e);
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar el producto: " + e.getMessage(), "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al eliminar el producto, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "[UI ERROR ELIMINAR] Exception general al eliminar", e);
-                JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado al eliminar. Revise la consola.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al eliminar, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed

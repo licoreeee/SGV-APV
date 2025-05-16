@@ -65,7 +65,7 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26)
                 .addComponent(jLabel2)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -79,7 +79,7 @@ public class PantallaInicioSesion extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 70));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 70));
 
         jPanel2.setBackground(new java.awt.Color(196, 216, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(720, 410));
