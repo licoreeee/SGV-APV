@@ -319,46 +319,84 @@ public class PantallaVenta extends javax.swing.JFrame {
 
     private void tblProductosVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProductosVentaKeyPressed
         int selectedRow = tblProductosVenta.getSelectedRow();
-        if (selectedRow != -1) { // Verifica que haya una fila seleccionada
-            int cantidad = (int) tblProductosVenta.getValueAt(selectedRow, 1); // Columna de cantidad
+        if (selectedRow == -1) {
+            return;
+        }
 
-            if (evt.getKeyChar() == '+') { // Si presiona "+"
-                String productoSeleccionado = (String) tblProductosVenta.getValueAt(selectedRow, 0);
-                int index = productoSeleccionado.indexOf(" ");
-                String codigoProducto = productoSeleccionado.substring(0, index);
+        String productoEnTabla = (String) tblProductosVenta.getValueAt(selectedRow, 0);
+        if (productoEnTabla == null || productoEnTabla.isEmpty()) {
+            return;
+        }
 
-                ProductoVentaDTO productoVenta = buscarProductoVenta(codigoProducto);
-                if (cantidad < productoVenta.getProducto().getCantidad()) {
-                    productoVenta.aumentarCantidad();
-                    tblProductosVenta.setValueAt(productoVenta.getCantidad(), selectedRow, 1); // Modifica la columna correcta
-                    venta.actualizarTotal();
-                    actualizarVenta();
+        int indiceEspacio = productoEnTabla.indexOf(" ");
+        if (indiceEspacio == -1) {
+            return;
+        }
+        String codigoProducto = productoEnTabla.substring(0, indiceEspacio);
+
+        ProductoVentaDTO productoVenta = buscarProductoVenta(codigoProducto);
+        if (productoVenta == null) {
+            System.err.println("Error: No se encontró ProductoVentaDTO para el código: " + codigoProducto);
+            return;
+        }
+
+        int cantidadActualEnVentaDTO = productoVenta.getCantidad();
+
+        if (evt.getKeyChar() == '+') {
+            Integer stockDelProductoNullable = productoVenta.getProducto().getCantidad();
+            boolean permitirAumento = false;
+
+            if (stockDelProductoNullable == null) {
+                permitirAumento = true;
+            } else {
+                int stockReal = stockDelProductoNullable.intValue();
+                if (cantidadActualEnVentaDTO < stockReal) {
+                    permitirAumento = true;
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "No se puede agregar más. Stock máximo (" + stockReal + ") alcanzado para " + productoVenta.getProducto().getNombre() + ".",
+                            "Stock Límite",
+                            JOptionPane.WARNING_MESSAGE);
                 }
-                evt.consume(); // Evita que el "+" se escriba en la celda
-            } else if (evt.getKeyChar() == '-') { // Si presiona "-"
-                String productoSeleccionado = (String) tblProductosVenta.getValueAt(selectedRow, 0);
-                int index = productoSeleccionado.indexOf(" ");
-                String codigoProducto = productoSeleccionado.substring(0, index);
+            }
 
-                ProductoVentaDTO productoVenta = buscarProductoVenta(codigoProducto);
+            if (permitirAumento) {
+                productoVenta.setCantidad(cantidadActualEnVentaDTO + 1);
 
-                if (cantidad > 1) { // Si la cantidad es mayor que 1, simplemente disminuir
-                    productoVenta.disminuirCantidad();
-                    tblProductosVenta.setValueAt(cantidad - 1, selectedRow, 1);
-                } else if (cantidad == 1) { // Si la cantidad es 1, al disminuir llega a 0
-                    // Eliminar el producto de la venta
-                    venta.getProductos().removeIf(pv
-                            -> pv.getProducto().getCodigo().equals(codigoProducto));
-
-                    // Actualizar la tabla
-                    DefaultTableModel model = (DefaultTableModel) tblProductosVenta.getModel();
-                    model.removeRow(selectedRow);
-                }
-
-                evt.consume(); // Evita que el "-" se escriba en la celda
+                tblProductosVenta.setValueAt(productoVenta.getCantidad(), selectedRow, 1);
                 venta.actualizarTotal();
                 actualizarVenta();
             }
+            evt.consume();
+
+        } else if (evt.getKeyChar() == '-') {
+            if (cantidadActualEnVentaDTO > 1) {
+                productoVenta.setCantidad(cantidadActualEnVentaDTO - 1);
+
+                tblProductosVenta.setValueAt(productoVenta.getCantidad(), selectedRow, 1);
+            } else if (cantidadActualEnVentaDTO == 1) {
+                boolean removed = venta.getProductos().removeIf(pv -> pv.getProducto().getCodigo().equals(codigoProducto));
+
+                if (removed) {
+                    DefaultTableModel model = (DefaultTableModel) tblProductosVenta.getModel();
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        String productoEnFilaActual = (String) model.getValueAt(i, 0);
+                        if (productoEnFilaActual != null) {
+                            int idx = productoEnFilaActual.indexOf(" ");
+                            if (idx != -1) {
+                                String codigoEnFila = productoEnFilaActual.substring(0, idx);
+                                if (codigoEnFila.equals(codigoProducto)) {
+                                    model.removeRow(i);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            venta.actualizarTotal();
+            actualizarVenta();
+            evt.consume();
         }
     }//GEN-LAST:event_tblProductosVentaKeyPressed
 
