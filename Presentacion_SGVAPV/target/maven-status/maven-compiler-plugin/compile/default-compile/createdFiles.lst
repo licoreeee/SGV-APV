@@ -8,6 +8,7 @@ vistas\NewMain.class
 vistas\PantallaAgregarProductoInventario$7.class
 vistas\PantallaGenerarReporte$1.class
 vistas\PantallaGenerarReporte$4.class
+vistas\PantallaAgregarProductoInventario$11.class
 vistas\PantallaGestionarInventario$3.class
 vistas\PantallaReporteVentas$1.class
 vistas\PantallaEliminarProductoInventario$9.class
@@ -18,7 +19,6 @@ vistas\PantallaEliminarProductoInventario$2.class
 vistas\PantallaAgregarProductoInventario$3.class
 vistas\PantallaAgregarProductoInventario$6.class
 vistas\PantallaEditarProductoInventario$2.class
-vistas\SelectorProductos.class
 vistas\PantallaEditarProductoInventario$3.class
 vistas\PantallaGestionarInventario$2.class
 vistas\PantallaEliminarProductoInventario$5.class
@@ -26,9 +26,9 @@ vistas\PantallaInicioSesion.class
 vistas\PantallaGenerarReporte.class
 vistas\PantallaVenta$3.class
 vistas\PantallaAgregarProducto$4.class
+vistas\PantallaAgregarProductoInventario$12.class
 vistas\PantallaReporteVentas.class
 vistas\PantallaAgregarLlenado.class
-vistas\SelectorProductos$1.class
 vistas\PantallaAgregarProductoInventario$8.class
 vistas\PantallaReporteVentas$TextAreaRenderer.class
 vistas\PantallaEditarProductoInventario$6.class

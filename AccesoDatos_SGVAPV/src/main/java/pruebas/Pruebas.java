@@ -6,6 +6,8 @@ import entidades.Variado;
 import org.itson.accesodatos_sgvapv.daos.IAccesoDatosFacade;
 import entidades.Venta;
 import java.util.List;
+import org.itson.accesodatos_sgvapv.conexion.Conexion;
+import org.itson.accesodatos_sgvapv.conexion.IConexion;
 import org.itson.accesodatos_sgvapv.daos.AccesoDatosFacade;
 import org.itson.accesodatos_svgapv.excepciones.PersistenciaException;
 
@@ -19,8 +21,8 @@ public class Pruebas {
 //        List<Variado> productos = new ArrayList<>();
 //
 //        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
-//        IConexion conexion = new Conexion();
-//        conexion.crearConexion();
+        IConexion conexion = new Conexion();
+        conexion.crearConexion();
 //        List<Producto> productos = new LinkedList<>();
 
 //        productos.add(new Variado("VAR-001", "Trapeador", 140f));
@@ -116,25 +118,25 @@ public class Pruebas {
 //        }
 
 
-        FiltroReportes fr = new FiltroReportes();
-        Variado variado = new Variado("VAR-001", "Trapeador", 140.0f);
-        variado.setId(1L);
-        fr.setProductos(List.of(variado));
-        
-        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
-        
-        List<Venta> ventas = accesoDatos.obtenerVentas(fr);
-        
-        if (ventas.isEmpty()) {
-            System.out.println("No se obtuvo ninguna venta.");
-        } else {
-            for (Venta venta : ventas) {
-                System.out.println(venta.getFechaHora());
-                for (ProductoVenta producto : venta.getProductos()) {
-                    System.out.println(producto);
-                }
-            }
-        }
+//        FiltroReportes fr = new FiltroReportes();
+//        Variado variado = new Variado("VAR-001", "Trapeador", 140.0f);
+//        variado.setId(1L);
+//        fr.setProductos(List.of(variado));
+//        
+//        IAccesoDatosFacade accesoDatos = new AccesoDatosFacade();
+//        
+//        List<Venta> ventas = accesoDatos.obtenerVentas(fr);
+//        
+//        if (ventas.isEmpty()) {
+//            System.out.println("No se obtuvo ninguna venta.");
+//        } else {
+//            for (Venta venta : ventas) {
+//                System.out.println(venta.getFechaHora());
+//                for (ProductoVenta producto : venta.getProductos()) {
+//                    System.out.println(producto);
+//                }
+//            }
+//        }
     }
 
 }

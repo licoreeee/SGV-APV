@@ -1,10 +1,7 @@
 package vistas;
 
-import dtos.ContenedorDTO;
-import dtos.LlenadoDTO;
 import dtos.ProductoDTO;
 import dtos.ProductoVentaDTO;
-import dtos.VariadoDTO;
 import dtos.VentaDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +30,15 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         this.setTitle("SGVAPV - Agregar Producto");
         this.pantallaVenta = pantallaVenta;
         this.venta = venta;
-        
+
         this.tipoVenta = tipoVenta;
         if (this.lblTipoVenta != null) {
             this.lblTipoVenta.setText(this.tipoVenta);
         }
-        
+
         txtStock.setEditable(false);
         verificarTipoVenta();
-        
+
         cargarProductos();
         txtCantidad.setEditable(false);
         setVisible(true);
@@ -56,7 +53,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         }
 
         if (productos.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se han encontrado productos para este tipo de venta o no hay stock.", "Sin Productos", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se han encontrado productos para este tipo de venta o no hay stock.", 
+                    "Sin Productos", JOptionPane.ERROR_MESSAGE);
             this.dispose();
             pantallaVenta.setVisible(true);
         } else {
@@ -214,38 +212,38 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if (cmbxProductos.getSelectedItem() instanceof ProductoDTO) {
             ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
-            
+
             if (txtCantidad.getText().isBlank()) {
                 JOptionPane.showMessageDialog(this, "Asegúrese de ingresar una cantidad.",
                         "Cantidad Vacía", JOptionPane.WARNING_MESSAGE);
                 txtCantidad.requestFocus();
                 return;
             }
-            
+
             if (!txtCantidad.getText().matches("\\d+")) {
-                JOptionPane.showMessageDialog(this, "Ingrese una cantidad numérica válida.", 
+                JOptionPane.showMessageDialog(this, "Ingrese una cantidad numérica válida.",
                         "Cantidad Inválida", JOptionPane.ERROR_MESSAGE);
                 txtCantidad.requestFocus();
                 return;
             }
-            
+
             int cantidadIngresada;
             try {
                 cantidadIngresada = Integer.parseInt(txtCantidad.getText());
             } catch (NumberFormatException e) {
-                 JOptionPane.showMessageDialog(this, "Ingrese una cantidad numérica válida (número demasiado grande).", 
+                JOptionPane.showMessageDialog(this, "Ingrese una cantidad numérica válida (número demasiado grande).",
                         "Cantidad Inválida", JOptionPane.ERROR_MESSAGE);
                 txtCantidad.requestFocus();
                 return;
             }
 
             if (cantidadIngresada <= 0) {
-                JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.", 
+                JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.",
                         "Cantidad Inválida", JOptionPane.ERROR_MESSAGE);
                 txtCantidad.requestFocus();
                 return;
             }
-            
+
             ProductoVentaDTO productoVenta = new ProductoVentaDTO(productoSeleccionado.getPrecio(), cantidadIngresada, productoSeleccionado);
 
             if (validarCantidad(venta, productoVenta)) {
@@ -274,27 +272,27 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
 
         if (stockDelProductoNuevo != null) {
             if (productoVentaNuevo.getCantidad() > stockDelProductoNuevo) {
-                return false; 
+                return false;
             }
         }
-        
+
         for (ProductoVentaDTO productoYaEnVenta : venta.getProductos()) {
             if (productoYaEnVenta.getProducto().getCodigo().equalsIgnoreCase(productoVentaNuevo.getProducto().getCodigo())) {
                 int cantidadYaEnVenta = productoYaEnVenta.getCantidad();
                 int cantidadTotalProyectada = cantidadYaEnVenta + productoVentaNuevo.getCantidad();
-                
+
                 Integer stockDelProductoEnLista = productoYaEnVenta.getProducto().getCantidad();
 
                 if (stockDelProductoEnLista != null) {
                     if (cantidadTotalProyectada > stockDelProductoEnLista) {
-                        return false; 
+                        return false;
                     }
                 }
             }
         }
         return true;
     }
-    
+
     private void verificarTipoVenta() {
         if (this.getTipoVenta().equalsIgnoreCase("AGUA PURIFICADA")) {
             jLabel5.setVisible(false);
@@ -361,7 +359,7 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
             txtCantidad.setText("");
             txtCantidad.requestFocus();
 
-        } else { 
+        } else {
             txtCantidad.setText("");
             txtCantidad.setEditable(false);
             verificarTipoVenta();

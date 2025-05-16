@@ -8,9 +8,6 @@ import dtos.UsuarioDTO;
 import dtos.VariadoDTO;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -38,6 +35,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         setVisible(true);
         this.parentFrame = parentFrame;
         this.usuario = usuario;
+        this.setTitle("Sistema General de Ventas de Agua Purificada del Valle — Agregar Producto");
         this.subsistemaInventarioFacade = new SubsistemaInventarioFacade();
         inicializarComponentesAdicionales();
     }
@@ -52,10 +50,10 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
     private void initComponents() {
 
         cmbxProductos = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
         txtStock = new javax.swing.JTextField();
@@ -67,14 +65,12 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
-        lblContenedor = new javax.swing.JLabel();
         cmbxTipoProductos = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
         lblLitros = new javax.swing.JLabel();
         txtLitros = new javax.swing.JTextField();
         lblVolumen = new javax.swing.JLabel();
         txtVolumen = new javax.swing.JTextField();
-        cmbxContenedor = new javax.swing.JComboBox();
 
         cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxProductos.setSelectedItem("--Seleccionar");
@@ -85,7 +81,8 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(196, 216, 255));
 
         jPanel1.setBackground(new java.awt.Color(41, 136, 194));
 
@@ -105,7 +102,7 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26)
                 .addComponent(jLabel2)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,15 +116,8 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 70));
-
-        jPanel2.setBackground(new java.awt.Color(196, 216, 255));
-        jPanel2.setLayout(null);
-
         jLabel5.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel5.setText("CÓDIGO");
-        jPanel2.add(jLabel5);
-        jLabel5.setBounds(40, 99, 88, 31);
 
         btnAgregar.setBackground(new java.awt.Color(41, 136, 194));
         btnAgregar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
@@ -137,22 +127,20 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 btnAgregarActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAgregar);
-        btnAgregar.setBounds(419, 363, 160, 38);
 
         txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        jPanel2.add(txtStock);
-        txtStock.setBounds(134, 233, 172, 33);
+        txtStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtStockActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("AGREGAR NUEVO PRODUCTO");
-        jPanel2.add(jLabel3);
-        jLabel3.setBounds(166, 27, 384, 40);
 
         jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel6.setText("PRECIO");
-        jPanel2.add(jLabel6);
-        jLabel6.setBounds(53, 297, 75, 31);
 
         txtPrecio.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -160,8 +148,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 txtPrecioKeyTyped(evt);
             }
         });
-        jPanel2.add(txtPrecio);
-        txtPrecio.setBounds(134, 297, 172, 33);
 
         btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         btnCancelar.setText("CANCELAR");
@@ -170,31 +156,21 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel2.add(btnCancelar);
-        btnCancelar.setBounds(134, 363, 170, 38);
 
         jLabel7.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel7.setText("NOMBRE");
-        jPanel2.add(jLabel7);
-        jLabel7.setBounds(40, 166, 88, 31);
 
         jLabel8.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel8.setText("STOCK");
-        jPanel2.add(jLabel8);
-        jLabel8.setBounds(59, 233, 69, 31);
 
         txtCodigo.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        jPanel2.add(txtCodigo);
-        txtCodigo.setBounds(134, 99, 172, 33);
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
 
         txtNombre.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        jPanel2.add(txtNombre);
-        txtNombre.setBounds(134, 166, 241, 33);
-
-        lblContenedor.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        lblContenedor.setText("CONTENEDOR");
-        jPanel2.add(lblContenedor);
-        lblContenedor.setBounds(331, 233, 145, 31);
 
         cmbxTipoProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxTipoProductos.setSelectedItem("--Seleccionar");
@@ -203,38 +179,121 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
                 cmbxTipoProductosItemStateChanged(evt);
             }
         });
-        jPanel2.add(cmbxTipoProductos);
-        cmbxTipoProductos.setBounds(430, 110, 243, 33);
 
         jLabel10.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel10.setText("TIPO DE PRODUCTO");
-        jPanel2.add(jLabel10);
-        jLabel10.setBounds(449, 79, 202, 31);
 
         lblLitros.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblLitros.setText("LITROS");
-        jPanel2.add(lblLitros);
-        lblLitros.setBounds(405, 167, 71, 31);
 
         txtLitros.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        jPanel2.add(txtLitros);
-        txtLitros.setBounds(482, 167, 193, 33);
 
         lblVolumen.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         lblVolumen.setText("VOLUMEN");
-        jPanel2.add(lblVolumen);
-        lblVolumen.setBounds(376, 297, 100, 31);
 
         txtVolumen.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        jPanel2.add(txtVolumen);
-        txtVolumen.setBounds(482, 297, 193, 33);
 
-        cmbxContenedor.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        cmbxContenedor.setSelectedItem("--Seleccionar");
-        jPanel2.add(cmbxContenedor);
-        cmbxContenedor.setBounds(482, 233, 193, 33);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(165, 165, 165)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmbxTipoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblLitros, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtLitros, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblVolumen)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtVolumen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel3)
+                .addGap(40, 40, 40)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(cmbxTipoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblLitros)
+                            .addComponent(txtLitros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel7))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVolumen)
+                    .addComponent(txtVolumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnAgregar))
+                .addGap(24, 24, 24))
+        );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         pack();
         setLocationRelativeTo(null);
@@ -330,21 +389,11 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
 
         } else if ("LLENADO".equals(tipoSeleccionado)) {
             String litrosStr = txtLitros.getText().trim();
-            Object contenedorAsociadoObj = cmbxContenedor.getSelectedItem();
 
             if (litrosStr.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El campo 'Litros' es obligatorio.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
                 txtLitros.requestFocus();
                 return;
-            }
-
-            if (contenedorAsociadoObj != null && !(contenedorAsociadoObj.toString().equals(PLACEHOLDER_CONTENEDOR))) {
-                if (contenedorAsociadoObj instanceof ProductoDTO) {
-                    codigoContenedorAsociado = ((ProductoDTO) contenedorAsociadoObj).getCodigo();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Error: Selección inválida.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
             }
 
             try {
@@ -373,7 +422,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
             subsistemaInventarioFacade.agregarProducto(productoAAgregar);
             JOptionPane.showMessageDialog(this, "El producto se ha registrado exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
             limpiarFormularioCompleto();
-            cargarContenedoresExistentes();
         } catch (SubsistemaInventarioException e) {
             System.err.println("Error al agregar producto: " + e.getMessage());
             JOptionPane.showMessageDialog(this, "Error al registrar el producto, inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -426,6 +474,14 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbxTipoProductosItemStateChanged
 
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void txtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStockActionPerformed
+
     private void inicializarComponentesAdicionales() {
         this.setTitle("SGVAPV - Agregar Nuevo Producto");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -436,7 +492,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         txtPrecio.setEditable(true);
 
         cargarTiposDeProducto();
-        cargarContenedoresExistentes();
         configurarVisibilidadCamposTipo();
 
         cmbxTipoProductos.addItemListener(new java.awt.event.ItemListener() {
@@ -470,26 +525,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         this.setLocationRelativeTo(parentFrame);
     }
 
-    private void cargarContenedoresExistentes() {
-        try {
-            List<ProductoDTO> contenedores = subsistemaInventarioFacade.obtenerProductosPorTipo(Arrays.asList("CONTENEDOR"));
-            DefaultComboBoxModel<Object> model = new DefaultComboBoxModel<>();
-            model.addElement(PLACEHOLDER_CONTENEDOR);
-
-            if (contenedores != null && !contenedores.isEmpty()) {
-                for (ProductoDTO prod : contenedores) {
-                    model.addElement(prod);
-                }
-            } else {
-                System.out.println("No se encontraron productos de tipo CONTENEDOR.");
-            }
-            cmbxContenedor.setModel(model);
-        } catch (Exception e) {
-            System.err.println("Error al cargar contenedores existentes: " + e.getMessage());
-            JOptionPane.showMessageDialog(this, "Error al cargar lista de contenedores.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
     private void cargarTiposDeProducto() {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         model.addElement(PLACEHOLDER_TIPO);
@@ -521,12 +556,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
             txtLitros.setText("");
         }
 
-        lblContenedor.setVisible(esLlenado);
-        cmbxContenedor.setVisible(esLlenado);
-        if (!esLlenado && cmbxContenedor.getItemCount() > 0) {
-            cmbxContenedor.setSelectedIndex(0);
-        }
-
         lblVolumen.setVisible(esContenedor);
         txtVolumen.setVisible(esContenedor);
         txtVolumen.setEditable(esContenedor);
@@ -544,9 +573,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
         txtVolumen.setText("");
         if (cmbxTipoProductos.getItemCount() > 0) {
             cmbxTipoProductos.setSelectedIndex(0);
-        }
-        if (cmbxContenedor.getItemCount() > 0) {
-            cmbxContenedor.setSelectedIndex(0);
         }
         txtNombre.requestFocus();
     }
@@ -572,7 +598,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox cmbxContenedor;
     private javax.swing.JComboBox<Object> cmbxProductos;
     private javax.swing.JComboBox cmbxTipoProductos;
     private javax.swing.JLabel jLabel1;
@@ -585,7 +610,6 @@ public class PantallaAgregarProductoInventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblContenedor;
     private javax.swing.JLabel lblLitros;
     private javax.swing.JLabel lblVolumen;
     private javax.swing.JTextField txtCodigo;
