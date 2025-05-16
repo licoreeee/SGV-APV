@@ -16,6 +16,16 @@ public class ProductoDTO {
     protected String nombre;
     protected Float precio;
     protected Integer cantidad;
+    protected String tipoEspecifico;
+
+    public ProductoDTO(Long id, String codigo, String nombre, Float precio, Integer cantidad, String tipoEspecifico) {
+        this.id = id;
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.tipoEspecifico = tipoEspecifico;
+    }
 
     public ProductoDTO(Long id, String codigo, String nombre, Float precio) {
         this.id = id;
@@ -71,6 +81,14 @@ public class ProductoDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTipoEspecifico() {
+        return tipoEspecifico;
+    }
+
+    public void setTipoEspecifico(String tipoEspecifico) {
+        this.tipoEspecifico = tipoEspecifico;
     }
 
     @Override

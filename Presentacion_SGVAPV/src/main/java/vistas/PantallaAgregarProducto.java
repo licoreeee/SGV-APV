@@ -1,7 +1,10 @@
 package vistas;
 
+import dtos.ContenedorDTO;
+import dtos.LlenadoDTO;
 import dtos.ProductoDTO;
 import dtos.ProductoVentaDTO;
+import dtos.VariadoDTO;
 import dtos.VentaDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -312,24 +315,59 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         if (cmbxProductos.getSelectedItem() instanceof ProductoDTO) {
             ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
             Integer cantidadEnStockNullable = productoSeleccionado.getCantidad();
+            String tipoEspecificoDelProducto = productoSeleccionado.getTipoEspecifico();
 
-            if (cantidadEnStockNullable == null) {
-                if (txtStock.isVisible()) {
-                    txtStock.setText("N/A"); 
+            if (tipoEspecificoDelProducto == null) {
+                System.err.println("Advertencia: El ProductoDTO no tiene un tipo específico definido.");
+                verificarTipoVenta();
+                if (txtStock.isVisible() && cantidadEnStockNullable != null) {
+                    txtStock.setText(String.valueOf(cantidadEnStockNullable));
+                } else if (txtStock.isVisible()) {
+                    txtStock.setText("N/D");
+                }
+            } else if ("CONTENEDOR".equalsIgnoreCase(tipoEspecificoDelProducto)) {
+                jLabel5.setVisible(true);
+                txtStock.setVisible(true);
+                if (cantidadEnStockNullable != null) {
+                    txtStock.setText(String.valueOf(cantidadEnStockNullable.intValue()));
+                } else {
+                    txtStock.setText("N/D");
+                    System.err.println("Advertencia: CONTENEDOR '" + productoSeleccionado.getNombre() + "' tiene stock null en DTO, pero se esperaba un valor.");
+                }
+            } else if ("LLENADO".equalsIgnoreCase(tipoEspecificoDelProducto)) {
+                jLabel5.setVisible(false);
+                txtStock.setVisible(false);
+                txtStock.setText("");
+            } else if ("VARIADO".equalsIgnoreCase(tipoEspecificoDelProducto)) {
+                jLabel5.setVisible(true);
+                txtStock.setVisible(true);
+                if (cantidadEnStockNullable != null) {
+                    txtStock.setText(String.valueOf(cantidadEnStockNullable.intValue()));
+                } else {
+                    txtStock.setText("N/D");
+                    System.err.println("Advertencia: Producto VARIADO '" + productoSeleccionado.getNombre() + "' tiene stock null en DTO.");
                 }
             } else {
-                int stockActual = cantidadEnStockNullable.intValue();
-                if (txtStock.isVisible()) {
-                    txtStock.setText(String.valueOf(stockActual));
+                System.out.println("Nota: ProductoDTO con tipoEspecifico no reconocido: " + tipoEspecificoDelProducto);
+                verificarTipoVenta();
+                if (txtStock.isVisible() && cantidadEnStockNullable != null) {
+                    txtStock.setText(String.valueOf(cantidadEnStockNullable.intValue()));
+                } else if (txtStock.isVisible()) {
+                    txtStock.setText("N/D");
                 }
             }
+
             txtCantidad.setEditable(true);
             txtCantidad.setText("");
             txtCantidad.requestFocus();
+
         } else { 
-            txtStock.setText("");
             txtCantidad.setText("");
             txtCantidad.setEditable(false);
+            verificarTipoVenta();
+            if (txtStock != null && txtStock.isVisible()) {
+                txtStock.setText("");
+            }
         }
     }//GEN-LAST:event_cmbxProductosActionPerformed
 

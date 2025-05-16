@@ -72,7 +72,6 @@ class SubsistemaVentasControl {
         }
 
         List<Producto> listaProductosEntidad = accesoDatos.obtenerProductosPorTipo(tiposSeleccionados);
-
         List<ProductoDTO> listaProductosDTO = new LinkedList<>();
 
         if (listaProductosEntidad != null && !listaProductosEntidad.isEmpty()) {
@@ -84,26 +83,36 @@ class SubsistemaVentasControl {
                 if (productoEntidad.getStock() != null) {
                     cantidadEnStock = productoEntidad.getStock().getCantidad();
                 }
+
+                String tipoEspecificoStr = "DESCONOCIDO";
+
                 if (productoEntidad instanceof Llenado) {
-                    
+                    tipoEspecificoStr = "LLENADO";
+                    cantidadEnStock = null;
+                } else if (productoEntidad instanceof Contenedor) {
+                    tipoEspecificoStr = "CONTENEDOR";
+                } else if (productoEntidad instanceof Variado) {
+                    tipoEspecificoStr = "VARIADO";
+                }
+
+                boolean agregarProducto = false;
+                if (tipoEspecificoStr.equals("LLENADO")) {
+                    agregarProducto = true;
+                } else {
+                    if (cantidadEnStock != null && cantidadEnStock >= 0) {
+                        agregarProducto = true;
+                    }
+                }
+
+                if (agregarProducto) {
                     listaProductosDTO.add(new ProductoDTO(
                             productoEntidad.getId(),
                             productoEntidad.getCodigo(),
                             productoEntidad.getNombre(),
                             productoEntidad.getPrecio(),
-                            null
+                            cantidadEnStock,
+                            tipoEspecificoStr
                     ));
-                } else {
-                    if (cantidadEnStock != null && cantidadEnStock > 0) {
-                        listaProductosDTO.add(new ProductoDTO(
-                                productoEntidad.getId(),
-                                productoEntidad.getCodigo(),
-                                productoEntidad.getNombre(),
-                                productoEntidad.getPrecio(),
-                                cantidadEnStock
-                        ));
-                    } else {
-                    }
                 }
             }
         }
