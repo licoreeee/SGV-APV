@@ -27,38 +27,41 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     public PantallaAgregarProducto(PantallaVenta pantallaVenta, VentaDTO venta, String tipoVenta) {
         initComponents();
         setEnabled(true);
-        setVisible(true);
         this.setTitle("SGVAPV - Agregar Producto");
         this.pantallaVenta = pantallaVenta;
         this.venta = venta;
+        
         this.tipoVenta = tipoVenta;
-        cargarProductos();
+        if (this.lblTipoVenta != null) {
+            this.lblTipoVenta.setText(this.tipoVenta);
+        }
+        
         txtStock.setEditable(false);
+        verificarTipoVenta();
+        
+        cargarProductos();
+        txtCantidad.setEditable(false);
+        setVisible(true);
     }
 
     private void cargarProductos() {
-        // Creamos una lista de productos.
         List<ProductoDTO> productos = new ArrayList<>();
         if (tipoVenta.equalsIgnoreCase("PRODUCTO VARIADO")) {
-            productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("VARIADO")); 
+            productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("VARIADO"));
         } else if (tipoVenta.equalsIgnoreCase("AGUA PURIFICADA")) {
             productos = subsistemaVentasFacade.obtenerProductosPorTipo(List.of("LLENADO", "CONTENEDOR"));
         }
 
         if (productos.isEmpty()) {
-            JOptionPane.showConfirmDialog(this, "No se han encontrado productos con stock.", "No hay stock", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se han encontrado productos para este tipo de venta o no hay stock.", "Sin Productos", JOptionPane.ERROR_MESSAGE);
             this.dispose();
             pantallaVenta.setVisible(true);
         } else {
-            // Creamos un modelo para combo box.
             DefaultComboBoxModel<Object> modelo = new DefaultComboBoxModel<>();
             modelo.addElement("-- Seleccionar");
             for (ProductoDTO producto : productos) {
-                // Agregamos cada producto al modelo.
                 modelo.addElement(producto);
             }
-
-            // Asignamos el modelo al combo box.
             cmbxProductos.setModel(modelo);
         }
     }
@@ -127,12 +130,17 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 70));
 
         jPanel2.setBackground(new java.awt.Color(196, 216, 255));
+        jPanel2.setLayout(null);
 
         jLabel4.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel4.setText("PRODUCTO");
+        jPanel2.add(jLabel4);
+        jLabel4.setBounds(123, 133, 117, 31);
 
         jLabel5.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel5.setText("STOCK");
+        jPanel2.add(jLabel5);
+        jLabel5.setBounds(165, 206, 69, 31);
 
         btnAgregar.setBackground(new java.awt.Color(41, 136, 194));
         btnAgregar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
@@ -142,18 +150,28 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                 btnAgregarActionPerformed(evt);
             }
         });
+        jPanel2.add(btnAgregar);
+        btnAgregar.setBounds(476, 344, 125, 38);
 
         txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         txtStock.setFocusable(false);
+        jPanel2.add(txtStock);
+        txtStock.setBounds(258, 206, 324, 33);
 
         jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
         jLabel3.setText("BUSCAR PRODUCTO");
+        jPanel2.add(jLabel3);
+        jLabel3.setBounds(231, 18, 263, 40);
 
         lblTipoVenta.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         lblTipoVenta.setText("AGUA PURIFICADA");
+        jPanel2.add(lblTipoVenta);
+        lblTipoVenta.setBounds(283, 64, 157, 27);
 
         jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         jLabel6.setText("CANTIDAD");
+        jPanel2.add(jLabel6);
+        jLabel6.setBounds(125, 267, 109, 31);
 
         cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxProductos.setSelectedItem("--Seleccionar");
@@ -162,6 +180,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                 cmbxProductosActionPerformed(evt);
             }
         });
+        jPanel2.add(cmbxProductos);
+        cmbxProductos.setBounds(258, 133, 324, 33);
 
         txtCantidad.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -169,6 +189,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                 txtCantidadKeyTyped(evt);
             }
         });
+        jPanel2.add(txtCantidad);
+        txtCantidad.setBounds(258, 267, 324, 33);
 
         btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
         btnCancelar.setText("CANCELAR");
@@ -177,67 +199,8 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(231, 231, 231)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblTipoVenta)
-                                .addGap(54, 54, 54))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbxProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCantidad)
-                            .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))))
-                .addContainerGap(138, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(btnCancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgregar)
-                .addGap(119, 119, 119))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTipoVenta)
-                .addGap(42, 42, 42)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cmbxProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnCancelar))
-                .addGap(38, 38, 38))
-        );
+        jPanel2.add(btnCancelar);
+        btnCancelar.setBounds(92, 344, 138, 38);
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
 
@@ -247,34 +210,54 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if (cmbxProductos.getSelectedItem() instanceof ProductoDTO) {
-            ProductoDTO producto = (ProductoDTO) cmbxProductos.getSelectedItem();
-            if (!txtCantidad.getText().isBlank()) {
-                if (!txtCantidad.getText().matches("\\d+")) {
-                    JOptionPane.showConfirmDialog(this, "Ingrese una cantidad válida.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-                }
-                int cantidadIngresada = Integer.parseInt(txtCantidad.getText());
-                if (cantidadIngresada <= 0) {
-                    JOptionPane.showConfirmDialog(this, "Ingrese una cantidad válida.", "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-                } else {
-                    ProductoVentaDTO productoVenta = new ProductoVentaDTO(producto.getPrecio(), cantidadIngresada, producto);
-
-                    if (validarCantidad(venta, productoVenta)) {
-                        venta.agregarProducto(productoVenta);
-                        venta.actualizarTotal();
-                        pantallaVenta.cargarProducto(productoVenta);
-                        this.dispose();
-                    } else {
-                        JOptionPane.showConfirmDialog(this, "La cantidad ingresada sobrepasa el stock.",
-                                "Cantidad inválida", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            } else {
+            ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
+            
+            if (txtCantidad.getText().isBlank()) {
                 JOptionPane.showMessageDialog(this, "Asegúrese de ingresar una cantidad.",
-                        "Cantidad Vacía.", JOptionPane.WARNING_MESSAGE);
+                        "Cantidad Vacía", JOptionPane.WARNING_MESSAGE);
+                txtCantidad.requestFocus();
+                return;
+            }
+            
+            if (!txtCantidad.getText().matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Ingrese una cantidad numérica válida.", 
+                        "Cantidad Inválida", JOptionPane.ERROR_MESSAGE);
+                txtCantidad.requestFocus();
+                return;
+            }
+            
+            int cantidadIngresada;
+            try {
+                cantidadIngresada = Integer.parseInt(txtCantidad.getText());
+            } catch (NumberFormatException e) {
+                 JOptionPane.showMessageDialog(this, "Ingrese una cantidad numérica válida (número demasiado grande).", 
+                        "Cantidad Inválida", JOptionPane.ERROR_MESSAGE);
+                txtCantidad.requestFocus();
+                return;
+            }
+
+            if (cantidadIngresada <= 0) {
+                JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.", 
+                        "Cantidad Inválida", JOptionPane.ERROR_MESSAGE);
+                txtCantidad.requestFocus();
+                return;
+            }
+            
+            ProductoVentaDTO productoVenta = new ProductoVentaDTO(productoSeleccionado.getPrecio(), cantidadIngresada, productoSeleccionado);
+
+            if (validarCantidad(venta, productoVenta)) {
+                venta.agregarProducto(productoVenta);
+                venta.actualizarTotal();
+                pantallaVenta.cargarProducto(productoVenta);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "La cantidad ingresada sobrepasa el stock disponible.",
+                        "Cantidad Inválida", JOptionPane.ERROR_MESSAGE);
+                txtCantidad.requestFocus();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Asegúrese de seleccionar un producto válido.",
-                    "Producto no Válido.", JOptionPane.WARNING_MESSAGE);
+                    "Producto no Válido", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -283,6 +266,32 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private boolean validarCantidad(VentaDTO venta, ProductoVentaDTO productoVentaNuevo) {
+        Integer stockDelProductoNuevo = productoVentaNuevo.getProducto().getCantidad();
+
+        if (stockDelProductoNuevo != null) {
+            if (productoVentaNuevo.getCantidad() > stockDelProductoNuevo) {
+                return false; 
+            }
+        }
+        
+        for (ProductoVentaDTO productoYaEnVenta : venta.getProductos()) {
+            if (productoYaEnVenta.getProducto().getCodigo().equalsIgnoreCase(productoVentaNuevo.getProducto().getCodigo())) {
+                int cantidadYaEnVenta = productoYaEnVenta.getCantidad();
+                int cantidadTotalProyectada = cantidadYaEnVenta + productoVentaNuevo.getCantidad();
+                
+                Integer stockDelProductoEnLista = productoYaEnVenta.getProducto().getCantidad();
+
+                if (stockDelProductoEnLista != null) {
+                    if (cantidadTotalProyectada > stockDelProductoEnLista) {
+                        return false; 
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
     private void verificarTipoVenta() {
         if (this.getTipoVenta().equalsIgnoreCase("AGUA PURIFICADA")) {
             jLabel5.setVisible(false);
@@ -302,10 +311,22 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     private void cmbxProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxProductosActionPerformed
         if (cmbxProductos.getSelectedItem() instanceof ProductoDTO) {
             ProductoDTO productoSeleccionado = (ProductoDTO) cmbxProductos.getSelectedItem();
-            int stock = productoSeleccionado.getCantidad();
-            txtStock.setText(String.valueOf(stock));
+            Integer cantidadEnStockNullable = productoSeleccionado.getCantidad();
+
+            if (cantidadEnStockNullable == null) {
+                if (txtStock.isVisible()) {
+                    txtStock.setText("N/A"); 
+                }
+            } else {
+                int stockActual = cantidadEnStockNullable.intValue();
+                if (txtStock.isVisible()) {
+                    txtStock.setText(String.valueOf(stockActual));
+                }
+            }
             txtCantidad.setEditable(true);
-        } else {
+            txtCantidad.setText("");
+            txtCantidad.requestFocus();
+        } else { 
             txtStock.setText("");
             txtCantidad.setText("");
             txtCantidad.setEditable(false);
@@ -341,21 +362,4 @@ public class PantallaAgregarProducto extends javax.swing.JFrame {
     private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
 
-    private boolean validarCantidad(VentaDTO venta, ProductoVentaDTO productoVentaNuevo) {
-        if (productoVentaNuevo.getCantidad() > productoVentaNuevo.getProducto().getCantidad()) {
-            return false;
-        } else {
-            for (ProductoVentaDTO productoVenta : venta.getProductos()) {
-                if (productoVenta.getProducto().getCodigo().equalsIgnoreCase(productoVentaNuevo.getProducto().getCodigo())) {
-                    int cantidadVenta = productoVenta.getCantidad();
-                    int cantidadActualizada = cantidadVenta + productoVentaNuevo.getCantidad();
-                    int cantidadStock = productoVenta.getProducto().getCantidad();
-                    if (cantidadActualizada > cantidadStock) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
 }
