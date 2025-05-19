@@ -30,7 +30,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
     private ISubsistemaInventarioFacade subsistemaInventarioFacade;
     private final String PLACEHOLDER_TIPO = "-- Seleccionar Tipo --";
     private final String PLACEHOLDER_CONTENEDOR = "-- Seleccionar Contenedor --";
-    private final String PLACEHOLDER_PRODUCTO_EDITAR = "-- Seleccione Producto a Editar --";
+    private final String PLACEHOLDER_PRODUCTO_EDITAR = "-- Seleccione Producto a Eliminar --";
     private ProductoDTO productoSeleccionadoParaAccion;
     private static final Logger logger = Logger.getLogger(PantallaEliminarProductoInventario.class.getName());
 
@@ -56,9 +56,6 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
     private void initComponents() {
 
         cmbxProductos = new javax.swing.JComboBox<>();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnEliminar = new javax.swing.JButton();
         txtStock = new javax.swing.JTextField();
@@ -79,6 +76,9 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
         cmbxContenedor = new javax.swing.JComboBox();
         lblCodigo = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         cmbxProductos.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
         cmbxProductos.setSelectedItem("--Seleccionar");
@@ -90,6 +90,118 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(196, 216, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnEliminar.setBackground(new java.awt.Color(41, 136, 194));
+        btnEliminar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, 169, -1));
+
+        txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtStock.setEnabled(false);
+        jPanel2.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(494, 298, 200, -1));
+
+        jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("ELIMINAR PRODUCTO");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 88, 350, -1));
+
+        jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        jLabel6.setText("PRECIO");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 298, -1, -1));
+
+        txtPrecio.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtPrecio.setEnabled(false);
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
+        jPanel2.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 298, 200, -1));
+
+        btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        btnCancelar.setText("CANCELAR");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 420, 172, -1));
+
+        jLabel7.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        jLabel7.setText("NOMBRE");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 248, 103, -1));
+
+        jLabel8.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        jLabel8.setText("STOCK");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(394, 298, 82, -1));
+
+        txtNombre.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtNombre.setEnabled(false);
+        jPanel2.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 248, 200, -1));
+
+        lblContenedor.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        lblContenedor.setText("CONTENEDOR");
+        jPanel2.add(lblContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(81, 348, 166, -1));
+
+        cmbxProductos2.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        cmbxProductos2.setSelectedItem("--Seleccionar");
+        cmbxProductos2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbxProductos2ItemStateChanged(evt);
+            }
+        });
+        cmbxProductos2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbxProductos2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cmbxProductos2, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 145, 360, -1));
+
+        jLabel10.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        jLabel10.setText("PRODUCTO");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 145, 134, -1));
+
+        lblLitros.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        lblLitros.setText("LITROS");
+        jPanel2.add(lblLitros, new org.netbeans.lib.awtextra.AbsoluteConstraints(392, 198, 84, -1));
+
+        txtLitros.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtLitros.setEnabled(false);
+        txtLitros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLitrosActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtLitros, new org.netbeans.lib.awtextra.AbsoluteConstraints(494, 198, 200, -1));
+
+        lblVolumen.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        lblVolumen.setText("VOLUMEN");
+        jPanel2.add(lblVolumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(361, 248, -1, -1));
+
+        txtVolumen.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtVolumen.setEnabled(false);
+        jPanel2.add(txtVolumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(494, 248, 200, -1));
+
+        cmbxContenedor.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        cmbxContenedor.setSelectedItem("--Seleccionar");
+        cmbxContenedor.setEnabled(false);
+        jPanel2.add(cmbxContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(265, 348, 360, -1));
+
+        lblCodigo.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
+        lblCodigo.setText("CÓDIGO");
+        jPanel2.add(lblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 198, 93, -1));
+
+        txtCodigo.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
+        txtCodigo.setEnabled(false);
+        jPanel2.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 198, 200, -1));
 
         jPanel1.setBackground(new java.awt.Color(41, 136, 194));
 
@@ -109,7 +221,7 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26)
                 .addComponent(jLabel2)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,129 +235,9 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 70));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 70));
 
-        jPanel2.setBackground(new java.awt.Color(196, 216, 255));
-        jPanel2.setLayout(null);
-
-        btnEliminar.setBackground(new java.awt.Color(41, 136, 194));
-        btnEliminar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        btnEliminar.setText("ELIMINAR");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnEliminar);
-        btnEliminar.setBounds(444, 348, 169, 38);
-
-        txtStock.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtStock.setEnabled(false);
-        jPanel2.add(txtStock);
-        txtStock.setBounds(134, 216, 172, 33);
-
-        jLabel3.setFont(new java.awt.Font("Afacad", 1, 30)); // NOI18N
-        jLabel3.setText("ELIMINAR PRODUCTO");
-        jPanel2.add(jLabel3);
-        jLabel3.setBounds(208, 27, 285, 40);
-
-        jLabel6.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        jLabel6.setText("PRECIO");
-        jPanel2.add(jLabel6);
-        jLabel6.setBounds(53, 284, 75, 31);
-
-        txtPrecio.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtPrecio.setEnabled(false);
-        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPrecioKeyTyped(evt);
-            }
-        });
-        jPanel2.add(txtPrecio);
-        txtPrecio.setBounds(134, 284, 172, 33);
-
-        btnCancelar.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        btnCancelar.setText("CANCELAR");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnCancelar);
-        btnCancelar.setBounds(134, 348, 172, 38);
-
-        jLabel7.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        jLabel7.setText("NOMBRE");
-        jPanel2.add(jLabel7);
-        jLabel7.setBounds(40, 144, 88, 31);
-
-        jLabel8.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        jLabel8.setText("STOCK");
-        jPanel2.add(jLabel8);
-        jLabel8.setBounds(59, 216, 69, 31);
-
-        txtNombre.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtNombre.setEnabled(false);
-        jPanel2.add(txtNombre);
-        txtNombre.setBounds(134, 144, 241, 33);
-
-        lblContenedor.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        lblContenedor.setText("CONTENEDOR");
-        jPanel2.add(lblContenedor);
-        lblContenedor.setBounds(331, 216, 145, 31);
-
-        cmbxProductos2.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        cmbxProductos2.setSelectedItem("--Seleccionar");
-        cmbxProductos2.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbxProductos2ItemStateChanged(evt);
-            }
-        });
-        jPanel2.add(cmbxProductos2);
-        cmbxProductos2.setBounds(163, 85, 237, 33);
-
-        jLabel10.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        jLabel10.setText("PRODUCTO");
-        jPanel2.add(jLabel10);
-        jLabel10.setBounds(40, 85, 117, 31);
-
-        lblLitros.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        lblLitros.setText("LITROS");
-        jPanel2.add(lblLitros);
-        lblLitros.setBounds(405, 144, 71, 31);
-
-        txtLitros.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtLitros.setEnabled(false);
-        jPanel2.add(txtLitros);
-        txtLitros.setBounds(482, 144, 193, 33);
-
-        lblVolumen.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        lblVolumen.setText("VOLUMEN");
-        jPanel2.add(lblVolumen);
-        lblVolumen.setBounds(376, 284, 100, 31);
-
-        txtVolumen.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtVolumen.setEnabled(false);
-        jPanel2.add(txtVolumen);
-        txtVolumen.setBounds(482, 284, 193, 33);
-
-        cmbxContenedor.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        cmbxContenedor.setSelectedItem("--Seleccionar");
-        cmbxContenedor.setEnabled(false);
-        jPanel2.add(cmbxContenedor);
-        cmbxContenedor.setBounds(482, 216, 193, 33);
-
-        lblCodigo.setFont(new java.awt.Font("Afacad", 1, 23)); // NOI18N
-        lblCodigo.setText("CÓDIGO");
-        jPanel2.add(lblCodigo);
-        lblCodigo.setBounds(418, 85, 88, 31);
-
-        txtCodigo.setFont(new java.awt.Font("Afacad", 1, 20)); // NOI18N
-        txtCodigo.setEnabled(false);
-        jPanel2.add(txtCodigo);
-        txtCodigo.setBounds(512, 85, 163, 33);
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 720, 420));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 480));
 
         pack();
         setLocationRelativeTo(null);
@@ -323,6 +315,14 @@ public class PantallaEliminarProductoInventario extends javax.swing.JFrame {
     private void cmbxProductos2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbxProductos2ItemStateChanged
 
     }//GEN-LAST:event_cmbxProductos2ItemStateChanged
+
+    private void txtLitrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLitrosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLitrosActionPerformed
+
+    private void cmbxProductos2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbxProductos2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbxProductos2ActionPerformed
 
     private void inicializarComponentesAdicionales() {
         this.setTitle("SGVAPV - Eliminar Producto");
